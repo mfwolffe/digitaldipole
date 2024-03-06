@@ -1,9 +1,9 @@
 # Final-Project-Starter
 
-1. License
-2. add your names to the readme (this file)
-3. Scaffold your project
-4. Task Board
+- [X] License
+- [ ] add your names to the readme (this file)
+- [ ] Scaffold your project
+- [ ] Task Board
 
 ## License
 
