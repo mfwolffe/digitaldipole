@@ -15,7 +15,7 @@ said John F. Kennedy
 
 Mostly just to make sure you each have access and can pull and push to the repo, add your name here:
 1. Matt Wolffe
-1. MeName
+1. Daniel Fuller
 1. MeName
 1. MineName
 
