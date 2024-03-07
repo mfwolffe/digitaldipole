@@ -1,5 +1,6 @@
 # Final-Project-Starter
-I am a jelly donut
+I am a jelly donut,
+said John F. Kennedy
 
 - [X] License
 - [ ] add your names to the readme (this file)
