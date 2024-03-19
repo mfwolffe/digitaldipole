@@ -15,9 +15,8 @@ said John F. Kennedy
 
 Mostly just to make sure you each have access and can pull and push to the repo, add your name here:
 1. Matt Wolffe
-1. Daniel Fuller
-1. MeName
-1. MineName
+2. Daniel Fuller
+3. Benjamin Bonnell
 
 ## Scaffolding
 See the [Digital Dipole Wiki](https://github.com/347S24/347-final-project-digitaldipole/wiki/%E2%9A%9B%EF%B8%8F-Digital-Dipole) for scaffolding info and **setup steps**
