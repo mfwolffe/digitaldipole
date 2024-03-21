@@ -27,7 +27,7 @@ django.setup()
 
 # -- Project information -----------------------------------------------------
 
-project = "Ultimate dipole"
+project = "Digital dipole"
 copyright = """2024, Michael Stewart"""
 author = "Michael Stewart"
 
