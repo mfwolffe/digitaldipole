@@ -15,7 +15,7 @@ function App() {
     <>
       <div>
         <h1>Digital Dipole</h1>
-        <h2>A Chemistry Education Tool</h2>
+        <h2>A Chemistry Educational Toolkit</h2>
         <h3>Powered by:</h3>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
