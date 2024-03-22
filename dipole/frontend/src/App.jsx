@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
-import djangoLogo from './assets/django.svg'
-import viteLogo from './assets/better-benzene.svg'
+import djangoLogo from './assets/ethyl-acetate.svg'
+import viteLogo from './assets/benzene-oxide.svg'
 import './App.css'
 
 // function App({username}) {
