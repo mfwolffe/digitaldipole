@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import djangoLogo from './assets/ethyl-acetate.svg'
 import viteLogo from './assets/benzene-oxide.svg'
+// import Button from 'react-bootstrap/Button'
 import './App.css'
 
 // function App({username}) {
@@ -13,6 +14,9 @@ function App() {
   return (
     <>
       <div>
+        <h1>Digital Dipole</h1>
+        <h2>A Chemistry Education Tool</h2>
+        <h3>Powered by:</h3>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -23,20 +27,25 @@ function App() {
           <img src={djangoLogo} className="logo" alt="Django logo" />
         </a>
       </div>
-      <h1>Vite + React + Django</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
+      <h2>Vite + React + Django</h2>
+      <p>
           Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      </p>
+      <div className="card">
+        {/* <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button> */}
         <p>
-          You are logged in as {username}.
+          You are logged in as <b>{username}</b>.
         </p>
+
+        <button href='#'>Continue to Site</button>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Click on the React logo or spinning molecules to learn more.
+      </p>
+      <p className="read-the-docs">
+        (first is Vite, second React, third Django)
       </p>
     </>
   )
