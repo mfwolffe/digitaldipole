@@ -1,7 +1,10 @@
+/* Most of these settings have been relocated to the custom bootstrap-min in styles/ */
+
+/* √ */
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  /* font-weight: 400; */
+/* font-weight: 400; */
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -13,10 +16,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* √ */
 h1, h2, h3 {
   font-weight: 350;
 }
 
+/* √ */
 a {
   font-weight: 500;
   color: #646cff;
@@ -26,6 +31,7 @@ a:hover {
   color: #535bf2;
 }
 
+/* √ */
 body {
   margin: 0;
   display: flex;
@@ -34,11 +40,13 @@ body {
   min-height: 100vh;
 }
 
+/* √ */
 h1 {
   font-size: 3.2em;
-  line-height: 0.8;
+  /* line-height: 0.8; */
 }
 
+/* √ */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -58,6 +66,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* √ */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

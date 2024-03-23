@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
-import djangoLogo from './assets/ethyl-acetate.svg'
-import viteLogo from './assets/benzene-oxide.svg'
+import ethylAcetate from './assets/ethyl-acetate.svg'
+import benzeneOxide from './assets/benzene-oxide.svg'
+import { Router, hashHistory as history } from 'react-router';
 // import Button from 'react-bootstrap/Button'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/bootstrap.min-dipole.css';
 import './App.css'
 
 // function App({username}) {
@@ -18,20 +21,20 @@ function App() {
         <h2>A Chemistry Educational Toolkit</h2>
         <h3>Powered by:</h3>
         <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+          <img src={benzeneOxide} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
         <a href="https://www.djangoproject.com/" target="_blank">
-          <img src={djangoLogo} className="logo" alt="Django logo" />
+          <img src={ethylAcetate} className="logo" alt="Django logo" />
         </a>
       </div>
       <h2>Vite + React + Django</h2>
-      <p>
+      <p className="mt-5">
           Edit <code>src/App.jsx</code> and save to test HMR
       </p>
-      <div className="card">
+      <div className="card-dp">
         {/* <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button> */}
