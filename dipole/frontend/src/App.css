@@ -18,6 +18,77 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+a {
+  animation: fadeInAnimation ease 4s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+h1 {
+  opacity: 0%;
+  animation: fadeInAnimation ease 3s;
+  animation-delay: 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+h2#subtitle {
+  opacity: 0%;
+  animation: fadeInAnimation ease 2s;
+  animation-delay: 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+h3 {
+  opacity: 0%;
+  animation: fadeInAnimation ease 2s;
+  animation-delay: 3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+h2#scaffolds {
+  opacity: 0%;
+  animation: fadeInAnimation ease 2s;
+  animation-delay: 4s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+p#user-stat {
+  opacity: 0%;
+  animation: fadeInAnimation ease 2s;
+  animation-delay: 5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+p.read-the-docs {
+  opacity: 0%;
+  animation: fadeInAnimation ease 2s;
+  animation-delay: 6s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+p#use {
+  opacity: 0%;
+  animation: fadeInAnimation ease 2s;
+  animation-delay: 7s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+button#cont {
+  opacity: 0%;
+  animation: fadeInAnimation ease 2s;
+  animation-delay: 8s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+@keyframes fadeInAnimation {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -48,7 +119,7 @@
   }
 }
 
-.card {
+.card-dp {
   padding: 2em;
 }
 
