@@ -11,7 +11,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@awesome.me/kit-a655910996": "^1.0.10",
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "bootstrap": "^5.3.3",
+    "font-awesome-animation": "^1.1.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",

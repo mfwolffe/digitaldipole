@@ -1,8 +1,91 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  /* max-width: 1280px; */
+  margin:  auto;
+  /* padding: 2rem; */
   text-align: center;
+  min-height: 100vh;
+}
+
+.offC-nav {
+  /* background-color: #C2C1C1 !important; */
+  background-color: transparent !important;
+  /* background-color: #AEADAD !important; */
+  width: 100vw;
+}
+
+.offC {
+  background-color: #908E8E;
+  color: rgba(255, 255, 255, 0.96);
+  max-width: 16rem;
+}
+
+.offC hr {
+  background-color: #ffffff;
+  margin-left: var(--bs-offcanvas-padding-x);
+  height: 1.5px;
+}
+
+.usr-drp {
+  margin: 0rem;
+  float: right;
+  background-color: #908E8E importat !important;
+}
+
+div.dropdown-header {
+  padding-left: 0.3rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  color:rgba(241, 240, 240, 0.805)
+}
+
+div.dropdown-menu {
+  background-color: #908E8E !important;
+  max-width: fit-content;
+}
+
+div.dropdown-menu a {
+  padding-left: 0.75rem;
+  padding-right: 0.2rem;
+  width: inherit;
+}
+
+div.dropdown-menu a:hover {
+  background-color: #d6d2d2 !important;
+}
+
+.sbar-btn, .sbar-btn:hover {
+  background-color: transparent;
+  border: none;
+  margin: 0rem;
+}
+
+#navContainer {
+  width: 100% !important;
+}
+
+.sbar-ico, .usr-ico {
+  color: coral;
+}
+
+.sbar-ico:hover, .usr-ico:hover {
+  transform: rotateY(180deg);
+  filter: drop-shadow(0em 0em 0.33em coral);
+}
+
+div.landing-container {
+  /* height: 100vh; */
+  margin: 4rem auto;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  place-content: center;
+}
+
+div.landing {
+  padding: 1rem;
+  width: fit-content;
+  margin: inherit;
+  height: fit-content;
 }
 
 .logo {
@@ -18,8 +101,13 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-a {
-  animation: fadeInAnimation ease 4s;
+/* CSSCHECK this is just a temp fix */
+img {
+  box-sizing: unset;
+}
+
+a.anim, nav.offC-nav, hr.w-85 {
+  animation: fadeInAnimation ease 5s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }

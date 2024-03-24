@@ -45,7 +45,7 @@
 *,
 ::after,
 ::before {
-    box-sizing: inherit;
+    box-sizing: border-box;
 }
 
 /* CSSCHECK */
@@ -85,7 +85,8 @@ body {
     background-color: #242424;
     display: flex;
     place-items: center;
-    min-width: 320px;
+    /* min-width: 320px; */
+    min-width: 100vw !important;
     min-height: 100vh;
 }
 
@@ -95,8 +96,8 @@ body {
 
 hr {
     box-sizing: content-box;
-    height: 0;
-    overflow: visible
+    overflow: visible;
+    background-color: #888;
 }
 
 h1,
@@ -8382,6 +8383,22 @@ button.bg-dark:hover {
 
 .w-75 {
     width: 75% !important
+}
+
+.w-80 {
+    width: 80% !important
+}
+
+.w-85 {
+    width: 85% !important
+}
+
+.w-90 {
+    width: 90% !important
+}
+
+.w-95 {
+    width: 95% !important
 }
 
 .w-100 {
