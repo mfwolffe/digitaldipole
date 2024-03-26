@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { all } from '@awesome.me/kit-a655910996/icons'
 import { library } from "@fortawesome/fontawesome-svg-core";
 
+// the FA ico's with additional customization don't play well with SVG so png instead
 import userIcon from    '../assets/png/user-astronaut-light.png'
 import userPost from    '../assets/png/light-user-astronaut-pen.png'
 import userGear from    '../assets/png/light-user-astronaut-gear.png'
@@ -39,8 +40,6 @@ const NavOffCanvas = () => {
     }
 
     const usrIcon = <FontAwesomeIcon icon="fa-duotone fa-user-astronaut" size="2xl" className="usr-ico usr-coral" />;
-    const usrPost = <FontAwesomeIcon icon="fa-kit fak-light-user-astronaut-pen" size="md" />;
-    const usrSetting = <FontAwesomeIcon icon="fa-kit fak-light-user-astronaut-gear" size="md" />;
 
     return (
         <>
