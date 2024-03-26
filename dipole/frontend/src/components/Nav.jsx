@@ -3,8 +3,9 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 // import Container from 'react-bootstrap/Container';
 // import Form from 'react-bootstrap/Form';
-// import Nav from 'react-bootstrap/Nav';
+import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { NavLink as Link} from "react-router-dom"
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -78,7 +79,32 @@ const NavOffCanvas = () => {
                     </Offcanvas.Header>
                     <hr className="mt-0 w-75" />
                     <Offcanvas.Body>
-                        Nav Links to go here
+                        <NavDropdown title="References" id="nav-ref">
+                            <ul>
+                                <li>
+                                    <NavDropdown.Item eventKey="ref-1" className="text-wrap">
+                                        <Link to="/tabulated" className="pl-0 ml-0">
+                                            Tabulated Data
+                                        </Link>
+                                    </NavDropdown.Item>
+                                </li>
+                                <li>
+                                    <NavDropdown.Item eventKey="ref-2" className="text-wrap">
+                                        Periodic Tables
+                                    </NavDropdown.Item>
+                                </li>
+                                <li>
+                                    <NavDropdown.Item eventKey="ref-3" className="text-wrap">
+                                        Conversion Factors And Fundamental Constants
+                                    </NavDropdown.Item>
+                                </li>
+                                <li>
+                                    <NavDropdown.Item eventKey="ref-4" className="text-wrap">
+                                        Common Equations
+                                    </NavDropdown.Item>
+                                </li>
+                            </ul>
+                        </NavDropdown>
                     </Offcanvas.Body>
                 </Offcanvas>
                 {/* <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand> */}

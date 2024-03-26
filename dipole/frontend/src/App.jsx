@@ -5,7 +5,8 @@ import {
 } from "react-router-dom";
 
 import Home from './pages'
-import Dash from './pages/dash'
+import Tabulated from "./pages/tabulated";
+
 import NavOffCanvas from "./components/Nav";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,7 +23,7 @@ function App() {
       <NavOffCanvas />
       <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/dash" element={<Dash />} />
+          <Route path="/tabulated" element={<Tabulated />} />
       </Routes>
     </Router>
   );

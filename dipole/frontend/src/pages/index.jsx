@@ -12,9 +12,9 @@ const Home = () => {
         <div className="landing-container">
             <div className="landing">
                 <div>
-                    <h1>Digital Dipole</h1>
+                    <h1 className="anim">Digital Dipole</h1>
                     <h2 id="subtitle">A Chemistry Educational Toolkit</h2>
-                    <h3>Powered by:</h3>
+                    <h3 className="anim">Powered by:</h3>
                     <a href="https://vitejs.dev" target="_blank" className="anim">
                         <img src={benzeneOxide} className="logo" alt="Vite logo" />
                     </a>
