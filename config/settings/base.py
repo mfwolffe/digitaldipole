@@ -292,7 +292,8 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Digital Dipole]"
 
 # Noodling 
 
-# Figure out google auth later
+
+# TOASK google oauth ?
 # https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid
 # SOCIALACCOUNT_PROVIDERS = {
 #     'google': {
