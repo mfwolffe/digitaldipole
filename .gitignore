@@ -276,3 +276,5 @@ dipole/media/
 .pytest_cache/
 
 **/static/assets/
+
+.tool-versions
