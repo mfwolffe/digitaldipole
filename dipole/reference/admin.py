@@ -1,9 +1,8 @@
 from django.contrib import admin
 from .models import Unit, Measure, Atom
 
-#TOASK in CPR you use @reversion.register - cut down on code length?
-
-# Register your models here.
+# [x] TOASK in CPR you use @reversion.register - cut down on code length?
+#           state management - revert easily to protect against litigation
 
 # admin.site.register(Unit)
 # admin.site.register(Measure)

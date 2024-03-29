@@ -55,7 +55,10 @@ const NavOffCanvas = () => {
                         <img src={userIcon} width="24px" className="pr-2" /> <b>{ username }</b>
                     </NavDropdown.Header>
                     <NavDropdown.Item>
-                        {/* TODO see image element - native svg support? */}
+                        {/* [x] TODO see image element - native svg support? */}
+                                {/* yeah it's possible but probably want to 
+                                  * try setting frame of ref / origin in inkscape
+                                  * or illustrator */}
                         <img src={userPost} width="24px" className="pr-2" />
                         Posts
                     </NavDropdown.Item>

@@ -278,3 +278,5 @@ dipole/media/
 **/static/assets/
 
 **/.tool-versions
+
+chemenv/

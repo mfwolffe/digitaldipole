@@ -37,7 +37,9 @@ class Atom(models.Model):
 
     ###### ~~~Experimentally Measured Properties~~~ ######
 
-    # TOASK Considering using Measure fields
+    # [x] TOASK Considering using Measure fields
+    #           see notebook; try to find precompiled lib of chemical data
+    
     # TOASK Validation ? some forum posts say has to be done on FE? 
     e_config = models.CharField(
         max_length=256,
