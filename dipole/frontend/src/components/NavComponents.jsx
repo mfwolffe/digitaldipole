@@ -46,7 +46,7 @@ const icoStyle = {
 const refIcon = (
     <>
         <FontAwesomeIcon icon="fa-duotone fa-book-bookmark" size="xl" style={{ "--fa-secondary-color": "#578be5", "--fa-primary-color": "#143671", "width": "1.4rem" }} className="pr-2" />
-        References
+        <span className="hvr-underline-from-left">References</span>
     </>
 );
 
@@ -120,7 +120,7 @@ export function OffCDropRef () {
             <NavDropdown title={refIcon} id="nav-ref" className="pl-0">
                 <ul>
                     <li>
-                        <NavDropdown.Item eventKey="ref-1" className="text-wrap pl-0 hvr-underline-from-left">
+                        <NavDropdown.Item eventKey="ref-1" className="text-wrap pl-0">
                             <Link to="/tabulated" className="pl-0 ml-0">
                                 Tabulated Data
                             </Link>

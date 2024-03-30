@@ -50,7 +50,9 @@ const NavOffCanvas = () => {
                     </Offcanvas.Header>
                     <hr className="mt-0 w-75" />
                     <Offcanvas.Body className="pt-1">
-                        {/* TODO vertical alignment of icon and text */}
+                        {/* [x] TODO vertical alignment of icon and text 
+                          * it was the 90° rotation causing the issue surprisingly
+                          */}
                         <NavItem>
                             <FontAwesomeIcon icon="fa-duotone fa-atom" size="xl" style={{ "--fa-primary-color": "#578be5", "--fa-secondary-color": "#143671", "width": "1.4rem" }} className="pr-2 pb-0" />
                             <Link to="/" className="ml-0 hvr-underline-from-left">
@@ -58,11 +60,11 @@ const NavOffCanvas = () => {
                             </Link>
                         </NavItem>
 
+                        {/* TODO test drop w/ collapse since that should provide smooth animation */}
                         <OffCDropRef />
 
                     </Offcanvas.Body>
                 </Offcanvas>
-                {/* TODO test drop w/ collapse since that should provide smooth animation */}
             </Navbar>
             <hr className="mt-0 w-85 m-auto" />
         </>
