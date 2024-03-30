@@ -45,7 +45,7 @@ const searchTip = (
             Not sure what to search?
         </Popover.Header>
         <Popover.Body>
-            <ul>
+            <ul className="pb-0 mb-0">
                 <li>Try the name of an element or molecule, like <strong><em>antimony</em></strong> or <strong><em>ammonia</em></strong>.</li>
                 <li>or a class of calculators or references, like <strong><em>entropy calculator</em></strong> or <strong><em>acid/base ionization constant table</em></strong>.</li>
             </ul>
@@ -91,7 +91,7 @@ const NavOffCanvas = () => {
                 <Form inline>
                     <InputGroup>
                         <OverlayTrigger trigger="focus" placement="bottom" overlay={searchTip} delay="2000">
-                            <Form.Control type="text" placeholder="Search" />
+                            <Form.Control type="text" placeholder="Search" id="hdr-search"/>
                         </OverlayTrigger>
                         <Button className="sbar-btn hvr-grow-rotate">
                             <FontAwesomeIcon icon="fa-duotone fa-magnifying-glass" style={icoStyle} />

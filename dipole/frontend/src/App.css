@@ -19,6 +19,10 @@
   width: 18rem;
 }
 
+#hdr-search {
+  width: 38rem;
+}
+
 .search-tip {
   width: 28rem;
   height: fit-content;

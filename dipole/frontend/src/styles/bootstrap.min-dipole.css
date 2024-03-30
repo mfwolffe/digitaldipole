@@ -6585,7 +6585,7 @@ a.close.disabled {
     z-index: 1060;
     display: block;
     /* max-width: 276px; */
-    min-width: 34rem;
+    min-width: 30rem;
     max-width: 38rem;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-style: normal;
