@@ -56,6 +56,10 @@ html {
     -webkit-tap-highlight-color: transparent
 }
 
+.nav-link.ddu {
+    background-color: inherit !;
+}
+
 article,
 aside,
 figcaption,
@@ -2213,20 +2217,36 @@ pre code {
     border: 0
 }
 
+/* for firefox */
+.form-control::placeholder {
+    color: rgba(241, 240, 240, 0.68) !important;
+}
+/* for edge */
+
+.form-control::-ms-input-placeholder {
+    color: rgba(241, 240, 240, 0.68) !important;
+}
+
 .form-control {
     display: block;
     width: 100%;
     height: calc(1.5em + .75rem + 2px);
     padding: .375rem .75rem;
-    font-size: 1rem;
+    /* font-size: 1rem; */
+    font-size: 0.9rem !important;
     font-weight: 400;
     line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
+    /* color: #495057; */
+    color: rgba(241, 240, 240, 0.9) !important;
+    /* background-color: #fff; */
+    background-color: #908E8E !important;
+
     background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
+    /* border: 1px solid #ced4da; */
+    border: 2px solid #628ab2 !important;
+    /* border-radius: .25rem; */
+    border-radius: 2rem !important;
+    transition: border-color .3s ease-in-out, box-shadow .3s ease-in-out
 }
 
 @media (prefers-reduced-motion:reduce) {
@@ -2246,11 +2266,14 @@ pre code {
 }
 
 .form-control:focus {
-    color: #495057;
-    background-color: #fff;
+    /* color: #495057; */
+    /* background-color: #fff; */
+    color: rgba(241, 240, 240, 0.96) !important;
+    background-color: #a7a7a7 !important;
     border-color: #8705ff;
     outline: 0;
-    box-shadow: 0 0 0 .2rem rgba(69, 0, 132, .25)
+    /* box-shadow: 0 0 0 .2rem rgba(69, 0, 132, .25) */
+    box-shadow: 0 0 2rem 2rem #45008440 !important;
 }
 
 .form-control::placeholder {
