@@ -6577,13 +6577,16 @@ a.close.disabled {
     border-radius: .25rem
 }
 
+/* SEEME popver styling */
 .popover {
     position: absolute;
     top: 0;
     left: 0;
     z-index: 1060;
     display: block;
-    max-width: 276px;
+    /* max-width: 276px; */
+    min-width: 34rem;
+    max-width: 38rem;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-style: normal;
     font-weight: 400;
@@ -6600,10 +6603,11 @@ a.close.disabled {
     line-break: auto;
     font-size: .875rem;
     word-wrap: break-word;
-    background-color: #fff;
+    /* background-color: #fff; */
+    background-color: #959595;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, .2);
-    border-radius: .3rem
+    border-radius: .4rem
 }
 
 .popover .arrow {
@@ -6611,7 +6615,8 @@ a.close.disabled {
     display: block;
     width: 1rem;
     height: .5rem;
-    margin: 0 .3rem
+    margin: 0 .3rem;
+    background-color: #acacac;
 }
 
 .popover .arrow::after,
@@ -6620,7 +6625,8 @@ a.close.disabled {
     display: block;
     content: "";
     border-color: transparent;
-    border-style: solid
+    border-style: solid;
+    background-color: #acacac;
 }
 
 .bs-popover-auto[x-placement^=top],
@@ -6741,10 +6747,13 @@ a.close.disabled {
     padding: .5rem .75rem;
     margin-bottom: 0;
     font-size: 1rem;
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #ebebeb;
+    font-weight: 550;
+    background-color: #acacac;
+    border: 1px solid #ebebeb;
     border-top-left-radius: calc(.3rem - 1px);
-    border-top-right-radius: calc(.3rem - 1px)
+    border-top-right-radius: calc(.3rem - 1px);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .popover-header:empty {
@@ -6753,7 +6762,7 @@ a.close.disabled {
 
 .popover-body {
     padding: .5rem .75rem;
-    color: #212529
+    color: rgba(251, 255, 255, .8)
 }
 
 .carousel {

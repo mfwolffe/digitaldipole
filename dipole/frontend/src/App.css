@@ -15,6 +15,16 @@
   box-shadow: 0 0 2rem 2rem #45008440 !important;
 } */
 
+#search-tip {
+  width: 18rem;
+}
+
+.search-tip {
+  width: 28rem;
+  height: fit-content;
+  background-color: #908E8E;
+}
+
 #root {
   /* max-width: 1280px; */
   margin:  auto;
@@ -32,6 +42,7 @@
 
 #nav-ref {
   padding-bottom: 0;
+  padding-left: 0;
 }
 
 #nav-ref + div.dropdown-menu {
