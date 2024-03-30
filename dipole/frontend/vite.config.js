@@ -7,6 +7,7 @@ import { rm } from 'node:fs/promises'
 const outDir = "../templates";
 const assetsDir = "static/assets";
 
+// TODO dynamic imports or manual chunks
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
