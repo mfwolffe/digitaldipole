@@ -1,3 +1,20 @@
+/* TODO fix scrolling viewport - we don't want scrolling of the main page */
+/* TODO check centering of dashline */
+
+/* .form-control.sb {
+  font-size: 0.9rem !important;
+  background-color: #908E8E !important;
+  color:rgba(241, 240, 240, 0.805) !important;
+  border: 1.5px solid #628ab2 !important;
+  border-radius: 2rem !important;
+}
+
+.form-control:focus {
+  background-color: #a7a7a7 !important;
+  color:rgba(241, 240, 240, 1) !important;
+  box-shadow: 0 0 2rem 2rem #45008440 !important;
+} */
+
 #root {
   /* max-width: 1280px; */
   margin:  auto;
@@ -13,14 +30,19 @@
   width: 100vw;
 }
 
+#nav-ref {
+  padding-bottom: 0;
+}
+
 #nav-ref + div.dropdown-menu {
+  padding-bottom: 0;
   border: none !important;
 }
 
 .offC {
   background-color: #908E8E;
   color: rgba(255, 255, 255, 0.96);
-  max-width: 22rem;
+  max-width: 18rem;
 }
 
 .offC ul {
@@ -71,7 +93,7 @@ div.dropdown-menu a {
 }
 
 div.dropdown-menu a:hover {
-  background-color: #d6d2d2 !important;
+  background-color: inherit;
 }
 
 .sbar-btn, .sbar-btn:hover {
@@ -89,7 +111,7 @@ div.dropdown-menu a:hover {
 }
 
 .sbar-ico:hover, .usr-ico:hover {
-  transform: rotateY(180deg);
+  /* transform: rotateY(180deg); */
   filter: drop-shadow(0em 0em 0.33em coral);
 }
 

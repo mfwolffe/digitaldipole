@@ -10,7 +10,7 @@ import '../App.css'
 const Home = () => {
     return (
         <div className="landing-container">
-            <div className="landing">
+            <div className="landing mt-2">
                 <div>
                     <h1 className="anim">Digital Dipole</h1>
                     <h2 id="subtitle">A Chemistry Educational Toolkit</h2>
