@@ -2,6 +2,10 @@ from django.db import models
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
 
+# SEEME constants docs
+# https://docs.scipy.org/doc/scipy/reference/generated/scipy.constants.value.html
+from scipy import constants
+
 class Unit(models.Model):
     name        = models.CharField(max_length=128, unique=False, help_text="Enter unit name")
     symbol      = models.CharField(max_length=32, unique=False, help_text="Enter unit symbol")
@@ -34,12 +38,11 @@ class Atom(models.Model):
     cpk_hexcolor  = models.CharField(max_length=7, unique=False, help_text="Enter element CPK Hex Color Code")
     atomic_number = models.PositiveIntegerField(unique=True, help_text="Enter element atomic number", primary_key=True)
 
-
     ###### ~~~Experimentally Measured Properties~~~ ######
 
     # [x] TOASK Considering using Measure fields
     #           see notebook; try to find precompiled lib of chemical data
-    
+
     # TOASK Validation ? some forum posts say has to be done on FE? 
     e_config = models.CharField(
         max_length=256,
