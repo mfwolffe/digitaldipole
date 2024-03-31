@@ -83,12 +83,13 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.mfa",
     "allauth.socialaccount",
+    "allauth.socialaccount.providers.google"
 ]
 
 LOCAL_APPS = [
     "dipole.users",
     # Your stuff: custom apps go here
-    "dipole.reference"
+    "dipole.reference",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -108,8 +109,10 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "users:redirect"
+LOGIN_REDIRECT_URL = "/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
+
+# SEEME figure out how to configure w/ frontend
 LOGIN_URL = "account_login"
 
 # PASSWORDS
@@ -271,11 +274,11 @@ LOGGING = {
 # ------------------------------------------------------------------------------
 ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
 # https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"                    # por que no los dos?
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"  # por que no los dos?
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_EMAIL_REQUIRED = True
 # https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "none"
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_ADAPTER = "dipole.users.adapters.AccountAdapter"
 # https://docs.allauth.org/en/latest/account/forms.html
@@ -290,20 +293,29 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Digital Dipole]"
 # Your stuff...
 # ------------------------------------------------------------------------------
 
-# Noodling 
+# Noodling
 
 
 # [x] TOASK google oauth ?
 #     see notebook
 # https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'SCOPE': [
-#             'email',
-#         ],
-#         'AUTH_PARAMS': {
-#             'access_type': 'online',
-#         },
-#         'OAUTH_PKCE_ENABLED': True,
-#     }
-# }
+
+# TOASK hide client id and secret somehow? against Google TOS to use in public repositories
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APPS": [
+            {
+                "client_id": "***REMOVED***",
+                "secret": "***REMOVED***",
+                "key": "",
+            },
+        ],
+        "SCOPE": [
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+        "OAUTH_PKCE_ENABLED": True,
+    }
+}
