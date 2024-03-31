@@ -280,3 +280,9 @@ dipole/media/
 **/.tool-versions
 
 chemenv/
+
+package-lock.json
+
+.env
+
+python
