@@ -286,3 +286,5 @@ package-lock.json
 .env
 
 python
+
+test-req.txt
