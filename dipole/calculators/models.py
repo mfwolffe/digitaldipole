@@ -1,9 +1,9 @@
-from sympy import *
-from sympy.printing.mathml import print_mathml
 from django.db import models
 from django.db.models.functions import Lower
 from django.db.models import UniqueConstraint
 
+from sympy import symbols
+from sympy.printing.mathml import print_mathml, mathml
 
 class Variable(models.Model):
     val    = models.FloatField(null=True, help_text="The variable's value")
