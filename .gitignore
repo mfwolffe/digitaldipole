@@ -288,3 +288,5 @@ package-lock.json
 python
 
 test-req.txt
+
+dipole/templates/index.html
