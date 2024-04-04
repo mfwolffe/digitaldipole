@@ -23,10 +23,10 @@ urlpatterns = [
     # User management
     path("users/", include("dipole.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    re_path("", HomeView.as_view(), name="home"),
     # path("accounts/", include("django.contrib.auth.urls")),
     # Your stuff: custom urls includes go here
     path("api/", api.urls),
+    re_path("", HomeView.as_view(), name="home"),
     # ...
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),

@@ -9,7 +9,7 @@ import { NavLink as Link } from "react-router-dom";
 import { all } from '@awesome.me/kit-a655910996/icons';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { UserDrop, SearchBar, OffCDropRef } from "./NavComponents";
+import { UserDrop, SearchBar, OffCDropRef, OffCDropCalc } from "./NavComponents";
 
 import '../App.css'
 import '../styles/hover.css'
@@ -42,6 +42,7 @@ const NavOffCanvas = () => {
                 </Button>
 
                 <SearchBar />
+
                 <UserDrop />
 
                 <Offcanvas show={show} onHide={handleClose} {...scrollBackdrop} className="offC">
@@ -60,8 +61,10 @@ const NavOffCanvas = () => {
                             </Link>
                         </NavItem>
 
+                        {/* OFF CANVAS DROPDOWNS */}
                         {/* TODO test drop w/ collapse since that should provide smooth animation */}
                         <OffCDropRef />
+                        <OffCDropCalc />
 
                     </Offcanvas.Body>
                 </Offcanvas>

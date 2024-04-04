@@ -6,6 +6,7 @@ import {
 
 import Home from './pages'
 import Tabulated from "./pages/tabulated";
+import CalcCard from "./pages/calculators/GasLaws"
 
 import NavOffCanvas from "./components/Nav";
 
@@ -24,6 +25,7 @@ function App() {
       <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/tabulated" element={<Tabulated />} />
+          <Route path="/calculators/GasLaws" element={<CalcCard />} />
       </Routes>
     </Router>
   );

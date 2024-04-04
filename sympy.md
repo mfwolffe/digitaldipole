@@ -151,3 +151,6 @@ In case reverting to MathML:
 Whenever generating MathML using any of the following methods, make sure to pass `printer=presentation`,
 * `mathml(exp)`
 * `print_mathml(exp)`
+
+
+Matt Wolffe

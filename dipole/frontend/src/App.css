@@ -15,6 +15,11 @@
   box-shadow: 0 0 2rem 2rem #45008440 !important;
 } */
 
+.gl-calc {
+  width: 62rem !important;
+
+}
+
 #search-tip {
   width: 18rem;
 }
@@ -142,7 +147,7 @@ div.landing-container {
 div.landing {
   padding: 1rem;
   width: fit-content;
-  margin: inherit;
+  margin: auto;
   height: fit-content;
 }
 

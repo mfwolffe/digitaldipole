@@ -43,12 +43,20 @@ const icoStyle = {
     fontSize: "1.7rem"
 };
 
+// TODO: give the two components below better names
 const refIcon = (
     <>
         <FontAwesomeIcon icon="fa-duotone fa-book-bookmark" size="xl" style={{ "--fa-secondary-color": "#578be5", "--fa-primary-color": "#143671", "width": "1.4rem" }} className="pr-2" />
         <span className="hvr-underline-from-left">References</span>
     </>
 );
+
+const calcIcon = (
+    <>
+        <FontAwesomeIcon icon="fa-duotone fa-calculator" size="xl" style={{ "--fa-secondary-color": "#578be5", "--fa-primary-color": "#143671", "width": "1.4rem" }} className="pr-2" />
+        <span className="hvr-underline-from-left">Calculators</span>
+    </>
+)
 
 // TODO see documentation:
 // https://react-bootstrap.netlify.app/docs/components/overlays#popovers
@@ -145,4 +153,40 @@ export function OffCDropRef () {
             </NavDropdown>
         </NavItem>
     );
+}
+
+export function OffCDropCalc () {
+    return (
+        <NavItem>
+            <NavDropdown title={calcIcon} id="nav-ref" className="pl-0">
+                <ul>
+                    <li>
+                        <NavDropdown.Item eventKey="ref-1" className="text-wrap pl-0">
+                            <Link to="/calculators/GasLaws" className="pl-0 ml-0">
+                                Gas Laws (Ideal)
+                            </Link>
+                        </NavDropdown.Item>
+                    </li>
+                    <li>
+                        <NavDropdown.Item eventKey="ref-2" className="text-wrap pl-0 hvr-underline-from-left">
+                            Thermodynamics
+                        </NavDropdown.Item>
+                    </li>
+                    <li>
+                        <NavDropdown.Item eventKey="ref-3" className="text-wrap pl-0 hvr-underline-from-left">
+                            Unit Conversions
+                        </NavDropdown.Item>
+                    </li>
+                    <li>
+                        <NavDropdown.Item eventKey="ref-4" className="text-wrap pl-0 hvr-underline-from-left">
+                            Solutions & Titrations
+                        </NavDropdown.Item>
+                    </li>
+                </ul>
+            </NavDropdown>
+        </NavItem>
+    );
+
+
+
 }
