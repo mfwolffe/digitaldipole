@@ -15,6 +15,9 @@ if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(str(BASE_DIR / ".env"))
 
+SECRET_KEY = env('SECRET_KEY')
+CLIENT_ID = env('CLIENT_ID')
+
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
@@ -306,8 +309,8 @@ SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APPS": [
             {
-                "client_id": "***REMOVED***",
-                "secret": "***REMOVED***",
+                "client_id": CLIENT_ID,
+                "secret": SECRET_KEY,
                 "key": "",
             },
         ],
