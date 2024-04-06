@@ -17,7 +17,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // the FA ico's with additional customization don't play well with SVG so png instead
 import userIcon from '../assets/png/user-astronaut-light.png';
-import userPost from '../assets/png/light-user-astronaut-pen.png';
 import userGear from '../assets/png/light-user-astronaut-gear.png';
 import userLock from '../assets/png/light-user-astronaut-lock.png';
 import userShield from '../assets/png/light-user-astronaut-shield.png';
@@ -97,15 +96,6 @@ export function UserDrop () {
             <NavDropdown.Header>
                 <img src={userIcon} width="24px" className="pr-2" /> <b>{username}</b>
             </NavDropdown.Header>
-            <NavDropdown.Item className="hvr-underline-from-left">
-                {/* [x] TODO see image element - native svg support? */}
-                        {/*  yeah it's possible but probably want to 
-                        * try setting frame of ref / origin in inkscape
-                        * or illustrator 
-                        */}
-                <img src={userPost} width="24px" className="pr-2" />
-                Posts
-            </NavDropdown.Item>
             <NavDropdown.Item className="hvr-underline-from-left">
                 <img src={userGear} width="24px" className="pr-2" />
                 Settings
