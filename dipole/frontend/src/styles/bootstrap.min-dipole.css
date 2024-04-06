@@ -20,6 +20,9 @@
     --danger: #dc3545;
     --light: #8EE4D7;
     --dark: #333333;
+    --bs-primary-bg-subtle: rgba(125, 71, 131, 0.6);
+
+    /* --bs-primary-bg-subtle: rgba(141, 95, 152, 0.8); */
     --breakpoint-xs: 0;
     --breakpoint-sm: 576px;
     --breakpoint-md: 768px;
@@ -4520,14 +4523,17 @@ input[type=submit].btn-block {
     border-bottom: 1px solid #dee2e6
 }
 
-.nav-tabs .nav-item {
-    margin-bottom: -1px
+.nav-tabs .nav-item a {
+    /* margin-bottom: -1px; */
 }
 
 .nav-tabs .nav-link {
+    color: #fff;
     border: 1px solid transparent;
     border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem
+    border-top-right-radius: .25rem;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 }
 
 .nav-tabs .nav-link:focus,
@@ -4551,11 +4557,11 @@ input[type=submit].btn-block {
 .nav-tabs .dropdown-menu {
     margin-top: -1px;
     border-top-left-radius: 0;
-    border-top-right-radius: 0
+    border-top-right-radius: 0;
 }
 
 .nav-pills .nav-link {
-    border-radius: .25rem
+    border-radius: .25rem;
 }
 
 .nav-pills .nav-link.active,
@@ -5025,13 +5031,33 @@ input[type=submit].btn-block {
     color: #fff
 }
 
+.tab-content div[role="tabpanel"] {
+  margin-top: 2rem;
+  color:rgba(255, 255, 255, 1);
+  /* background-color: b0b0b0; */
+}
+
+.tab-content {
+  background-color: #808080;
+}
+
+ul.nav.nav-tabs {
+  margin-bottom: 0 !important;
+}
+
+div.card-content {
+  margin-top: 2rem;
+}
+
 .card {
     position: relative;
     display: flex;
     flex-direction: column;
-    min-width: 0;
+    /* min-width: 0; */
+    width: 65rem !important;
     word-wrap: break-word;
-    background-color: #fff;
+    /* background-color: #fff; */
+    background-color: #a0a0a0 !important;
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem
@@ -5252,6 +5278,10 @@ input[type=submit].btn-block {
         display: inline-block;
         width: 100%
     }
+}
+
+.accordion-header {
+  border-color: var(--bs-primary-bg-subtle) !important;
 }
 
 .accordion>.card {

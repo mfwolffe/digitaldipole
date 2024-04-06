@@ -1,126 +1,112 @@
 import React from "react";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import Nav from 'react-bootstrap/Nav';
+import Tab from "react-bootstrap/Tab";
 import Card from "react-bootstrap/Card";
-import Popover from 'react-bootstrap/Popover';
-import Accordion from 'react-bootstrap/Accordion';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tabs from "react-bootstrap/Tabs";
+import Accordion from "react-bootstrap/Accordion";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import { GenInfo1, GenInfo2 } from "../../components/CalcInfo";
+import {
+  AvoInfo,
+  AmontonInfo,
+  BoyleInfo,
+  CharlesInfo,
+  CombinedInfo,
+  IdealInfo,
+} from "../../components/CalcInfo";
 
-import '../../App.css';
-import '../../styles/refs.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../styles/bootstrap.min-dipole.css';
+import { all } from '@awesome.me/kit-a655910996/icons'
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const GenInfo = (
+import "../../App.css";
+import "../../styles/refs.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../../styles/bootstrap.min-dipole.css";
+
+library.add(...all)
+
+function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
+  return (
     <>
-        <Accordion defaultActiveKey="0" className="w-85 mb-2">
-            <Accordion.Item eventKey="0">
-                <Accordion.Header>Gas Laws</Accordion.Header>
-                <Accordion.Body>
-                    <p class="text-left">
-                        Gas Laws are models which describe the relationships between pressure, volume, temperature,
-                        and amount of gas for a given sample of gas. The first such law was formulated in the late 17th century
-                        by English scientist Robert Boyle. These discoveries were corroborated, and understood further as
-                        kinetic molecular theory was formulating.
-                    </p>
-                    <p class="text-left">
-                        By the end of the 19th century, four other laws describing relationships between gas properties were formulated.
-                        They were Boyle's Law, Avogadro's Law, Charles' Law, and Gay-Lussac's Law. These laws however make the assumption
-                        the gases being modeled are <em>ideal</em>.
-                    </p>
-                </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="1">
-                <Accordion.Header><em>Ideal Gases</em></Accordion.Header>
-                <Accordion.Body>
-                    <p class="text-left">
-                        Ideal gases, in contrast to <em>real gases</em>, are theoretical constructs, yet are nonetheless useful in
-                        describing gas behavior at the macroscopic level. Many real gases behave similarly to ideal gases if they are 
-                        held in fairly standard conditions of temperature and pressure. An ideal gas is formally defined as one in which 
-                        the following conditions hold:
-                    </p>
-                    
-                    <dl class="text-left">
-                        <dt>All collisions are perfectly elastic</dt>
-                        <dd></dd>
-
-                        <dt>Molecules are not subject to standard intermolecular forces</dt>
-                        <dd></dd>
-
-                        <dt>Molecules themselves have negligible volume</dt>
-                        <dd></dd>
-
-                        <dt>The motion of particles is nondeterministic and adheres to Newton's Laws</dt>
-                        <dd></dd>
-                    </dl>
-                </Accordion.Body>
-            </Accordion.Item>
-        </Accordion>
+      <Accordion defaultActiveKey="0" className="ml-auto mr-auto mb-3 calc-acc">
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <FontAwesomeIcon icon="fa-duotone fa-circle-info" size="lg" style={{"--fa-secondary-color": "#51D4FF", "--fa-primary-color": "#533856",}} className="pr-2" />{act1}
+          </Accordion.Header>
+          <Accordion.Body>
+            <Ac1 />
+          </Accordion.Body>
+        </Accordion.Item>
+        <Accordion.Item eventKey="1">
+          <Accordion.Header>{act2}</Accordion.Header>
+          <Accordion.Body>
+            <Ac2 />
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     </>
-)
+  );
+}
 
 // [x] TOASK async???
 // natülich
 const CalcCard = () => {
-    const [thing, setThing] = useState("");
+  const [thing, setThing] = useState("");
 
-    useEffect(() => {
-        const getYellow = async () => {
-            fetch("/api/yellow")
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    setThing(data);
-            }).catch(error => console.log(error));
-        }
-        getYellow();
-    }, []);
+  useEffect(() => {
+    const getYellow = async () => {
+      fetch("/api/yellow")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setThing(data);
+        })
+        .catch((error) => console.log(error));
+    };
+    getYellow();
+  }, []);
 
-    return (
-        <div className="landing-container mt-3">
-            <div className="landing mt-0">
-                <Card id="ref-default" className="mt-5 m-auto gl-calc">
-                    <Card.Header>
-                        <Nav variant="tabs" defaultActiveKey="#first" className="ref-default-tab">
-                            <Nav.Item className="nav-item no-b-border">
-                                <Nav.Link href="#first">Info</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item className="nav-item no-b-border">
-                                <Nav.Link href="#second">Avogadro's Law</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item className="nav-item no-b-border">
-                                <Nav.Link href="#third">Boyle's Law</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item className="nav-item no-b-border">
-                                <Nav.Link href="#fourth">Charles' Law</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item className="nav-item no-b-border">
-                                <Nav.Link href="#fifth">Gay-Lussac's Law</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item className="nav-item no-b-border">
-                                <Nav.Link href="#sixth">Combined Gas Law</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item className="nav-item no-b-border">
-                                <Nav.Link href="#seventh">Ideal Gas Law</Nav.Link>
-                            </Nav.Item>
-                        </Nav>
-                    </Card.Header>
-                    <Card.Body>
-                        <Card.Title>(Ideal) Gas Laws</Card.Title>
-                        {/* <Card.Text>
-                            { thing }
-                        </Card.Text> */}
-
-                        <div className="d-flex justify-content-center">
-                            { GenInfo }
-                        </div>
-                    </Card.Body>
-                </Card>
-            </div>
-        </div>
-    );
-}
-
+  return (
+    <div className="landing-container mt-3">
+      <div className="landing mt-0">
+        <Card className="mt-5 m-auto gl-calc" id="ref-default">
+          <Tabs
+            defaultActiveKey="genInfo"
+            id="uncontrolled-tab-example"
+            className="mb-3 mt-1 calc-tabs"
+          >
+            <Tab eventKey="genInfo" className="calc-tab" title="Info">
+              {test(GenInfo1, GenInfo2, "Gas Laws", "Ideal Gases")}
+            </Tab>
+            <Tab eventKey="avo" title="Avogadro's Law">
+              {test(AvoInfo, AvoInfo)}
+            </Tab>
+            <Tab eventKey="amonton" className="calc-tab" title="Amonton's Law">
+              {test(AmontonInfo, AmontonInfo)}
+            </Tab>
+            <Tab eventKey="boyles" className="calc-tab" title="Boyle's Law">
+              {test(BoyleInfo, BoyleInfo)}
+            </Tab>
+            <Tab eventKey="charles" className="calc-tab" title="Charles' Law">
+              {test(CharlesInfo, CharlesInfo)}
+            </Tab>
+            <Tab
+              eventKey="combined"
+              className="calc-tab"
+              title="Combined Gas Law"
+            >
+              {test(CombinedInfo, CombinedInfo)}
+            </Tab>
+            <Tab eventKey="ideal" className="calc-tab" title="Ideal Gas Law">
+              {test(IdealInfo, IdealInfo)}
+            </Tab>
+          </Tabs>
+        </Card>
+      </div>
+    </div>
+  );
+};
 
 export default CalcCard;

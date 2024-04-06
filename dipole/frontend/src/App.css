@@ -17,7 +17,23 @@
 
 .gl-calc {
   width: 62rem !important;
+}
 
+.calc-tabs button.active {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+.calc-tabs button {
+  color: rgba(255, 255, 255, 0.84) !important;
+}
+
+.calc-tabs button:hover {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+
+.calc-acc {
+  width: 54rem !important;
 }
 
 #search-tip {
