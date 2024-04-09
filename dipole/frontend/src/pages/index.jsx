@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink as Link } from "react-router-dom"
 import reactLogo from '../assets/react.svg'
-import ethylAcetate from '../assets/ethyl-acetate.svg'
-import benzeneOxide from '../assets/benzene-oxide.svg'
+import ethylAcetate from '../assets/png/ethyl-acetate.png'
+import benzeneOxide from '../assets/png/benzene-oxide.png'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/bootstrap.min-dipole.css';
 import '../App.css'
