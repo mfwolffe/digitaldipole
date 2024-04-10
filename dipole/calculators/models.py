@@ -2,7 +2,8 @@ from django.db import models
 from django.db.models.functions import Lower
 from django.db.models import UniqueConstraint
 
-from sympy import symbols
+from sympy import *
+from sympy.parsing.latex import *
 from sympy.printing.mathml import print_mathml, mathml
 
 class Variable(models.Model):
@@ -20,8 +21,10 @@ class Variable(models.Model):
 # https://docs.sympy.org/latest/tutorials/intro-tutorial/basic_operations.html#converting-strings-to-sympy-expressions
 
 class Equation(models.Model):
-    name      = models.CharField(default="test", max_length=72, help_text="Calculator name")
-    variables = models.ManyToManyField(Variable, help_text="A known variable in this equation")
+    name       = models.CharField(default="test", max_length=72, help_text="Calculator name")
+    variables  = models.ManyToManyField(Variable, help_text="A known variable in this equation")
+    LaTeX_repr = models.TextField(help_text="LaTeX representation of this equation; No variables", default="")
+  
 
     class Meta:
         verbose_name        = "Equation"
@@ -30,7 +33,6 @@ class Equation(models.Model):
     # TODO convert equation string to MathML
     # TODO then use MathJAX (ie, install and configure) to
     #      better render the MathML
-
 
 class Calculator(models.Model):
     CATEGORIES = [

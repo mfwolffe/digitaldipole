@@ -9,7 +9,7 @@ export function AvoInfo() {
       </p>
       <p>Expressed symbolically,</p>
 
-      <math
+      {/* <math
         display="block"
         className="tml-display"
         style={{ display: "block math" }}
@@ -21,9 +21,12 @@ export function AvoInfo() {
           <mspace width="3mm"></mspace>
           <mi>n</mi>
         </mrow>
-      </math>
+      </math> */}
+
+      <p className="text-center">$$V \; \alpha \; n$$</p>
+
       <p className="mt-2">Which implies,</p>
-      <math
+      {/* <math
         display="block"
         className="tml-display"
         style={{ display: "block math" }}
@@ -37,8 +40,11 @@ export function AvoInfo() {
           <mo>=</mo>
           <mi>k</mi>
         </mrow>
-      </math>
-      <p className="text-center mt-3">
+      </math> */}
+
+<p className="text-center">$$\\frac{V}{n} \; = \; k$$, for some constant, $$k$$.</p>
+
+      {/* <p className="text-center mt-3">
         for some constant
         <math
           display="inline"
@@ -49,7 +55,7 @@ export function AvoInfo() {
           <mi>k</mi>
         </math>
         .
-      </p>
+      </p> */}
       <p className="text-start mt-3">
         The law may be further used to determine an unknown quantity in the case
         of the same substance held in two different sets of conditions (provided
@@ -57,7 +63,9 @@ export function AvoInfo() {
       </p>
       <p>Which, expressed symbolically, is,</p>
 
-      <math
+<p className="text-center">$$\\frac{V_1}{n_1} \; = \; \\frac{V_2}{n_2}$$</p>
+
+      {/* <math
         display="block"
         className="tml-display m-auto"
         style={{ display: "block math" }}
@@ -85,7 +93,7 @@ export function AvoInfo() {
             </msub>
           </mfrac>
         </mrow>
-      </math>
+      </math> */}
     </>
   );
 }

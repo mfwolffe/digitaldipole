@@ -16,6 +16,8 @@ import {
   IdealInfo,
 } from "../../components/CalcInfo";
 
+import TestForm from "../../components/CalcForms";
+
 import { all } from '@awesome.me/kit-a655910996/icons'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -53,21 +55,6 @@ function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
 // [x] TOASK async???
 // natülich
 const CalcCard = () => {
-  const [thing, setThing] = useState("");
-
-  useEffect(() => {
-    const getYellow = async () => {
-      fetch("/api/yellow")
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setThing(data);
-        })
-        .catch((error) => console.log(error));
-    };
-    getYellow();
-  }, []);
-
   return (
     <div className="landing-container mt-3">
       <div className="landing mt-0">
@@ -81,7 +68,7 @@ const CalcCard = () => {
               {test(GenInfo1, GenInfo2, "Gas Laws", "Ideal Gases")}
             </Tab>
             <Tab eventKey="avo" title="Avogadro's Law">
-              {test(AvoInfo, AvoInfo)}
+              {test(AvoInfo, TestForm)}
             </Tab>
             <Tab eventKey="amonton" className="calc-tab" title="Amonton's Law">
               {test(AmontonInfo, AmontonInfo)}
