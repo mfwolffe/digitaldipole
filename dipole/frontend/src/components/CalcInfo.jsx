@@ -8,92 +8,15 @@ export function AvoInfo() {
         directly proportional to the sample's volume.
       </p>
       <p>Expressed symbolically,</p>
-
-      {/* <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mi>V</mi>
-          <mspace width="3mm"></mspace>
-          <mi>α</mi>
-          <mspace width="3mm"></mspace>
-          <mi>n</mi>
-        </mrow>
-      </math> */}
-
-      <p className="text-center">$$V \; \alpha \; n$$</p>
-
-      <p className="mt-2">Which implies,</p>
-      {/* <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mfrac>
-            <mi>V</mi>
-            <mi>n</mi>
-          </mfrac>
-          <mspace width="1mm"></mspace>
-          <mo>=</mo>
-          <mi>k</mi>
-        </mrow>
-      </math> */}
-
-<p className="text-center">$$\\frac{V}{n} \; = \; k$$, for some constant, $$k$$.</p>
-
-      {/* <p className="text-center mt-3">
-        for some constant
-        <math
-          display="inline"
-          className="tml-display"
-          style={{ display: "inline math" }}
-        >
-          <mspace width="2mm"></mspace>
-          <mi>k</mi>
-        </math>
-        .
-      </p> */}
+      <p className="text-center">{"$$V \\; \\alpha \\; n$$"}</p>
+      <p className="mt-2">Which implies {"\\(\\frac{V}{n} \\; = \\; k\\)"}, for some constant, {"\\(k\\)"}.</p>
       <p className="text-start mt-3">
         The law may be further used to determine an unknown quantity in the case
         of the same substance held in two different sets of conditions (provided
         pressure and temperature held equal).
       </p>
       <p>Which, expressed symbolically, is,</p>
-
-<p className="text-center">$$\\frac{V_1}{n_1} \; = \; \\frac{V_2}{n_2}$$</p>
-
-      {/* <math
-        display="block"
-        className="tml-display m-auto"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mfrac>
-            <msub>
-              <mi>V</mi>
-              <mn>1</mn>
-            </msub>
-            <msub>
-              <mi>n</mi>
-              <mn>1</mn>
-            </msub>
-          </mfrac>
-          <mo>=</mo>
-          <mfrac>
-            <msub>
-              <mi>V</mi>
-              <mn>2</mn>
-            </msub>
-            <msub>
-              <mi>n</mi>
-              <mn>2</mn>
-            </msub>
-          </mfrac>
-        </mrow>
-      </math> */}
+      <p className="text-center">{"$$\\frac{V_1}{n_1} \\; = \\; \\frac{V_2}{n_2}$$"}</p>
     </>
   );
 }
