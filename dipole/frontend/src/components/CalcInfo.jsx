@@ -8,84 +8,15 @@ export function AvoInfo() {
         directly proportional to the sample's volume.
       </p>
       <p>Expressed symbolically,</p>
-
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mi>V</mi>
-          <mspace width="3mm"></mspace>
-          <mi>α</mi>
-          <mspace width="3mm"></mspace>
-          <mi>n</mi>
-        </mrow>
-      </math>
-      <p className="mt-2">Which implies,</p>
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mfrac>
-            <mi>V</mi>
-            <mi>n</mi>
-          </mfrac>
-          <mspace width="1mm"></mspace>
-          <mo>=</mo>
-          <mi>k</mi>
-        </mrow>
-      </math>
-      <p className="text-center mt-3">
-        for some constant
-        <math
-          display="inline"
-          className="tml-display"
-          style={{ display: "inline math" }}
-        >
-          <mspace width="2mm"></mspace>
-          <mi>k</mi>
-        </math>
-        .
-      </p>
+      <p className="text-center">{"$$V \\; \\alpha \\; n$$"}</p>
+      <p className="mt-2">Which implies {"\\(\\frac{V}{n} = k \\; \\)"} for some constant {"\\(k\\)"}.</p>
       <p className="text-start mt-3">
         The law may be further used to determine an unknown quantity in the case
         of the same substance held in two different sets of conditions (provided
         pressure and temperature held equal).
       </p>
       <p>Which, expressed symbolically, is,</p>
-
-      <math
-        display="block"
-        className="tml-display m-auto"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mfrac>
-            <msub>
-              <mi>V</mi>
-              <mn>1</mn>
-            </msub>
-            <msub>
-              <mi>n</mi>
-              <mn>1</mn>
-            </msub>
-          </mfrac>
-          <mo>=</mo>
-          <mfrac>
-            <msub>
-              <mi>V</mi>
-              <mn>2</mn>
-            </msub>
-            <msub>
-              <mi>n</mi>
-              <mn>2</mn>
-            </msub>
-          </mfrac>
-        </mrow>
-      </math>
+      <p className="text-center">{"$$\\frac{V_1}{n_1} \\; = \\; \\frac{V_2}{n_2}$$"}</p>
     </>
   );
 }
@@ -100,82 +31,13 @@ export function AmontonInfo() {
         rigid thereby keeping volume fixed, and amount of gas fixed as well.
       </p>
       <p className="mt-0">Expressed symbolically,</p>
-
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mi>P</mi>
-          <mspace width="3mm"></mspace>
-          <mi>α</mi>
-          <mspace width="3mm"></mspace>
-          <mfrac>
-            <mn>1</mn>
-            <mi>T</mi>
-          </mfrac>
-        </mrow>
-      </math>
-      <p className="mt-2">And so it follows that,</p>
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mi>P</mi>
-          <mspace width="1mm"></mspace>
-          <mi>T</mi>
-          <mo>=</mo>
-          <mi>k</mi>
-        </mrow>
-      </math>
-      <p className="text-center mt-3">
-        for some constant
-        <math
-          display="inline"
-          className="tml-display"
-          style={{ display: "inline math" }}
-        >
-          <mspace width="2mm"></mspace>
-          <mi>k</mi>
-        </math>
-        .
-      </p>
+      <p className="text-center">{"$$P \\; \\alpha \\; T$$"}</p>
+      <p className="mt-2 text-center">And so it follows that {"\\(\\frac{P}{T} = k \\; \\)"} for some constant {"\\(k\\)"}</p>
       <p className="text-start mb-0">
-        This again allows the comparison a gas sample following a change in
+        And this allows the comparison of a gas sample following a change in
         conditions if volume and amount of gas are held constant:
       </p>
-      <math
-        display="block"
-        className="tml-display m-auto"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mfrac>
-            <msub>
-              <mi>P</mi>
-              <mn>1</mn>
-            </msub>
-            <msub>
-              <mi>T</mi>
-              <mn>1</mn>
-            </msub>
-          </mfrac>
-          <mo>=</mo>
-          <mfrac>
-            <msub>
-              <mi>P</mi>
-              <mn>2</mn>
-            </msub>
-            <msub>
-              <mi>T</mi>
-              <mn>2</mn>
-            </msub>
-          </mfrac>
-        </mrow>
-      </math>
+      <p className="text-center">{"$$\\frac{P_1}{T_1} \\; = \\; \\frac{P_2}{T_2}$$"}</p>
     </>
   );
 }
@@ -189,83 +51,14 @@ export function BoyleInfo() {
         temperature are held constant.
       </p>
       <p className="mt-0">Expressed symbolically,</p>
-
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mi>P</mi>
-          <mspace width="3mm"></mspace>
-          <mi>α</mi>
-          <mspace width="3mm"></mspace>
-          <mfrac>
-            <mn>1</mn>
-            <mi>V</mi>
-          </mfrac>
-        </mrow>
-      </math>
-      <p className="mt-2">And so it follows that,</p>
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mi>P</mi>
-          <mspace width="1mm"></mspace>
-          <mi>V</mi>
-          <mo>=</mo>
-          <mi>k</mi>
-        </mrow>
-      </math>
-      <p className="text-center mt-3">
-        for some constant
-        <math
-          display="inline"
-          className="tml-display"
-          style={{ display: "inline math" }}
-        >
-          <mspace width="2mm"></mspace>
-          <mi>k</mi>
-        </math>
-        .
-      </p>
+      <p className="text-center">{"$$P \\; \\alpha \\; \\frac{1}{V}$$"}</p>
+      <p className="mt-2 text-center">And so it follows that {"\\(PV = k \\; \\)"} for some constant {"\\(k\\)"}</p>
       <p className="text-start mb-0">
         This allows comparison of the same gas sample under different
         conditions, so long as the temperature and quantity of gas remain the
         same:
       </p>
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <msub>
-            <mi>P</mi>
-            <mn>1</mn>
-          </msub>
-          <mspace width="1mm"></mspace>
-          <msub>
-            <mi>V</mi>
-            <mn>1</mn>
-          </msub>
-          <mspace width="1mm"></mspace>
-          <mo>=</mo>
-          <mspace width="1mm"></mspace>
-          <msub>
-            <mi>P</mi>
-            <mn>2</mn>
-          </msub>
-          <mspace width="1mm"></mspace>
-          <msub>
-            <mi>V</mi>
-            <mn>2</mn>
-          </msub>
-        </mrow>
-      </math>
+      <p className="text-center">{"$$P_{1}V_{1} \\; = \\; P_{2}V_{2}$$"}</p>
     </>
   );
 }
@@ -280,82 +73,13 @@ export function CharlesInfo() {
         constant.
       </p>
       <p className="mt-0">Expressed symbolically,</p>
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mi>V</mi>
-          <mspace width="3mm"></mspace>
-          <mi>α</mi>
-          <mspace width="3mm"></mspace>
-          <mi>T</mi>
-        </mrow>
-      </math>
-      <p className="mt-2">Which implies,</p>
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mfrac>
-            <mi>V</mi>
-            <mi>T</mi>
-          </mfrac>
-          <mspace width="1mm"></mspace>
-          <mo>=</mo>
-          <mi>k</mi>
-        </mrow>
-      </math>
-      <p className="text-center mt-3">
-        for some constant
-        <math
-          display="inline"
-          className="tml-display"
-          style={{ display: "inline math" }}
-        >
-          <mspace width="2mm"></mspace>
-          <mi>k</mi>
-        </math>
-        .
-      </p>
+      <p className="text-center">{"$$V \\; \\alpha \\; T$$"}</p>
+      <p className="mt-2 text-center">And so it follows that {"\\(\\frac{V}{T} = k \\; \\)"} for some constant {"\\(k\\)"}</p>
       <p className="text-start mb-0">
         As such, this allows comparison of the same gas sample under different
         conditions, so long as the pressure and amount of gas remain the same:
       </p>
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mfrac>
-            <msub>
-              <mi>V</mi>
-              <mn>1</mn>
-            </msub>
-            <msub>
-              <mi>T</mi>
-              <mn>1</mn>
-            </msub>
-          </mfrac>
-          <mspace width="1mm"></mspace>
-          <mo>=</mo>
-          <mspace width="1mm"></mspace>
-          <mfrac>
-            <msub>
-              <mi>V</mi>
-              <mn>2</mn>
-            </msub>
-            <msub>
-              <mi>T</mi>
-              <mn>2</mn>
-            </msub>
-          </mfrac>
-        </mrow>
-      </math>
+      <p className="text-center">{"$$\\frac{V_1}{T_1} \\; = \\; \\frac{V_2}{T_2}$$"}</p>
     </>
   );
 }
@@ -368,65 +92,14 @@ export function IdealInfo() {
         describing ideal gases, as such the other laws can be derived from the
         ideal gas equation:
       </p>
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mi>P</mi>
-          <mi>V</mi>
-          <mspace width="3mm"></mspace>
-          <mi>=</mi>
-          <mspace width="3mm"></mspace>
-          <mi>n</mi>
-          <mi>R</mi>
-          <mi>T</mi>
-        </mrow>
-      </math>
-
-      <p className="text-center mt-3">
-        where
-        <math
-          display="inline"
-          className="tml-display"
-          style={{ display: "inline math" }}
-        >
-          <mspace width="2mm"></mspace>
-          <mi>R</mi>
-          <mspace width="2mm"></mspace>
-        </math>
-        is the ideal gas constant.
-      </p>
+      <p className="text-center">{"$$PV \\; = \\; nRT$$"}</p>
+      <p className="text-center mt-3">where {"\\(R\\)"} is the ideal gas constant.</p>
       <p className="mt-2">Rearranging, we have:</p>
-      <math
-        display="block"
-        className="tml-display"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mfrac>
-            <mrow>
-              <mi>P</mi>
-              <mi>V</mi>
-            </mrow>
-            <mrow>
-              <mi>n</mi>
-              <mi>R</mi>
-              <mi>T</mi>
-            </mrow>
-          </mfrac>
-          <mspace width="1mm"></mspace>
-          <mo>=</mo>
-          <mspace width="1mm"></mspace>
-          <mn>1</mn>
-        </mrow>
-      </math>
+      <p className="text-center">{"$$\\frac{PV}{nRT} \\; = \\; 1$$"}</p>
       <p className="text-start mb-0 mt-2">
-        The quotient on the lefthandside is known as the{" "}
-        <em>compression factor</em>, and can be used as an estimate of how ideal
-        a gas is. The closer this compression factor is to 1, the more ideally
-        the gas will behave.
+        The quotient on the lefthand side is known as the <em>compression factor</em>,
+        and can be used as an estimate of how ideal a gas is. The closer this compression
+        factor is to 1, the more ideally the gas will behave.
       </p>
     </>
   );
@@ -438,64 +111,12 @@ export function CombinedInfo() {
       <p className="text-start mb-1">
         As the name suggests, the combined gas law takes the basic laws
         describing ideal gases and constructions a single equation relating all
-        properties thus discussed. The ideal gas constant,
-        <math
-          display="inline"
-          className="tml-display"
-          style={{ display: "inline math" }}
-        >
-          <mspace width="2mm"></mspace>
-          <mi>R</mi>
-        </math>
-        , and the number of moles are ommitted as they are generally held
+        properties thus discussed. The ideal gas constant, {"\\(R\\)"}, and the
+        number of moles are ommitted as they are generally held
         constant thereby leading to cancelation.
       </p>
-
       <p className="mt-0">Expressed symbolically,</p>
-
-      <math
-        display="block"
-        className="tml-display m-auto"
-        style={{ display: "block math" }}
-      >
-        <mrow>
-          <mfrac>
-            <mrow>
-              <msub>
-                <mi>P</mi>
-                <mn>1</mn>
-              </msub>
-              <msub>
-                <mi>V</mi>
-                <mn>1</mn>
-              </msub>
-            </mrow>
-            <msub>
-              <mi>T</mi>
-              <mn>1</mn>
-            </msub>
-          </mfrac>
-          <mspace width="1mm"></mspace>
-          <mo>=</mo>
-          <mspace width="1mm"></mspace>
-          <mfrac>
-            <mrow>
-              <msub>
-                <mi>P</mi>
-                <mn>2</mn>
-              </msub>
-              <msub>
-                <mi>V</mi>
-                <mn>2</mn>
-              </msub>
-            </mrow>
-            <msub>
-              <mi>T</mi>
-              <mn>2</mn>
-            </msub>
-          </mfrac>
-        </mrow>
-      </math>
+      <p className="text-center">{"$$\\frac{P_1V_1}{T_1} \\; = \\; \\frac{P_2V_2}{T_2} $$"}</p>
     </>
   );
 }
