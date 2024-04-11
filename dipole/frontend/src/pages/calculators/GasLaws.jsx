@@ -16,8 +16,6 @@ import {
   IdealInfo,
 } from "../../components/CalcInfo";
 
-import TestForm from "../../components/CalcForms";
-
 import { all } from '@awesome.me/kit-a655910996/icons'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -52,35 +50,50 @@ function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
   );
 }
 
-// [x] TOASK async???
-// natülich
+// MATT - useEffect with no dependencies?
 const CalcCard = () => {
+  function handleClick(event) {
+    const fetchFrame = async (key) => {
+      console.log(key)
+      console.log(`/api/calculators/${key}`);
+
+      const response = await fetch(`/api/calculators/${key}`);
+      const rJson = await response.json();
+      console.log(rJson);
+    }
+    console.log(event);
+    window.MathJax.typesetClear();
+    event !== "genInfo" && fetchFrame(event);
+    window.MathJax.typeset();
+  }
+
   return (
     <div className="landing-container mt-3">
       <div className="landing mt-0">
         <Card className="mt-5 m-auto gl-calc" id="ref-default">
           <Tabs
-            defaultActiveKey="genInfo"
+            onSelect={(e) => handleClick(e)}
+            defaultActiveKey="info"
             id="uncontrolled-tab-example"
             className="mb-3 mt-1 calc-tabs"
           >
-            <Tab eventKey="genInfo" className="calc-tab" title="Info">
+            <Tab eventKey="info" className="calc-tab" title="Info">
               {test(GenInfo1, GenInfo2, "Gas Laws", "Ideal Gases")}
             </Tab>
-            <Tab eventKey="avo" title="Avogadro's Law">
-              {test(AvoInfo, TestForm)}
+            <Tab eventKey="avgdr" className="calc-tab" title="Avogadro's Law">
+              {test(AvoInfo, AvoInfo)}
             </Tab>
-            <Tab eventKey="amonton" className="calc-tab" title="Amonton's Law">
+            <Tab eventKey="amntn" className="calc-tab" title="Amonton's Law">
               {test(AmontonInfo, AmontonInfo)}
             </Tab>
-            <Tab eventKey="boyles" className="calc-tab" title="Boyle's Law">
+            <Tab eventKey="boyle" className="calc-tab" title="Boyle's Law">
               {test(BoyleInfo, BoyleInfo)}
             </Tab>
-            <Tab eventKey="charles" className="calc-tab" title="Charles' Law">
+            <Tab eventKey="chrls" className="calc-tab" title="Charles' Law">
               {test(CharlesInfo, CharlesInfo)}
             </Tab>
             <Tab
-              eventKey="combined"
+              eventKey="cmbnd"
               className="calc-tab"
               title="Combined Gas Law"
             >
