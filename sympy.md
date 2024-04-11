@@ -1,4 +1,5 @@
 # Building The Django Calculator Models with SymPy
+@mfwolffe for DigitalDipole
 
 #### TODO:
 * finish example with interpolation of numeric values into solution expression
@@ -152,5 +153,3 @@ Whenever generating MathML using any of the following methods, make sure to pass
 * `mathml(exp)`
 * `print_mathml(exp)`
 
-
-Matt Wolffe
