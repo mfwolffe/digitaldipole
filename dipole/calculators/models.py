@@ -8,7 +8,7 @@ from sympy.parsing.latex import parse_latex
 from sympy.printing.mathml import print_mathml, mathml
 
 # [x] TODO convert equation string to MathML
-#          >> not doing this anymore. MathJax 
+#          >> not doing this anymore. MathJax
 #             is more robust than I realized
 #
 # [x] TODO use MathJAX (ie, install and config)
@@ -45,36 +45,69 @@ class Equation(models.Model):
     #            objects symbols(...) is used. I am going to try it out
     #            with destructuring a new list with the return of 
     #            symbols(...)
-    # SEEME:     >> It's working actually. Though it's a bit unwieldy, to
+    # SEEME      >> It's working actually. Though it's a bit unwieldy, to
     #               to say the least
     #
+    # TOCONSIDER regarding the payload structure - I assume it is
+    #            impossible or highly inconvenient to associate the
+    #            Symbol variables with the similarly named properties
+    #            in the payload mapping of variables to numeric values
+    #
+    # TOCONSIDER wrt to above 'toconsider': in POST, just assign the user
+    #            values to the variable fields; maybe establish a shared
+    #            ID
+
     def symbol_reducer(self, symbol_list):
         return reduce(lambda x, y: x + ' ' + y, symbol_list)
 
-    def symbol_strgen(self):
-        sym_list   = []
-        field_list = self.variables.exclude(value=None)
+    def symbol_strgen(self, exclude=False):
+        field_list = self.variables.exclude(value=None) if exclude else self.variables.all()
 
-        for field in field_list:
-            sym_list.append(field.symbol)
-        
+        sym_list = [var.symbol for var in field_list]
         return self.symbol_reducer(sym_list)
     
-    def prep_latex(self):
-        symcount     = self.variables.count()
-        unknown_var  = self.variables.filter(value=None)
-
-        sym_u   = unknown_var[0].symbol
+    def build_sym_list(self):
         sym_str = self.symbol_strgen()
 
-        symPy_sym_u = Symbol(sym_u)
         symPy_sym_k = symbols(sym_str)
+        return symPy_sym_k
+        
+    def fetch_unknown(self):
+        return Symbol(self.variables.filter(value=None)[0].symbol)
+    
+    def build_sym_mapping(self, exclude=False):
+        f_mapping = {Symbol(field.symbol): field.symbol_u for field in (self.variables.exclude(value=None) if exclude else self.variables.all())}
+        return f_mapping
+    
+    def build_num_mapping(self):
+        return {Symbol(field.symbol): field.value for field in (self.variables.exclude(value=None))}
 
+    def sym_solve(self):
+        symPy_sym_u = self.fetch_unknown()
+
+        # SEEME reminder that ordering is initially 
+        #       nondeterministic as long as commutativity
+        #       is not violated
         expr = rf"{self.LaTeX_repr}"
         expl = parse_latex(expr)
 
         exps = solve(expl, symPy_sym_u, dict=True)
-        return f"{exps}"
+        return exps[0][symPy_sym_u]
+    
+    def numeric_solve(self):
+        exps    = self.sym_solve()
+        val_map = self.build_num_mapping()
+
+        nsoln = exps.evalf(subs=val_map)
+        return nsoln
+        
+    def build_relatex(self):
+        exps        = self.sym_solve()
+        unknown     = self.fetch_unknown()
+        sym_mapping = self.build_sym_mapping()
+        
+        relatex = latex(exps[0][unknown], symbol_names=sym_mapping, mul_symbol='dot')
+        return f"{relatex}"
     
     class Meta:
         verbose_name        = "Equation"

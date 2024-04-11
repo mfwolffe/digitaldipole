@@ -11,24 +11,22 @@ api = NinjaAPI()
 # TODO  Finish request eq member methods &
 #       the requests here proper
 
-class EqOut(Schema):
-    name: str
-    latex: str
-
 @api.get("/yellow")
 def hello(request):
     return "Yellow world"
 
-@api.get("/eq")
-def eq(request):
-    eq = get_object_or_404(Equation)
-    return eq.LaTeX_repr
-
 @api.get("/strr")
 def strr(request):
     theq = get_object_or_404(Equation, name="str test")
-    # rstr = theq.symbol_strgen() this works
-    # return rstr
 
-    exps = theq.prep_latex()
-    return exps
+    nsoln = theq.numeric_solve()
+    return f"{nsoln}"
+
+# SEEME this one is approaching actual functionality
+# TOCONSIDER use schemas?
+@api.get("/calculators/{eq_name}")
+def calculator(request, eq_name):
+    theq = get_object_or_404(Equation, name=eq_name)
+
+    soln = theq.sym_solve()
+    return f"{soln}"
