@@ -66,8 +66,8 @@ class Equation(models.Model):
         sym_list = [var.symbol for var in field_list]
         return self.symbol_reducer(sym_list)
     
-    def build_sym_list(self):
-        sym_str = self.symbol_strgen()
+    def build_sym_list(self, exclude=False):
+        sym_str = self.symbol_strgen(exclude)
 
         symPy_sym_k = symbols(sym_str)
         return symPy_sym_k
@@ -82,17 +82,19 @@ class Equation(models.Model):
     def build_num_mapping(self):
         return {Symbol(field.symbol): field.value for field in (self.variables.exclude(value=None))}
 
+    def parse_orig(self):
+        return parse_latex(rf"{self.LaTeX_repr}")
+
     def sym_solve(self):
         symPy_sym_u = self.fetch_unknown()
 
-        # SEEME reminder that ordering is initially 
+        # SEEME reminder that ordering is initially
         #       nondeterministic as long as commutativity
         #       is not violated
-        expr = rf"{self.LaTeX_repr}"
-        expl = parse_latex(expr)
+        expl = self.parse_orig()
 
         exps = solve(expl, symPy_sym_u, dict=True)
-        return exps[0][symPy_sym_u]
+        return exps
     
     def numeric_solve(self):
         exps    = self.sym_solve()
@@ -101,14 +103,14 @@ class Equation(models.Model):
         nsoln = exps.evalf(subs=val_map)
         return nsoln
         
-    def build_relatex(self):
-        exps        = self.sym_solve()
+    def build_relatex(self, original=True):
+        exps        = self.parse_orig() if original else self.sym_solve()
         unknown     = self.fetch_unknown()
         sym_mapping = self.build_sym_mapping()
-        
-        relatex = latex(exps[0][unknown], symbol_names=sym_mapping, mul_symbol='dot')
-        return f"{relatex}"
-    
+
+        relatex = latex(exps if original else exps[0][unknown], symbol_names=sym_mapping, mul_symbol='dot') 
+        return relatex
+
     class Meta:
         verbose_name        = "Equation"
         verbose_name_plural = "Equations"

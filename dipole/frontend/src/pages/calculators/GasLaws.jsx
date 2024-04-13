@@ -6,7 +6,10 @@ import Card from "react-bootstrap/Card";
 import Tabs from "react-bootstrap/Tabs";
 import Accordion from "react-bootstrap/Accordion";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import { GenInfo1, GenInfo2 } from "../../components/CalcInfo";
+
+// SEEME MathJax on Async Typesetting:
+// https://docs.mathjax.org/en/latest/web/typeset.html#handling-asynchronous-typesetting
+
 import {
   AvoInfo,
   AmontonInfo,
@@ -15,6 +18,8 @@ import {
   CombinedInfo,
   IdealInfo,
 } from "../../components/CalcInfo";
+import GLFrame from "../../components/CalcFrames";
+import { GenInfo1, GenInfo2 } from "../../components/CalcInfo";
 
 import { all } from '@awesome.me/kit-a655910996/icons'
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -33,16 +38,19 @@ function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
       <Accordion defaultActiveKey="0" className="ml-auto mr-auto mb-3 calc-acc">
         <Accordion.Item eventKey="0">
           <Accordion.Header>
-            <FontAwesomeIcon icon="fa-duotone fa-circle-info" size="lg" style={{"--fa-secondary-color": "#51D4FF", "--fa-primary-color": "#533856",}} className="pr-2" />{act1}
+            <FontAwesomeIcon icon="fa-duotone fa-circle-info" size="lg" style={{"--fa-secondary-color": "#51D4FF", "--fa-primary-color": "#533856",}} className="pr-2" />
+            {act1}
           </Accordion.Header>
           <Accordion.Body>
             <Ac1 />
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey="1">
-          <Accordion.Header>{act2}</Accordion.Header>
+          <Accordion.Header>
+            {act2}
+          </Accordion.Header>
           <Accordion.Body>
-            <Ac2 />
+            { act1 !== "Info" ? <Ac2 /> : Ac2 }
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
@@ -50,21 +58,39 @@ function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
   );
 }
 
-// MATT - useEffect with no dependencies?
+// TODO resolve the cruft (eg look at the ternary above this lol)
+//      not sure if overcomplicating useState/Effect
 const CalcCard = () => {
-  function handleClick(event) {
-    const fetchFrame = async (key) => {
-      console.log(key)
-      console.log(`/api/calculators/${key}`);
+  const [frame, setFrame]         = useState('info');
+  const [rspns_json, setRspns]    = useState(null);
+  const [CalcFrame, setCalcFrame] = useState(() => GLFrame(null) );
+  
+  // SEEME when switching tabs, fetch the default state with '.../true'
+  // TODO persistence when returning to tab?
+  useEffect(() => {
+    if (frame === "info")
+      return;
 
-      const response = await fetch(`/api/calculators/${key}`);
-      const rJson = await response.json();
-      console.log(rJson);
+    let ignore = false;
+
+    setRspns(null);
+    fetch(`/api/calculators/${frame}/true`)
+      .then(response => response.json())
+      .then(data => {setRspns(data);})
+      .catch(e => console.log(e));
+
+    return () => {
+      ignore = true;
     }
-    console.log(event);
-    window.MathJax.typesetClear();
-    event !== "genInfo" && fetchFrame(event);
-    window.MathJax.typeset();
+  }, [frame])
+
+  useEffect(() => {    
+    setCalcFrame(GLFrame(rspns_json));
+  }, [rspns_json])
+
+  function handleClick(event) {
+    console.log("event", event)
+    setFrame(event);
   }
 
   return (
@@ -81,7 +107,7 @@ const CalcCard = () => {
               {test(GenInfo1, GenInfo2, "Gas Laws", "Ideal Gases")}
             </Tab>
             <Tab eventKey="avgdr" className="calc-tab" title="Avogadro's Law">
-              {test(AvoInfo, AvoInfo)}
+              {test(AvoInfo, CalcFrame)}
             </Tab>
             <Tab eventKey="amntn" className="calc-tab" title="Amonton's Law">
               {test(AmontonInfo, AmontonInfo)}

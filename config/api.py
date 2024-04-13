@@ -1,3 +1,4 @@
+import json
 from dipole.users import models
 from dipole.calculators.models import Equation
 from ninja import NinjaAPI, Schema
@@ -24,9 +25,31 @@ def strr(request):
 
 # SEEME this one is approaching actual functionality
 # TOCONSIDER use schemas?
-@api.get("/calculators/{eq_name}")
-def calculator(request, eq_name):
+@api.get("/calculators/{eq_name}/{orig}")
+def calculator(request, eq_name, orig):
     theq = get_object_or_404(Equation, name=eq_name)
 
-    soln = theq.sym_solve()
-    return f"{soln}"
+    resp_json = {
+      "orig":           rf"{theq.parse_orig()}",
+      "unknown":        rf"{theq.fetch_unknown()}",
+      "relatex":        rf"{theq.build_relatex(orig.lower() == 'true')}",
+      "value_mapping":  rf"{theq.build_num_mapping()}",
+      "symbol_mapping": {
+          "known":      rf"{theq.build_sym_mapping(True)}",
+          "w_unknown":  rf"{theq.build_sym_mapping(False)}",
+      },
+      "symbol_lists": {
+          "known":      rf"{theq.build_sym_list(True)}",
+          "w_unknown":  rf"{theq.build_sym_list(False)}",
+      },
+      "symbol_strings": {
+          "known":      rf"{theq.symbol_strgen(True)}",
+          "w_unknown":  rf"{theq.symbol_strgen(False)}",
+      },
+      # "numeric_solution":  theq.numeric_solve(),
+      "symbolic_solution": rf"{theq.sym_solve()}",
+    }
+
+    resp_json = json.dumps(resp_json)
+    resp_json = json.loads(resp_json)
+    return resp_json
