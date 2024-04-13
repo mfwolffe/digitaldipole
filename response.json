@@ -1,0 +1,18 @@
+{
+  "unknown": "p",
+  "relatex": "\\mathtt{\\text{P \\textbackslashcdot T = p \\textbackslashcdot t}}",
+  "value_mapping": "{T: 4.0, P: 4.0, t: 12.0}",
+  "symbol_mapping": {
+    "known": "{T: 'T_1', P: 'P_1', t: 'T_2'}",
+    "w_unknown": "{T: 'T_1', p: 'P_2', P: 'P_1', t: 'T_2'}"
+  },
+  "symbol_lists": {
+    "known": "(T, P, t)",
+    "w_unknown": "(T, p, P, t)"
+  },
+  "symbol_strings": {
+    "known": "T P t",
+    "w_unknown": "T p P t"
+  },
+  "symbolic_solution": "[{p: P*T/t}]"
+}
