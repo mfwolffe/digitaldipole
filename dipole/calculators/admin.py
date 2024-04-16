@@ -7,7 +7,7 @@ class CalculatorAdmin(admin.ModelAdmin):
 
 @admin.register(Variable)
 class VariableAdmin(admin.ModelAdmin):
-    list_display = ('name', 'unit', 'symbol_u')
+    list_display = ('name', 'unit', 'symbol_u', 'html_symbol')
 
 # TODO may need to reconsider model for variables
 #      just foreign key?

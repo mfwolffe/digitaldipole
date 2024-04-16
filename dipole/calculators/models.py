@@ -19,11 +19,15 @@ from sympy.printing.mathml import print_mathml, mathml
 
 
 class Variable(models.Model):
-    name     = models.CharField(max_length=64, help_text="The variable's name")
-    unit     = models.CharField(max_length=16, help_text="The variable's unit")
-    value    = models.FloatField(null=True, blank=True, default=None, help_text="value")
-    symbol   = models.CharField(max_length=16, help_text="The variable's symbol (internal)")
-    symbol_u = models.CharField(max_length=32, help_text="The variable's symbol (user view)", null=True)
+    name        = models.CharField(max_length=64, help_text="The variable's name")
+    unit        = models.CharField(max_length=16, help_text="The variable's unit")
+    value       = models.FloatField(null=True, blank=True, default=None, help_text="value")
+    symbol      = models.CharField(max_length=16, help_text="The variable's symbol (internal)")
+    symbol_u    = models.CharField(max_length=32, help_text="The variable's symbol (user view)", null=True)
+    html_symbol = models.CharField(max_length=64, help_text="The html symbol corresponding to this variable", default="")
+
+    def __str__(self):
+        return rf"[{self.name}] {self.symbol} : {self.symbol_u}"
 
     class Meta:
         verbose_name        = "Variable"
@@ -36,9 +40,10 @@ class Variable(models.Model):
 #       expression w/ sympy, then reconstruct
 #       into user readable LaTeX representation
 class Equation(models.Model):
-    name       = models.CharField(default="test", max_length=72, help_text="Calculator name")
-    variables  = models.ManyToManyField(Variable, help_text="A known variable in this equation")
-    LaTeX_repr = models.TextField(help_text="LaTeX representation of this equation; No variables", default="")
+    name        = models.CharField(default="test", max_length=72, help_text="Calculator name")
+    variables   = models.ManyToManyField(Variable, help_text="A known variable in this equation")
+    LaTeX_repr  = models.TextField(help_text="LaTeX representation of this equation; No variables", default="")
+    simple_repr = models.TextField(help_text="SymPy representation of this equation with simple variables", default="")
   
     # TOCONSIDER I don't think the space delimited string approach 
     #            will be simple if in order to generate sympy Symbol
@@ -56,12 +61,16 @@ class Equation(models.Model):
     # TOCONSIDER wrt to above 'toconsider': in POST, just assign the user
     #            values to the variable fields; maybe establish a shared
     #            ID
-
+    # TODO       not all of these functions are required anymore, so cut
+    #            what is not needed
+    # TODO       on top of cutting unnecessary stuff, restructure so that 
+    #            there aren't so many repetitive calls for the same api request
     def symbol_reducer(self, symbol_list):
         return reduce(lambda x, y: x + ' ' + y, symbol_list)
 
     def symbol_strgen(self, exclude=False):
-        field_list = self.variables.exclude(value=None) if exclude else self.variables.all()
+        field_list = self.variables.all()
+        # field_list = self.variables.exclude(value=None) if exclude else self.variables.all()
 
         sym_list = [var.symbol for var in field_list]
         return self.symbol_reducer(sym_list)
@@ -72,11 +81,13 @@ class Equation(models.Model):
         symPy_sym_k = symbols(sym_str)
         return symPy_sym_k
         
-    def fetch_unknown(self):
-        return Symbol(self.variables.filter(value=None)[0].symbol)
-    
     def build_sym_mapping(self, exclude=False):
-        f_mapping = {Symbol(field.symbol): field.symbol_u for field in (self.variables.exclude(value=None) if exclude else self.variables.all())}
+        # f_mapping = {f"{Symbol(field.symbol)}": field.symbol_u for field in (self.variables.exclude(value=None) if exclude else self.variables.all())}
+        f_mapping = {rf"{Symbol(field.symbol)}": rf"{field.symbol_u}" for field in self.variables.all()}
+        return f_mapping
+    
+    def build_html_mapping(self):
+        f_mapping = {f"{Symbol(field.symbol)}": field.html_symbol for field in self.variables.all()}
         return f_mapping
     
     def build_num_mapping(self):
@@ -84,16 +95,21 @@ class Equation(models.Model):
 
     def parse_orig(self):
         return parse_latex(rf"{self.LaTeX_repr}")
-
-    def sym_solve(self):
-        symPy_sym_u = self.fetch_unknown()
-
+    
+    def parse_simple(self):
+        return parse_latex(rf"{self.simple_repr}")
+    
+    def fetch_unknown(self, var):
+        return Symbol(self.variables.get(symbol=f"{var}").symbol)
+    
+    def sym_solve(self, var):
         # SEEME reminder that ordering is initially
         #       nondeterministic as long as commutativity
         #       is not violated
-        expl = self.parse_orig()
+        expl = self.parse_simple()
+        unknown = self.fetch_unknown(var)
+        exps = solve(expl, unknown, dict=True)
 
-        exps = solve(expl, symPy_sym_u, dict=True)
         return exps
     
     def numeric_solve(self):
@@ -103,12 +119,14 @@ class Equation(models.Model):
         nsoln = exps.evalf(subs=val_map)
         return nsoln
         
-    def build_relatex(self, original=True):
-        exps        = self.parse_orig() if original else self.sym_solve()
-        unknown     = self.fetch_unknown()
+    def build_relatex(self, var, original=True):
+        exps        = self.parse_orig() if original else self.sym_solve(var)
+        unknown     = self.fetch_unknown(var)
         sym_mapping = self.build_sym_mapping()
+        fns_mapping = {Symbol(field.symbol): field.symbol_u for field in self.variables.all()}
 
-        relatex = latex(exps if original else exps[0][unknown], symbol_names=sym_mapping, mul_symbol='dot') 
+        RHS = latex(exps if original else exps[0][unknown], symbol_names=fns_mapping, mul_symbol='dot')
+        relatex = rf"{fns_mapping[unknown]} = " + rf"{RHS}"
         return relatex
 
     class Meta:

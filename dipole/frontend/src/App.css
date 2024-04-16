@@ -15,8 +15,15 @@
   box-shadow: 0 0 2rem 2rem #45008440 !important;
 } */
 
+.unknown-dd {
+  width: 12rem !important;
+}
+
 .gl-calc {
   width: 62rem !important;
+}
+.calcframe {
+  background-color: transparent !important;
 }
 
 .calc-tabs button.active {
