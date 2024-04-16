@@ -2,9 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 import Tab from "react-bootstrap/Tab";
+import Form from 'react-bootstrap/Form';
 import Card from "react-bootstrap/Card";
 import Tabs from "react-bootstrap/Tabs";
 import Accordion from "react-bootstrap/Accordion";
+import CardBody from "react-bootstrap/esm/CardBody";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 // SEEME MathJax on Async Typesetting:
@@ -18,7 +20,6 @@ import {
   CombinedInfo,
   IdealInfo,
 } from "../../components/CalcInfo";
-import GLFrame from "../../components/CalcFrames";
 import { GenInfo1, GenInfo2 } from "../../components/CalcInfo";
 
 import { all } from '@awesome.me/kit-a655910996/icons'
@@ -29,6 +30,7 @@ import "../../App.css";
 import "../../styles/refs.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../styles/bootstrap.min-dipole.css";
+import FormSelect from "react-bootstrap/esm/FormSelect";
 
 library.add(...all)
 
@@ -58,12 +60,73 @@ function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
   );
 }
 
-// TODO resolve the cruft (eg look at the ternary above this lol)
-//      not sure if overcomplicating useState/Effect
+const DropOpts = (response_json) => {
+  let symList = response_json['html_mapping'];
+  symList = JSON.parse(symList);
+  const symDrop = [];
+
+  // [x] TODO need to map keys to html symbols / unicode
+  Object.keys(symList).forEach((k => {
+    symDrop.push(<option key={k} value={k} dangerouslySetInnerHTML={{ __html: symList[k] }}></option>)
+  }));
+
+  return response_json == null ? (<></>) : (
+    <>
+      { symDrop }
+    </>
+  )
+}
+
+// TODO resolve the cruft
 const CalcCard = () => {
+  const GLFrame = (eq, sym_solve=false, num_solve=false) => {
+    return (
+      <>
+        <div className="d-flex flex-row justify-content-around align-items-center">
+          <Card className="bg-transparent brdr-none">
+            <CardBody className="bg-transparent brdr-none">
+              <p>
+              { eq ? `$$ ${eq['user_solution_relatex'] ?? eq['orig']} $$` ?? "Loading..." : "Loading..." }
+              </p>
+            </CardBody>
+          </Card>
+          <Card className="bg-transparent brdr-none">
+            <CardBody className="bg-transparent brdr-none">
+              <Form>
+                <FormSelect aria-label="unknown" className="unknown-dd" onChange={(e) => setOpt(e.target.value)}>
+                  <option value='' default>Select an unknown</option>
+                  { eq !== null ? DropOpts(eq) : "Loading..." }
+                </FormSelect>
+              </Form>
+            </CardBody>
+          </Card>
+        </div>
+      </>
+    )
+  }
+
+  const [opt, setOpt]             = useState('')
   const [frame, setFrame]         = useState('info');
   const [rspns_json, setRspns]    = useState(null);
   const [CalcFrame, setCalcFrame] = useState(() => GLFrame(null) );
+
+  // TODO make POST request for symbolic solve
+  useEffect(() => {
+
+    if (opt === '')
+      return;
+
+    let ignore = false;
+    setRspns(null);
+    fetch(`/api/calculators/${frame}/${opt}`)
+      .then(response => response.json())
+      .then(data => {setRspns(data);})
+      .catch(e => console.log(e));
+    return () => {
+      ignore = true;
+    }
+  }, [opt])
+
   
   // SEEME when switching tabs, fetch the default state with '.../true'
   // TODO persistence when returning to tab?
@@ -74,17 +137,16 @@ const CalcCard = () => {
     let ignore = false;
 
     setRspns(null);
-    fetch(`/api/calculators/${frame}/true`)
+    fetch(`/api/calculators/${frame}/ini`)
       .then(response => response.json())
       .then(data => {setRspns(data);})
       .catch(e => console.log(e));
-
     return () => {
       ignore = true;
     }
   }, [frame])
 
-  useEffect(() => {    
+  useEffect(() => {
     setCalcFrame(GLFrame(rspns_json));
   }, [rspns_json])
 
@@ -93,7 +155,15 @@ const CalcCard = () => {
     setFrame(event);
   }
 
+  useEffect(() => {
+    if(typeof window?.MathJax !== "undefined"){
+      window.MathJax.typesetClear()
+      window.MathJax.typeset()
+    }
+  }, [CalcFrame])
+
   return (
+    <>
     <div className="landing-container mt-3">
       <div className="landing mt-0">
         <Card className="mt-5 m-auto gl-calc" id="ref-default">
@@ -132,6 +202,7 @@ const CalcCard = () => {
         </Card>
       </div>
     </div>
+    </>
   );
 };
 
