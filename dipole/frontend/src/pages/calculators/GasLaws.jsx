@@ -180,23 +180,23 @@ const CalcCard = () => {
               {test(AvoInfo, CalcFrame)}
             </Tab>
             <Tab eventKey="amntn" className="calc-tab" title="Amonton's Law">
-              {test(AmontonInfo, AmontonInfo)}
+              {test(AmontonInfo, CalcFrame)}
             </Tab>
             <Tab eventKey="boyle" className="calc-tab" title="Boyle's Law">
-              {test(BoyleInfo, BoyleInfo)}
+              {test(BoyleInfo, CalcFrame)}
             </Tab>
             <Tab eventKey="chrls" className="calc-tab" title="Charles' Law">
-              {test(CharlesInfo, CharlesInfo)}
+              {test(CharlesInfo, CalcFrame)}
             </Tab>
             <Tab
               eventKey="cmbnd"
               className="calc-tab"
               title="Combined Gas Law"
             >
-              {test(CombinedInfo, CombinedInfo)}
+              {test(CombinedInfo, CalcFrame)}
             </Tab>
             <Tab eventKey="ideal" className="calc-tab" title="Ideal Gas Law">
-              {test(IdealInfo, IdealInfo)}
+              {test(IdealInfo, CalcFrame)}
             </Tab>
           </Tabs>
         </Card>
