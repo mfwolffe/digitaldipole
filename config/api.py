@@ -11,26 +11,15 @@ api = NinjaAPI()
 #       SymPy CAS is working as "intended"
 # TODO  Finish request eq member methods &
 #       the requests here proper
-
-@api.get("/yellow")
-def hello(request):
-    return "Yellow world"
-
-@api.get("/strr")
-def strr(request):
-    theq = get_object_or_404(Equation, name="str test")
-
-    nsoln = theq.numeric_solve()
-    return f"{nsoln}"
-
 # SEEME this one is approaching actual functionality
+#
 # TOCONSIDER use schemas?
 @api.get("/calculators/{eq_name}/{orig}")
 def calculator(request, eq_name, orig):
     theq = get_object_or_404(Equation, name=eq_name)
 
     resp_json = {
-      "orig":           rf"{theq.parse_orig()}",
+      "orig":           rf"{theq.LaTeX_repr}",
       "unknown":        rf"{theq.fetch_unknown()}",
       "relatex":        rf"{theq.build_relatex(orig.lower() == 'true')}",
       "value_mapping":  rf"{theq.build_num_mapping()}",

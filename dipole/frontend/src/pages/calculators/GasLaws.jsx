@@ -5,6 +5,7 @@ import Tab from "react-bootstrap/Tab";
 import Card from "react-bootstrap/Card";
 import Tabs from "react-bootstrap/Tabs";
 import Accordion from "react-bootstrap/Accordion";
+import CardBody from "react-bootstrap/esm/CardBody";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 // SEEME MathJax on Async Typesetting:
@@ -18,7 +19,6 @@ import {
   CombinedInfo,
   IdealInfo,
 } from "../../components/CalcInfo";
-import GLFrame from "../../components/CalcFrames";
 import { GenInfo1, GenInfo2 } from "../../components/CalcInfo";
 
 import { all } from '@awesome.me/kit-a655910996/icons'
@@ -58,6 +58,27 @@ function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
   );
 }
 
+const GLFrame = (response_json) => {
+  return (
+    <>
+      <div className="d-flex flex-row justify-content-around align-items-center">
+        <Card className="bg-transparent">
+          <CardBody>
+            <p>
+            { response_json ? `$$ ${response_json['orig']} $$` ?? "Loading..." : "Loading..." }
+            </p>
+          </CardBody>
+        </Card>
+        <Card className="bg-transparent">
+          <CardBody>
+            this is a card. inputs go here
+          </CardBody>
+        </Card>
+      </div>
+    </>
+  )
+}
+
 // TODO resolve the cruft (eg look at the ternary above this lol)
 //      not sure if overcomplicating useState/Effect
 const CalcCard = () => {
@@ -78,13 +99,12 @@ const CalcCard = () => {
       .then(response => response.json())
       .then(data => {setRspns(data);})
       .catch(e => console.log(e));
-
     return () => {
       ignore = true;
     }
   }, [frame])
 
-  useEffect(() => {    
+  useEffect(() => {
     setCalcFrame(GLFrame(rspns_json));
   }, [rspns_json])
 
@@ -93,7 +113,15 @@ const CalcCard = () => {
     setFrame(event);
   }
 
+  useEffect(() => {
+    if(typeof window?.MathJax !== "undefined"){
+      window.MathJax.typesetClear()
+      window.MathJax.typeset()
+    }
+  }, [CalcFrame])
+
   return (
+    <>
     <div className="landing-container mt-3">
       <div className="landing mt-0">
         <Card className="mt-5 m-auto gl-calc" id="ref-default">
@@ -132,6 +160,7 @@ const CalcCard = () => {
         </Card>
       </div>
     </div>
+    </>
   );
 };
 
