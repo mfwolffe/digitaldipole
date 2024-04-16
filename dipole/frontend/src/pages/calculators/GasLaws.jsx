@@ -34,6 +34,8 @@ import FormSelect from "react-bootstrap/esm/FormSelect";
 
 library.add(...all)
 
+const Spinner = <FontAwesomeIcon icon="fa-duotone fa-spinner" size="2xl" spinPulse />
+
 function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
   return (
     <>
@@ -86,7 +88,7 @@ const CalcCard = () => {
           <Card className="bg-transparent brdr-none">
             <CardBody className="bg-transparent brdr-none">
               <p>
-              { eq ? `$$ ${eq['user_solution_relatex'] ?? eq['orig']} $$` ?? "Loading..." : "Loading..." }
+              { eq ? `$$ ${eq['user_solution_relatex'] ?? eq['orig']} $$` ?? Spinner : Spinner }
               </p>
             </CardBody>
           </Card>
