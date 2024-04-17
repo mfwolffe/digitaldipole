@@ -39,9 +39,10 @@ def calcunknown(request, eq_name, unknown):
         "symbol_list": rf"{theq.build_sym_list()}",
         "symbol_string": rf"{theq.symbol_strgen()}",
         "unknown_var": rf"{theq.fetch_unknown(unknown)}",
-        "html_mapping": json.dumps(theq.build_html_mapping()),
         "symbol_mapping": json.dumps(theq.build_sym_mapping()),
         "simplified original": rf"{theq.sym_solve(unknown)}",
+        "html_mapping": json.dumps(theq.build_html_mapping()),
+        "nu_html_mapping": json.dumps(theq.build_html_mapping(unknown)),
         "user_solution_relatex": rf"{theq.build_relatex(unknown, False)}"
     }
 

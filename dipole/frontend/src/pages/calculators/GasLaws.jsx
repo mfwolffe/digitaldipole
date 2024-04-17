@@ -7,6 +7,8 @@ import Card from "react-bootstrap/Card";
 import Tabs from "react-bootstrap/Tabs";
 import Accordion from "react-bootstrap/Accordion";
 import CardBody from "react-bootstrap/esm/CardBody";
+import InputGroup from 'react-bootstrap/InputGroup';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 // SEEME MathJax on Async Typesetting:
@@ -34,13 +36,17 @@ import FormSelect from "react-bootstrap/esm/FormSelect";
 
 library.add(...all)
 
+const Spinner = <FontAwesomeIcon icon="fa-duotone fa-spinner" size="2xl" spinPulse />
+const IdealGas = <FontAwesomeIcon icon="fa-duotone fa-wind" size="lg" style={{"--fa-secondary-color": "#51D4FF", "--fa-primary-color": "#533856",}} className="pr-2 hvr-pulse-grow" />
+const RootIco = <FontAwesomeIcon icon="fa-duotone fa-square-root-variable" size="lg" style={{"--fa-secondary-color": "#51D4FF", "--fa-primary-color": "#533856",}} className="pr-2 hvr-bob" />
+
 function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
   return (
     <>
       <Accordion defaultActiveKey="0" className="ml-auto mr-auto mb-3 calc-acc">
         <Accordion.Item eventKey="0">
           <Accordion.Header>
-            <FontAwesomeIcon icon="fa-duotone fa-circle-info" size="lg" style={{"--fa-secondary-color": "#51D4FF", "--fa-primary-color": "#533856",}} className="pr-2" />
+            <FontAwesomeIcon icon="fa-duotone fa-circle-info" size="lg" style={{"--fa-secondary-color": "#51D4FF", "--fa-primary-color": "#533856",}} className="pr-2 hvr-buzz" />
             {act1}
           </Accordion.Header>
           <Accordion.Body>
@@ -49,6 +55,7 @@ function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
         </Accordion.Item>
         <Accordion.Item eventKey="1">
           <Accordion.Header>
+            { act2 != "Calculator" ? IdealGas : RootIco }
             {act2}
           </Accordion.Header>
           <Accordion.Body>
@@ -77,27 +84,71 @@ const DropOpts = (response_json) => {
   )
 }
 
+const FormGroups = (response_json) => {
+  const inputs = []
+  const symMap = JSON.parse(response_json['nu_html_mapping'])
+
+  Object.keys(symMap).forEach(k => {
+    const cmpnt = (
+      <Form.Floating className="mt-2">
+        <Form.Control id={k} type="text" placeholder="" className="calc-float" />
+        <label htmlFor={k} className="calc-float-label" dangerouslySetInnerHTML={{ __html: symMap[k] }}></label>
+      </Form.Floating>
+    )
+    inputs.push(cmpnt);
+  });
+
+  return response_json  == null ? (<></>) : (
+    <>
+      { inputs }
+    </>
+  )
+}
+
 // TODO resolve the cruft
 const CalcCard = () => {
   const GLFrame = (eq, sym_solve=false, num_solve=false) => {
     return (
       <>
         <div className="d-flex flex-row justify-content-around align-items-center">
+          {/* SEEME prob need to adjust height for diff calcs (calc-sub-card class below) */}
+          <Card className="bg-transparent brdr-none calc-sub-card">
+            <CardBody className="bg-transparent brdr-none">
+              <p className="lead text-left mt-0">Instructions</p>
+              <ol>
+                <li>Select your 'unknown'</li>
+                <li>Enter your 'known' values</li>
+                <li>Click 'Solve' to solve!</li>
+              </ol>
+            </CardBody>
+          </Card>
           <Card className="bg-transparent brdr-none">
             <CardBody className="bg-transparent brdr-none">
+
+              <Form>
+                <FormSelect aria-label="unknown" className="unknown-dd mb-5 ml-auto mr-auto" onChange={(e) => setOpt(e.target.value)}>
+                  <option value='' default>Select an unknown</option>
+                  { eq !== null ? DropOpts(eq) : "Loading..." }
+                </FormSelect>
+              </Form>
+
               <p>
-              { eq ? `$$ ${eq['user_solution_relatex'] ?? eq['orig']} $$` ?? "Loading..." : "Loading..." }
+              { eq ? `$$ ${eq['user_solution_relatex'] ?? eq['orig']} $$` ?? Spinner : Spinner }
               </p>
             </CardBody>
           </Card>
           <Card className="bg-transparent brdr-none">
             <CardBody className="bg-transparent brdr-none">
               <Form>
-                <FormSelect aria-label="unknown" className="unknown-dd" onChange={(e) => setOpt(e.target.value)}>
+                {/* <FormSelect aria-label="unknown" className="unknown-dd mb-3" onChange={(e) => setOpt(e.target.value)}>
                   <option value='' default>Select an unknown</option>
                   { eq !== null ? DropOpts(eq) : "Loading..." }
-                </FormSelect>
+                </FormSelect> */}
+                
+                { eq ? eq['user_solution_relatex'] ? FormGroups(eq) : Spinner : Spinner }
+              
               </Form>
+
             </CardBody>
           </Card>
         </div>
