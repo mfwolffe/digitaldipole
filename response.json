@@ -1,9 +1,11 @@
 {
-  "unkn": "v",
   "orig": "\\frac{V_1}{n_1} \\; = \\; \\frac{V_2}{n_2}",
   "symbol_list": "(N, n, V, v)",
   "symbol_string": "N n V v",
-  "html_mapping": "{\"N\": \"n&#8321;\", \"n\": \"n&#8322;\", \"V\": \"V&#8321;\", \"v\": \"V&#8322;\"}",
+  "unknown_var": "V",
   "symbol_mapping": "{\"N\": \"n_1\", \"n\": \"n_2\", \"V\": \"V_1\", \"v\": \"V_2\"}",
-  "symbolic_solve": "\\frac{V_1}{n_1} \\; = \\; \\frac{V_2}{n_2}"
+  "simplified original": "[{V: N*v/n}]",
+  "html_mapping": "{\"N\": \"n&#8321;\", \"n\": \"n&#8322;\", \"V\": \"V&#8321;\", \"v\": \"V&#8322;\"}",
+  "nu_html_mapping": "{\"N\": \"n&#8321;\", \"n\": \"n&#8322;\", \"v\": \"V&#8322;\"}",
+  "user_solution_relatex": "V_1 = \\frac{n_1 \\cdot V_2}{n_2}"
 }

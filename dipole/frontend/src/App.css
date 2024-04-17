@@ -15,6 +15,53 @@
   box-shadow: 0 0 2rem 2rem #45008440 !important;
 } */
 
+.calc-sub-card {
+  min-height: 18rem !important;
+}
+
+.calc-instruct {
+  margin-top: -4rem !important;
+  margin-left: -1rem !important;
+}
+
+.accordion-item {
+  border: none !important;
+}
+
+.accordion-button:not([aria-expanded="true"]) {
+  background-color:  rgba(64, 44, 85, 0.5) !important;
+  
+}
+
+.accordion-button[aria-expanded="true"] {
+  /* border: 1px -webkit-focus-ring-color !important; */
+  box-shadow: 0 0 0.75rem 0.25rem #544bcd73 !important;
+}
+
+.calc-float {
+  border-radius: 8px !important;
+  width: 14rem;
+}
+
+.calc-float-label {
+  color: rgba(250, 250, 250, 0.88) !important;
+}
+
+.calc-float-label::after {
+  background-color: transparent !important;
+}
+
+.calc-float:focus {
+  outline: 4px auto -webkit-focus-ring-color;
+  box-shadow: 0 0 0.25rem 0.25rem #45008440 !important;
+  color:aquamarine !important;
+}
+
+/* .form-floating:focus > .calc-float-label {
+  box-shadow: none !important;
+  text-shadow: none !important;
+} */
+
 .unknown-dd {
   width: 12rem !important;
 }

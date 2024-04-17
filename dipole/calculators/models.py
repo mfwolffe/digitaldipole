@@ -86,8 +86,8 @@ class Equation(models.Model):
         f_mapping = {rf"{Symbol(field.symbol)}": rf"{field.symbol_u}" for field in self.variables.all()}
         return f_mapping
     
-    def build_html_mapping(self):
-        f_mapping = {f"{Symbol(field.symbol)}": field.html_symbol for field in self.variables.all()}
+    def build_html_mapping(self, var=None):
+        f_mapping = {f"{Symbol(field.symbol)}": field.html_symbol for field in (self.variables.exclude(symbol=f"{var}") if var is not None else self.variables.all())}
         return f_mapping
     
     def build_num_mapping(self):
