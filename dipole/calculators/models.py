@@ -112,8 +112,8 @@ class Equation(models.Model):
 
         return exps
     
-    def numeric_solve(self):
-        exps    = self.sym_solve()
+    def numeric_solve(self, var, inputs):
+        exps    = self.sym_solve(var)
         val_map = self.build_num_mapping()
 
         nsoln = exps.evalf(subs=val_map)
