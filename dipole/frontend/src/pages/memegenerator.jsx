@@ -12,9 +12,7 @@ const MemeGen = () => {
         <div className="landing-container">
             <div className="landing mt-2">
                 <div>
-                    <h1 className="anim">AI MEME GEN</h1>
-                    <h2 id="subtitle">I WONDER IF THIS IS WORKING</h2>
-                    <h3 className="anim">wwowowowow</h3>
+                    <h1 className="anim">AI Meme Generator</h1>
                 </div>
             </div>
         </div>
