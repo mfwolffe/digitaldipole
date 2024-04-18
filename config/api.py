@@ -1,10 +1,11 @@
 import json
 from dipole.users import models
-from dipole.calculators.models import Equation
 from ninja import NinjaAPI, Schema
+from dipole.calculators.models import Equation
 from django.shortcuts import get_object_or_404
 
 api = NinjaAPI()
+
 
 # SEEME these API requests are really just to
 #       verify that the cursed process for 
@@ -30,6 +31,18 @@ def calculator(request, eq_name):
     resp_json = json.loads(resp_json)
     return resp_json
 
+
+class VariableSchema(Schema):
+    val:  str
+    name: str
+
+
+class CalcNumericEndpoint(Schema):
+    name:     str
+    unknown:  str
+    listVars: list[VariableSchema]
+
+
 @api.get("/calculators/{eq_name}/{unknown}")
 def calcunknown(request, eq_name, unknown):
     theq = get_object_or_404(Equation, name=eq_name)
@@ -49,3 +62,14 @@ def calcunknown(request, eq_name, unknown):
     resp_json = json.dumps(resp_json)
     resp_json = json.loads(resp_json)
     return resp_json
+
+
+@api.get("/calculators/solve")
+def calcnumeric(request, payload: CalcNumericEndpoint):
+        eq_name = payload.name
+
+
+
+
+        return q
+
