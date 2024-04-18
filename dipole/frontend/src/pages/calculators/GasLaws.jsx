@@ -5,6 +5,7 @@ import Tab from "react-bootstrap/Tab";
 import Form from 'react-bootstrap/Form';
 import Card from "react-bootstrap/Card";
 import Tabs from "react-bootstrap/Tabs";
+import Button from "react-bootstrap/esm/Button";
 import Accordion from "react-bootstrap/Accordion";
 import CardBody from "react-bootstrap/esm/CardBody";
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -77,6 +78,7 @@ const DropOpts = (response_json) => {
     symDrop.push(<option key={k} value={k} dangerouslySetInnerHTML={{ __html: symList[k] }}></option>)
   }));
 
+  // the checks for null are unnecessary
   return response_json == null ? (<></>) : (
     <>
       { symDrop }
@@ -90,17 +92,21 @@ const FormGroups = (response_json) => {
 
   Object.keys(symMap).forEach(k => {
     const cmpnt = (
-      <Form.Floating className="mt-2">
-        <Form.Control id={k} type="text" placeholder="" className="calc-float" />
+      <Form.Floating className="mt-2 float-right">
+        <Form.Control id={k} type="text" placeholder="" name={k} className="calc-float" />
         <label htmlFor={k} className="calc-float-label" dangerouslySetInnerHTML={{ __html: symMap[k] }}></label>
       </Form.Floating>
     )
     inputs.push(cmpnt);
   });
 
+  // the checks for null are unnecessary
   return response_json  == null ? (<></>) : (
     <>
       { inputs }
+      <Button type="submit" className="mt-2 float-right">
+        Solve!
+      </Button>
     </>
   )
 }
@@ -135,11 +141,35 @@ const CalcCard = () => {
               <p>
               { eq ? `$$ ${eq['user_solution_relatex'] ?? eq['orig']} $$` ?? Spinner : Spinner }
               </p>
+
             </CardBody>
           </Card>
           <Card className="bg-transparent brdr-none">
             <CardBody className="bg-transparent brdr-none">
-              <Form>
+              <Form onSubmit={e => {
+                e.preventDefault();
+
+                console.log("form handler target", e.target);
+                const asList = [...e.target];
+                const asObj = {};
+
+                asList.forEach(userIn => {
+                  console.log(userIn.name)
+                  console.log(userIn.value)
+                  userIn.name != "" && (asObj[`${userIn.name}`] = userIn.value); 
+                });
+
+                // TODO one liner grabs button too - add filter to reduce() ?
+                // const asObj = asList.reduce((l, i) => ({...l, [i.name]: i.value}), {});
+                console.log(asList);
+                console.log(asObj);
+
+                fetch()
+
+
+
+
+              }}>
                 {/* <FormSelect aria-label="unknown" className="unknown-dd mb-3" onChange={(e) => setOpt(e.target.value)}>
                   <option value='' default>Select an unknown</option>
                   { eq !== null ? DropOpts(eq) : "Loading..." }
@@ -158,6 +188,7 @@ const CalcCard = () => {
 
   const [opt, setOpt]             = useState('')
   const [frame, setFrame]         = useState('info');
+  const [usrNums, setUsrNums]     = useState({});
   const [rspns_json, setRspns]    = useState(null);
   const [CalcFrame, setCalcFrame] = useState(() => GLFrame(null) );
 
