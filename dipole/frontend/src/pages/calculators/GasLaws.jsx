@@ -139,7 +139,7 @@ const CalcCard = () => {
               </Form>
 
               <p>
-              { eq ? `$$ ${eq['user_solution_relatex'] ?? eq['orig']} $$` ?? Spinner : Spinner }
+                { eq ? `$$ ${eq['user_solution_relatex'] ?? eq['orig']} $$` ?? Spinner : Spinner }
               </p>
 
             </CardBody>
@@ -149,31 +149,42 @@ const CalcCard = () => {
               <Form onSubmit={e => {
                 e.preventDefault();
 
-                console.log("form handler target", e.target);
+                console.debug("form handler target", e.target);
                 const asList = [...e.target];
                 const asObj = {};
 
+                // TODO one liner grabs button too - add filter to reduce() ?
+                // const asObj = asList.reduce((l, i) => ({...l, [i.name]: i.value}), {});
                 asList.forEach(userIn => {
-                  console.log(userIn.name)
-                  console.log(userIn.value)
+                  console.debug(userIn.name)
+                  console.debug(userIn.value)
                   userIn.name != "" && (asObj[`${userIn.name}`] = userIn.value); 
                 });
 
-                // TODO one liner grabs button too - add filter to reduce() ?
-                // const asObj = asList.reduce((l, i) => ({...l, [i.name]: i.value}), {});
-                console.log(asList);
-                console.log(asObj);
+                console.debug(asList);
+                console.debug(asObj);
+                const objList = Object.entries(asObj).map(([k, v]) => ({ name: k, val: v }));
 
-                fetch()
+                const data = {
+                  name: frame,
+                  unknown: opt,
+                  listVars: objList
+                }
 
+                console.debug(objList)
 
-
+                fetch("/api/calculators/solve", {
+                  method: "POST",
+                  body: JSON.stringify(data),
+                  headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                  },
+                }).then(response => response.json()).then(data => {
+                  console.log(data);
+                  setRspns(data);
+                });
 
               }}>
-                {/* <FormSelect aria-label="unknown" className="unknown-dd mb-3" onChange={(e) => setOpt(e.target.value)}>
-                  <option value='' default>Select an unknown</option>
-                  { eq !== null ? DropOpts(eq) : "Loading..." }
-                </FormSelect> */}
                 
                 { eq ? eq['user_solution_relatex'] ? FormGroups(eq) : Spinner : Spinner }
               
