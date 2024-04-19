@@ -163,7 +163,6 @@ class Equation(models.Model):
             smap[syk] = str(np.float64(v))
 
         RHS = latex(exps if in_map is None else exps[0][unknown], symbol_names=smap, mul_symbol='dot')
-
         relatex = rf"{fns_mapping[unknown]} = " + rf"{RHS} = {nsoln:.3f}"
         return relatex
     

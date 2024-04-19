@@ -132,7 +132,7 @@ const CalcCard = () => {
             <CardBody className="bg-transparent brdr-none">
 
               <Form>
-                <FormSelect aria-label="unknown" className="unknown-dd mb-5 ml-auto mr-auto" onChange={(e) => setOpt(e.target.value)}>
+                <FormSelect value={opt} aria-label="unknown" className="unknown-dd mb-5 ml-auto mr-auto" onChange={(e) => setOpt(e.target.value)}>
                   <option value='' default>Select an unknown</option>
                   { eq !== null ? DropOpts(eq) : "Loading..." }
                 </FormSelect>
@@ -152,6 +152,8 @@ const CalcCard = () => {
                 console.debug("form handler target", e.target);
                 const asList = [...e.target];
                 const asObj = {};
+
+                console.log(asList);
 
                 // TODO one liner grabs button too - add filter to reduce() ?
                 // const asObj = asList.reduce((l, i) => ({...l, [i.name]: i.value}), {});
