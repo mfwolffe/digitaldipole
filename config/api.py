@@ -59,7 +59,7 @@ def calcunknown(request, eq_name, unknown):
         "orig": rf"{theeq.LaTeX_repr}",
         "html_mapping": json.dumps(theeq.build_html_mapping()),
         "nu_html_mapping": json.dumps(theeq.build_html_mapping(unknown)),
-        "user_solution_relatex": rf"{theeq.build_relatex_soln_t(unknown)}"
+        "user_solution_relatex": rf"{theeq.build_relatex(unknown)}"
     }
 
     resp_json = json.dumps(resp_json)
@@ -90,7 +90,7 @@ def calcnumeric(request, payload: CalcNumericEndpoint):
           "orig": rf"{theeq.LaTeX_repr}",
           "html_mapping": json.dumps(theeq.build_html_mapping()),
           "nu_html_mapping": json.dumps(theeq.build_html_mapping(eq_unknown)),
-          "user_solution_relatex": rf"{theeq.build_relatex_soln_t(eq_unknown, f_mapping)}"
+          "user_solution_relatex": rf"{theeq.build_relatex(eq_unknown, f_mapping)}"
         }
 
         response = json.dumps(response)
