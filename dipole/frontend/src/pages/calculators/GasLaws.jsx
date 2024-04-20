@@ -9,6 +9,7 @@ import Button from "react-bootstrap/esm/Button";
 import Accordion from "react-bootstrap/Accordion";
 import CardBody from "react-bootstrap/esm/CardBody";
 import InputGroup from 'react-bootstrap/InputGroup';
+import FormSelect from "react-bootstrap/esm/FormSelect";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
@@ -33,7 +34,6 @@ import "../../App.css";
 import "../../styles/refs.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../styles/bootstrap.min-dipole.css";
-import FormSelect from "react-bootstrap/esm/FormSelect";
 
 library.add(...all)
 
@@ -94,7 +94,7 @@ const FormGroups = (response_json) => {
   Object.keys(symMap).forEach(k => {
     const cmpnt = (
       <Form.Floating className="mt-2 float-right j-self-end">
-        <Form.Control id={k} type="text" placeholder="" name={k} className="calc-float" />
+        <Form.Control id={k} type="number" step={"0.000001"} placeholder="" name={k} className="calc-float" required/>
         <label htmlFor={k} className="calc-float-label" dangerouslySetInnerHTML={{ __html: symMap[k] }}></label>
       </Form.Floating>
     )
@@ -162,7 +162,7 @@ const CalcCard = () => {
                 asList.forEach(userIn => {
                   console.debug(userIn.name)
                   console.debug(userIn.value)
-                  userIn.name != "" && (asObj[`${userIn.name}`] = userIn.value); 
+                  userIn.name != "" && (asObj[`${userIn.name}`] = `${userIn.value}`); 
                 });
 
                 console.debug(asList);
