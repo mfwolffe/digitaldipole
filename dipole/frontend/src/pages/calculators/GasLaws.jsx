@@ -37,9 +37,10 @@ import FormSelect from "react-bootstrap/esm/FormSelect";
 
 library.add(...all)
 
-const Spinner = <FontAwesomeIcon icon="fa-duotone fa-spinner" size="2xl" spinPulse />
-const IdealGas = <FontAwesomeIcon icon="fa-duotone fa-wind" size="lg" style={{"--fa-secondary-color": "#51D4FF", "--fa-primary-color": "#533856",}} className="pr-2 hvr-pulse-grow" />
-const RootIco = <FontAwesomeIcon icon="fa-duotone fa-square-root-variable" size="lg" style={{"--fa-secondary-color": "#51D4FF", "--fa-primary-color": "#533856",}} className="pr-2 hvr-bob" />
+const Spinner  = <FontAwesomeIcon icon="fa-duotone fa-spinner" size="2xl" spinPulse />
+const Bouncer  = <FontAwesomeIcon icon="fa-duotone fa-seal-exclamation" className="j-self-center" fontSize={"4rem"} bounce />
+const RootIco  = <FontAwesomeIcon icon="fa-duotone fa-square-root-variable" size="lg" style={{"--fa-primary-color": "#ffffff", "--fa-secondary-color": "#fc6601", "--fa-secondary-opacity": "1",}} className="pr-2 hvr-bob" />
+const IdealGas = <FontAwesomeIcon icon="fa-duotone fa-wind" size="lg" style={{"--fa-secondary-color": "#ffffff", "--fa-primary-color": "#fc6601", "--fa-secondary-opacity": "1",}} className="pr-2 hvr-pulse-grow" />
 
 function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
   return (
@@ -47,7 +48,7 @@ function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
       <Accordion defaultActiveKey="0" className="ml-auto mr-auto mb-3 calc-acc">
         <Accordion.Item eventKey="0">
           <Accordion.Header>
-            <FontAwesomeIcon icon="fa-duotone fa-circle-info" size="lg" style={{"--fa-secondary-color": "#51D4FF", "--fa-primary-color": "#533856",}} className="pr-2 hvr-buzz" />
+            <FontAwesomeIcon icon="fa-duotone fa-circle-info" size="lg" style={{"--fa-secondary-color": "#fc6601", "--fa-primary-color": "#ffffff", "--fa-secondary-opacity": "1",}} className="pr-2 hvr-buzz" />
             {act1}
           </Accordion.Header>
           <Accordion.Body>
@@ -92,7 +93,7 @@ const FormGroups = (response_json) => {
 
   Object.keys(symMap).forEach(k => {
     const cmpnt = (
-      <Form.Floating className="mt-2 float-right">
+      <Form.Floating className="mt-2 float-right j-self-end">
         <Form.Control id={k} type="text" placeholder="" name={k} className="calc-float" />
         <label htmlFor={k} className="calc-float-label" dangerouslySetInnerHTML={{ __html: symMap[k] }}></label>
       </Form.Floating>
@@ -104,9 +105,12 @@ const FormGroups = (response_json) => {
   return response_json  == null ? (<></>) : (
     <>
       { inputs }
-      <Button type="submit" className="mt-2 float-right">
-        Solve!
-      </Button>
+
+      <div className="mt-2 j-self-end">
+        <Button type="submit">
+          Solve!
+        </Button>
+      </div>
     </>
   )
 }
@@ -116,19 +120,19 @@ const CalcCard = () => {
   const GLFrame = (eq, sym_solve=false, num_solve=false) => {
     return (
       <>
-        <div className="d-flex flex-row justify-content-around align-items-center">
+        <div className="d-flex flex-row justify-content-around">
           {/* SEEME prob need to adjust height for diff calcs (calc-sub-card class below) */}
           <Card className="bg-transparent brdr-none calc-sub-card">
             <CardBody className="bg-transparent brdr-none">
               <p className="lead text-left mt-0">Instructions</p>
               <ol>
-                <li>Select your 'unknown'</li>
-                <li>Enter your 'known' values</li>
-                <li>Click 'Solve' to solve!</li>
+                <li className="text-left">Select your 'unknown'</li>
+                <li className="text-left">Enter your 'known' values</li>
+                <li className="text-left">Click 'Solve' to solve!</li>
               </ol>
             </CardBody>
           </Card>
-          <Card className="bg-transparent brdr-none">
+          <Card className="bg-transparent brdr-none calc-sub-card">
             <CardBody className="bg-transparent brdr-none">
 
               <Form>
@@ -144,16 +148,14 @@ const CalcCard = () => {
 
             </CardBody>
           </Card>
-          <Card className="bg-transparent brdr-none">
-            <CardBody className="bg-transparent brdr-none">
-              <Form onSubmit={e => {
+          <Card className="bg-transparent brdr-none calc-sub-card">
+            <CardBody className="bg-transparent brdr-none d-flex">
+              <Form className="calc-submit a-self-center w-100" onSubmit={e => {
                 e.preventDefault();
 
                 console.debug("form handler target", e.target);
                 const asList = [...e.target];
                 const asObj = {};
-
-                console.log(asList);
 
                 // TODO one liner grabs button too - add filter to reduce() ?
                 // const asObj = asList.reduce((l, i) => ({...l, [i.name]: i.value}), {});
@@ -185,10 +187,9 @@ const CalcCard = () => {
                   console.log(data);
                   setRspns(data);
                 });
-
               }}>
                 
-                { eq ? eq['user_solution_relatex'] ? FormGroups(eq) : Spinner : Spinner }
+                { eq ? eq['user_solution_relatex'] ? FormGroups(eq) : Bouncer : Bouncer }
               
               </Form>
 

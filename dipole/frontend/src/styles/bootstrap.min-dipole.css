@@ -5038,7 +5038,7 @@ input[type=submit].btn-block {
 }
 
 .tab-content {
-  background-color: #808080;
+  background-color: #b4b4b4;
 }
 
 ul.nav.nav-tabs {
@@ -5057,7 +5057,7 @@ div.card-content {
     width: 65rem !important;
     word-wrap: break-word;
     /* background-color: #fff; */
-    background-color: #a0a0a0 !important;
+    background-color: #6f6f6f !important;
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem

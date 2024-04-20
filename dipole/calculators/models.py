@@ -21,7 +21,6 @@ from sympy.parsing.latex import parse_latex
 class Variable(models.Model):
     name        = models.CharField(max_length=64, help_text="The variable's name")
     unit        = models.CharField(max_length=16, help_text="The variable's unit")
-    # value       = models.FloatField(null=True, blank=True, default=None, help_text="value")
     symbol      = models.CharField(max_length=16, help_text="The variable's symbol (internal)")
     symbol_u    = models.CharField(max_length=32, help_text="The variable's symbol (user view)", null=True)
     html_symbol = models.CharField(max_length=64, help_text="The html symbol corresponding to this variable", default="")
