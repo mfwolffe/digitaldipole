@@ -31,6 +31,21 @@
     --font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
+    --shadow-color-title: 191 100% 50%;
+    --shadow-color-scaffolds: 261, 99%, 69%;
+
+    /* --shadow-elevation-high:
+      0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.07),
+      1.5px 3px 4px -0.2px hsl(var(--shadow-color) / 0.07),
+      2.7px 5.3px 7.1px -0.4px hsl(var(--shadow-color) / 0.08),
+      4px 8px 10.7px -0.7px hsl(var(--shadow-color) / 0.08),
+      5.7px 11.3px 15.2px -0.9px hsl(var(--shadow-color) / 0.09),
+      8px 15.9px 21.4px -1.1px hsl(var(--shadow-color) / 0.09),
+      11px 22.1px 29.6px -1.3px hsl(var(--shadow-color) / 0.09),
+      15.2px 30.4px 40.8px -1.6px hsl(var(--shadow-color) / 0.1),
+      20.6px 41.2px 55.3px -1.8px hsl(var(--shadow-color) / 0.1),
+      27.5px 55px 73.8px -2px hsl(var(--shadow-color) / 0.1); */
+
     /* from index.css */
     /* trying to override bootstrap defaults reliably */
     line-height: 1.5;
@@ -51,6 +66,8 @@
     box-sizing: border-box;
 }
 
+
+
 /* CSSCHECK */
 html {
     font-family: sans-serif;
@@ -61,6 +78,25 @@ html {
 
 .nav-link.ddu {
     background-color: inherit !;
+}
+
+#site-title {
+    color: #00d0ff;
+    text-shadow: 6px 3px 14px hsl(var(--shadow-color-title) / .4);
+    -webkit-text-stroke: 0.3pt #00fffff5;
+}
+
+
+h2#site-scaffolds {
+  color: hsl(261, 99%, 69%);
+  /* text-shadow: 6px 2px 18px hsl(var(--shadow-color-scaffolds) / 0.8); */
+  text-shadow: 6px 5px 18px hsl(261 99% 61% / 0.8);
+}
+
+h3#scaffold-prompt {
+  color: hsl(44, 99%, 54%);
+  text-shadow: 0px 0px 12px hsl(44, 99%, 54%);
+
 }
 
 article,

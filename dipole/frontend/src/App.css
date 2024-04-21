@@ -15,6 +15,7 @@
   box-shadow: 0 0 2rem 2rem #45008440 !important;
 } */
 
+/* hide number input arrow buttons */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
@@ -159,10 +160,8 @@ input[type=number] {
   min-height: 100vh;
 }
 
-.offC-nav {
-  /* background-color: #C2C1C1 !important; */
+.offC-nav, .nav-top {
   background-color: transparent !important;
-  /* background-color: #AEADAD !important; */
   width: 100vw;
 }
 
@@ -243,8 +242,8 @@ div.dropdown-menu a:hover {
   width: 100% !important;
 }
 
-.sbar-ico, .usr-ico {
-  color: coral;
+.usr-ico {
+  color: #ff7f50;
 }
 
 .sbar-ico:hover, .usr-ico:hover {
@@ -274,10 +273,15 @@ div.landing {
   will-change: filter;
   transition: filter 300ms;
 }
+
+.logo.middle {
+  height: 8rem;
+}
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
-.logo.react:hover {
+.logo.middle:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
@@ -286,14 +290,26 @@ img {
   box-sizing: unset;
 }
 
-a.anim, nav.offC-nav, hr.w-85 {
+.o-100 {
+  opacity: 100 !important;
+}
+
+a.anim, nav.offC-nav {
   animation: fadeInAnimation ease 5s;
+  -webkit-animation: fadeInAnimation ease 5s;
+  -moz-animation: fadeInAnimation ease 5s;
+  -o-animation: fadeInAnimation ease 5s;
+  -ms-animation: fadeInAnimation ease 5s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
 h1.anim {
   opacity: 0%;
   animation: fadeInAnimation ease 3s;
+  -webkit-animation: fadeInAnimation ease 3s;
+  -moz-animation: fadeInAnimation ease 3s;
+  -o-animation: fadeInAnimation ease 3s;
+  -ms-animation: fadeInAnimation ease 3s;
   animation-delay: 1s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
@@ -301,6 +317,10 @@ h1.anim {
 h2#subtitle {
   opacity: 0%;
   animation: fadeInAnimation ease 2s;
+  -webkit-animation: fadeInAnimation ease 2s;
+  -moz-animation: fadeInAnimation ease 2s;
+  -o-animation: fadeInAnimation ease 2s;
+  -ms-animation: fadeInAnimation ease 2s;
   animation-delay: 2s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
@@ -308,13 +328,21 @@ h2#subtitle {
 h3.anim {
   opacity: 0%;
   animation: fadeInAnimation ease 2s;
+  -webkit-animation: fadeInAnimation ease 2s;
+  -moz-animation: fadeInAnimation ease 2s;
+  -o-animation: fadeInAnimation ease 2s;
+  -ms-animation: fadeInAnimation ease 2s;
   animation-delay: 3s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
-h2#scaffolds {
+h2.scaffolds {
   opacity: 0%;
   animation: fadeInAnimation ease 2s;
+  -webkit-animation: fadeInAnimation ease 2s;
+  -moz-animation: fadeInAnimation ease 2s;
+  -o-animation: fadeInAnimation ease 2s;
+  -ms-animation: fadeInAnimation ease 2s;
   animation-delay: 4s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
@@ -322,6 +350,10 @@ h2#scaffolds {
 p#user-stat {
   opacity: 0%;
   animation: fadeInAnimation ease 2s;
+  -webkit-animation: fadeInAnimation ease 2s;
+  -moz-animation: fadeInAnimation ease 2s;
+  -o-animation: fadeInAnimation ease 2s;
+  -ms-animation: fadeInAnimation ease 2s;
   animation-delay: 5s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
@@ -329,6 +361,10 @@ p#user-stat {
 p.read-the-docs {
   opacity: 0%;
   animation: fadeInAnimation ease 2s;
+  -webkit-animation: fadeInAnimation ease 2s;
+  -moz-animation: fadeInAnimation ease 2s;
+  -o-animation: fadeInAnimation ease 2s;
+  -ms-animation: fadeInAnimation ease 2s;
   animation-delay: 6s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
@@ -336,6 +372,10 @@ p.read-the-docs {
 p#use {
   opacity: 0%;
   animation: fadeInAnimation ease 2s;
+  -webkit-animation: fadeInAnimation ease 2s;
+  -moz-animation: fadeInAnimation ease 2s;
+  -o-animation: fadeInAnimation ease 2s;
+  -ms-animation: fadeInAnimation ease 2s;
   animation-delay: 7s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
@@ -343,10 +383,15 @@ p#use {
 button#cont {
   opacity: 0%;
   animation: fadeInAnimation ease 2s;
+  -webkit-animation: fadeInAnimation ease 2s;
+  -moz-animation: fadeInAnimation ease 2s;
+  -o-animation: fadeInAnimation ease 2s;
+  -ms-animation: fadeInAnimation ease 2s;
   animation-delay: 8s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
+
 @keyframes fadeInAnimation {
   0% {
       opacity: 0;
@@ -355,7 +400,6 @@ button#cont {
       opacity: 1;
   }
 }
-
 
 @keyframes logo-spin {
   from {

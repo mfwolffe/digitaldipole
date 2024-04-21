@@ -34,11 +34,11 @@ const NavOffCanvas = () => {
 
     return (
         <>
-            <Navbar className="offC-nav w-85 m-auto p-0 justify-content-between">
+            <Navbar className="nav-top w-85 m-auto p-0 justify-content-between">
                 {/* <Container className="ml-0 mr-0" id="navContainer"> */}
                 <Button className="sbar-btn" onClick={toggleShow}>
                     {/* <FontAwesomeIcon icon="fa-duotone fa-sidebar" size="2xl" className="sbar-ico" /> */}
-                    <FontAwesomeIcon icon="fa-duotone fa-webhook" size="2xl" className="sbar-ico hvr-wobble-horizontal" />
+                    <FontAwesomeIcon icon="fa-duotone fa-atom" size="2xl" className="sbar-ico hvr-rotate" style={{ "--fa-primary-color": "#ff4400", "--fa-secondary-color": "coral", "--fa-secondary-opacity": "1", "--fa-primary-opacity": "1" }} />
                 </Button>
 
                 <SearchBar />
@@ -66,18 +66,10 @@ const NavOffCanvas = () => {
                         <OffCDropRef />
                         <OffCDropCalc />
 
-                        {/* Link to the AI meme gen */}
-                        <NavItem>
-                            <FontAwesomeIcon icon="fa-duotone fa-robot" size="xl" style={{ "--fa-primary-color": "#143671", "--fa-secondary-color": "#143671", "width": "1.4rem" }} className="pr-2 pb-0" />
-                            <Link to="/memegenerator" className="ml-0 hvr-underline-from-left">
-                                AI Meme Generator
-                            </Link>
-                        </NavItem>
-
                     </Offcanvas.Body>
                 </Offcanvas>
             </Navbar>
-            <hr className="mt-0 w-85 m-auto" />
+            <hr className="mt-0 w-85 m-auto o-100" />
         </>
     );
 }
