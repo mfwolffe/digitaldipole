@@ -26,8 +26,16 @@ const MemeGen = () => {
                                 <p> hahahaha mad lib</p>
                             </Tab>
                             <Tab eventKey="raw" className="calc-tab" title="Raw Input">
-                                <p> raw input!!! </p>
-                                <Form.Control id={k} type="text" placeholder="Prompt" name={k} required/>
+                                <h1>Pure Prompting!</h1>
+                                <Card className="bg-transparent brdr-none gl-calc">
+                                    <CardBody className="bg-transparent brdr-none m-auto gl- w-85">
+                                    <Form.Floating className="m-auto">
+                                        <Form.Control type="text" placeholder="" required />
+                                        <label className="calc-float-label">Prompt</label>
+                                    </Form.Floating>
+
+                                    </CardBody>
+                                </Card>
                             </Tab>
                         </Tabs>
                     </Card>
