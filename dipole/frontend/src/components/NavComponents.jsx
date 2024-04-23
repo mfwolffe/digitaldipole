@@ -148,7 +148,7 @@ export function OffCDropRef () {
 export function OffCDropCalc () {
     return (
         <NavItem>
-            <NavDropdown title={calcIcon} id="nav-ref" className="pl-0">
+            <NavDropdown title={calcIcon} id="nav-ref" className="pl-0 pb-2">
                 <ul>
                     <li>
                         <NavDropdown.Item eventKey="ref-1" className="text-wrap pl-0">
