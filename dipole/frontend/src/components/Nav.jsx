@@ -66,6 +66,13 @@ const NavOffCanvas = () => {
                         <OffCDropRef />
                         <OffCDropCalc />
 
+                        <NavItem>
+                            <FontAwesomeIcon icon="fa-duotone fa-robot" size="xl" style={{ "--fa-primary-color": "#143671", "--fa-secondary-color": "#143671", "width": "1.4rem" }} className="pr-2 pb-0" />
+                            <Link to="/memegenerator" className="ml-0 hvr-underline-from-left">
+                                AI Meme Generator
+                            </Link>
+                        </NavItem>
+
                     </Offcanvas.Body>
                 </Offcanvas>
             </Navbar>
