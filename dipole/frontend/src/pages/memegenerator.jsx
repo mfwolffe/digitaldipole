@@ -33,6 +33,7 @@ const MemeGen = () => {
                                         <Form.Control type="text" placeholder="" required />
                                         <label className="calc-float-label">Prompt</label>
                                     </Form.Floating>
+                                    <Button as="input" type="submit" value="Submit"/>{' '}
 
                                     </CardBody>
                                 </Card>
