@@ -18,6 +18,9 @@ if READ_DOT_ENV_FILE:
 SECRET_KEY = env('SECRET_KEY')
 CLIENT_ID = env('CLIENT_ID')
 
+IM_USER = env('IM_USER')
+IM_PASS = env('IM_PASS')
+
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug

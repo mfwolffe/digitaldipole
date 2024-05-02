@@ -4,6 +4,13 @@ from dipole.users import models
 from ninja import NinjaAPI, Schema
 from dipole.calculators.models import Equation
 from django.shortcuts import get_object_or_404
+import requests
+import environ
+
+env = environ.Env()
+
+IM_USER = env('IM_USER')
+IM_PASS = env('IM_PASS')
 
 api = NinjaAPI()
 
@@ -96,3 +103,17 @@ def calcnumeric(request, payload: CalcNumericEndpoint):
         response = json.dumps(response)
         response = json.loads(response)
         return response
+
+@api.get("/memegen") #PASSWORD is in the .env file, we will try it here as a string but DONT COMMIT.
+def memegen(request, ):
+
+    # Requesting data from imgflip servers, with necessary parameters.
+    response = requests.post('https://api.imgflip.com/ai_meme', data={'username': IM_USER,
+                                                        'password': IM_PASS,
+                                                        'prefix_text': "DADS DEBROGLIE WAVELENGTH AEROSOLIZED A BEAKER FULL OF BENZENE",
+                                                        'no_watermark' : 'true'
+                                                        })
+   # response1 = json.loads(response)
+    #var = response1["success"]
+    return json.dumps(response.json())
+        

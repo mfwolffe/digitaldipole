@@ -11,6 +11,8 @@ import '../styles/bootstrap.min-dipole.css';
 import '../App.css'
 
 const MemeGen = () => {
+    
+
     return (
         <>
             <h1>AI Meme Generator</h1>
@@ -23,18 +25,17 @@ const MemeGen = () => {
                             className="mb-3 mt-1 calc-tabs"
                         >
                             <Tab eventKey="madlib" className="calc-tab" title="Mad Libs Input">
-                                <p> hahahaha mad lib</p>
+                                <p>Madlib Mode! UNFINISHED</p>
                             </Tab>
                             <Tab eventKey="raw" className="calc-tab" title="Raw Input">
                                 <h1>Pure Prompting!</h1>
                                 <Card className="bg-transparent brdr-none gl-calc">
                                     <CardBody className="bg-transparent brdr-none m-auto gl- w-85">
-                                    <Form.Floating className="m-auto">
-                                        <Form.Control type="text" placeholder="" required />
-                                        <label className="calc-float-label">Prompt</label>
-                                    </Form.Floating>
-                                    <Button as="input" type="submit" value="Submit"/>{' '}
-
+                                        <Form.Floating className="m-auto">
+                                            <Form.Control type="text" placeholder="" required />
+                                            <label className="calc-float-label">Prompt</label>
+                                        </Form.Floating>
+                                        <Button as="input" type="submit" value="Submit" />{' '}
                                     </CardBody>
                                 </Card>
                             </Tab>
