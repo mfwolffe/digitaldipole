@@ -104,16 +104,15 @@ def calcnumeric(request, payload: CalcNumericEndpoint):
         response = json.loads(response)
         return response
 
-@api.get("/memegen") #PASSWORD is in the .env file, we will try it here as a string but DONT COMMIT.
-def memegen(request, ):
+@api.get("/memegen/{queryString}")
+def memegen(request, queryString):
 
     # Requesting data from imgflip servers, with necessary parameters.
     response = requests.post('https://api.imgflip.com/ai_meme', data={'username': IM_USER,
                                                         'password': IM_PASS,
-                                                        'prefix_text': "DADS DEBROGLIE WAVELENGTH AEROSOLIZED A BEAKER FULL OF BENZENE",
+                                                        'prefix_text': queryString,
                                                         'no_watermark' : 'true'
                                                         })
-   # response1 = json.loads(response)
-    #var = response1["success"]
-    return json.dumps(response.json())
+
+    return response.json()
         
