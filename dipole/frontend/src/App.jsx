@@ -6,8 +6,9 @@ import {
 
 import Home from './pages'
 import Tabulated from "./pages/tabulated";
-import CalcCard from "./pages/calculators/GasLaws"
 import MemeGen from "./pages/memegenerator"
+import CalcCard from "./pages/calculators/GasLaws"
+import Thermo from "./pages/calculators/thermodynamics";
 
 import NavOffCanvas from "./components/Nav";
 
@@ -27,6 +28,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/tabulated" element={<Tabulated />} />
           <Route path="/calculators/GasLaws" element={<CalcCard />} />
+          <Route path="/calculators/thermo" element={<Thermo />} />
           <Route path="/memegenerator" element={<MemeGen />} />
       </Routes>
     </Router>

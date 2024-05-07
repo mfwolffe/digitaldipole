@@ -3,6 +3,8 @@ import React from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { useState } from 'react';
+import Collapse from 'react-bootstrap/Collapse';
 
 import NavItem from "react-bootstrap/esm/NavItem";
 import { NavLink as Link } from "react-router-dom";
@@ -46,7 +48,7 @@ const icoStyle = {
 const refIcon = (
     <>
         <FontAwesomeIcon icon="fa-duotone fa-book-bookmark" size="xl" style={{ "--fa-secondary-color": "#578be5", "--fa-primary-color": "#143671", "width": "1.4rem" }} className="pr-2" />
-        <span className="hvr-underline-from-left">References</span>
+        <span class=".text-white" className=".text-white hvr-underline-from-left">References</span>
     </>
 );
 
@@ -113,9 +115,45 @@ export function UserDrop () {
 }
 
 export function OffCDropRef () {
+
+    const [open, setOpen] = useState(false);
+
     return (
         <NavItem>
-            <NavDropdown title={refIcon} id="nav-ref" className="pl-0">
+            <Button onClick={() => setOpen(!open)} aria-controls="dropdown" aria-expanded={open} id="nav-ref"  className="pl-0" variant="link">
+                {refIcon}
+            </Button>
+            <Collapse in={open}>
+                <div id="dropdown">
+                    <ul>
+                        <li>
+                            <div eventKey="ref-1" className="text-wrap pl-0 hvr-underline-from-left">
+                                <Link to="/tabulated" className="pl-0 ml-0">
+                                    Tabulated Data
+                                </Link>
+                            </div>
+                        </li>
+                        <li>
+                            <div eventKey="ref-2" className="text-wrap pl-0 hvr-underline-from-left">
+                                Periodic Tables
+                            </div>
+                        </li>
+                        <li>
+                            <div eventKey="ref-3" className="text-wrap pl-0 hvr-underline-from-left">
+                                Conversion Factors And Fundamental Constants
+                            </div>
+                        </li>
+                        <li>
+                            <div eventKey="ref-4" className="text-wrap pl-0 hvr-underline-from-left">
+                                Common Equations
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </Collapse>
+
+            {/*old version of the side bar dropdowns. replaced so that all items move down when buttons are pressed */}
+            {/* <NavDropdown title={refIcon} id="nav-ref" className="pl-0">
                 <ul>
                     <li>
                         <NavDropdown.Item eventKey="ref-1" className="text-wrap pl-0">
@@ -140,15 +178,55 @@ export function OffCDropRef () {
                         </NavDropdown.Item>
                     </li>
                 </ul>
-            </NavDropdown>
+    </NavDropdown> */}
         </NavItem>
     );
 }
 
 export function OffCDropCalc () {
+
+    const [open, setOpen] = useState(false);
+
     return (
         <NavItem>
-            <NavDropdown title={calcIcon} id="nav-ref" className="pl-0 pb-2">
+
+            <Button onClick={() => setOpen(!open)} aria-controls="dropdown" aria-expanded={open} id="nav-ref" className="pl-0 pb-2" variant = "link">
+                {calcIcon}
+            </Button>
+            <Collapse in={open}>
+                <div id="dropdown">
+                <ul>
+                    <li>
+                        <div  eventKey="ref-1" className="text-wrap pl-0 hvr-underline-from-left">
+                            <Link to="/calculators/GasLaws" className="pl-0 ml-0">
+                                Gas Laws (Ideal)
+                            </Link>
+                        </div>
+                    </li>
+                    <li>
+                        <div eventKey="ref-2" className="text-wrap pl-0 hvr-underline-from-left">
+                            <Link to="/calculators/thermo" className="pl-0 ml-0">
+                                Thermodynamics
+                            </Link>
+                        </div>
+                    </li>
+                    <li>
+                        <div eventKey="ref-3" className="text-wrap pl-0 hvr-underline-from-left">
+                            Unit Conversions
+                        </div>
+                    </li>
+                    <li>
+                        <div eventKey="ref-4" className="text-wrap pl-0 hvr-underline-from-left">
+                            Solutions & Titrations
+                        </div>
+                        
+                    </li>
+                </ul>
+                </div>
+            </Collapse>
+
+            {/*old version of the side bar dropdowns. replaced so that all items move down when buttons are pressed */}
+            {/*<NavDropdown title={calcIcon} id="nav-ref" className="pl-0 pb-2">
                 <ul>
                     <li>
                         <NavDropdown.Item eventKey="ref-1" className="text-wrap pl-0">
@@ -159,7 +237,9 @@ export function OffCDropCalc () {
                     </li>
                     <li>
                         <NavDropdown.Item eventKey="ref-2" className="text-wrap pl-0 hvr-underline-from-left">
-                            Thermodynamics
+                            <Link to="/calculators/thermo" className="pl-0 ml-0">
+                              Thermodynamics
+                            </Link>
                         </NavDropdown.Item>
                     </li>
                     <li>
@@ -173,7 +253,7 @@ export function OffCDropCalc () {
                         </NavDropdown.Item>
                     </li>
                 </ul>
-            </NavDropdown>
+        </NavDropdown> */}
         </NavItem>
     );
 
