@@ -128,7 +128,7 @@ export function OffCDropRef () {
                     <ul>
                         <li>
                             <div eventKey="ref-1" className="text-wrap pl-0 hvr-underline-from-left">
-                                <Link to="/tabulated" className="pl-0 ml-0">
+                                <Link to="/tabulated" className="pl-0 ml-0 text-w">
                                     Tabulated Data
                                 </Link>
                             </div>

@@ -74,7 +74,7 @@ const MemeGen = () => {
 
 function MadLibQueryForm() {
     return (
-        <Card>
+        <Card className="w-100">
             <Card.Body>
                 <Card.Text>
                     <Button active><p id="madlibprompt">Add Words!</p></Button>
@@ -111,7 +111,7 @@ async function requestMeme(queryString) {
 
 function MadLibAccordion() {
     return (
-        <Accordion defaultActiveKey="0">
+        <Accordion defaultActiveKey="0" className="w-90 ml-auto mr-auto mb-4">
             <Accordion.Item eventKey="0">
                 <Accordion.Header>Subject</Accordion.Header>
                 <DropdownComponent category={"subject"} />
