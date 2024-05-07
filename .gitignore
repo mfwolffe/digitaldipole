@@ -290,3 +290,5 @@ python
 test-req.txt
 
 dipole/templates/index.html
+git-filter-repo.py
+renames.txt
