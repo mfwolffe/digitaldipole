@@ -159,7 +159,9 @@ export function OffCDropCalc () {
                     </li>
                     <li>
                         <NavDropdown.Item eventKey="ref-2" className="text-wrap pl-0 hvr-underline-from-left">
-                            Thermodynamics
+                            <Link to="/calculators/thermo" className="pl-0 ml-0">
+                              Thermodynamics
+                            </Link>
                         </NavDropdown.Item>
                     </li>
                     <li>

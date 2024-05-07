@@ -1,5 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Tab from "react-bootstrap/Tab";
 import Form from 'react-bootstrap/Form';
@@ -24,7 +26,7 @@ import {
   CombinedInfo,
   IdealInfo,
 } from "../../components/CalcInfo";
-import { GenInfo1, GenInfo2 } from "../../components/CalcInfo";
+import { ThermInfo1, ThermInfo2 } from "../../components/CalcInfo";
 
 import { all } from '@awesome.me/kit-a655910996/icons'
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -116,7 +118,7 @@ const FormGroups = (response_json) => {
 }
 
 // TODO resolve the cruft
-const CalcCard = () => {
+const Thermo = () => {
   const GLFrame = (eq, sym_solve=false, num_solve=false) => {
     return (
       <>
@@ -232,14 +234,20 @@ const CalcCard = () => {
 
     let ignore = false;
 
-    setRspns(null);
-    fetch(`/api/calculators/${frame}/ini`)
-      .then(response => response.json())
-      .then(data => {setRspns(data);})
-      .catch(e => console.log(e));
-    return () => {
-      ignore = true;
-    }
+    // const navigate = useNavigate ();
+    // navigate("/calculators");
+    // navigate("/calculators/thermo/entropy");
+
+
+    // SEEME uncomment for api
+    // setRspns(null);
+    // fetch(`/api/calculators/${frame}/ini`)
+    //   .then(response => response.json())
+    //   .then(data => {setRspns(data);})
+    //   .catch(e => console.log(e));
+    // return () => {
+    //   ignore = true;
+    // }
   }, [frame])
 
   useEffect(() => {
@@ -247,7 +255,11 @@ const CalcCard = () => {
   }, [rspns_json])
 
   function handleClick(event) {
-    console.log("event", event)
+    console.log("event", event);
+    // const navigate = useNavigate ();
+
+    // navigate(`calculators/thermo/${event}`);
+
     setFrame(event);
   }
 
@@ -258,6 +270,8 @@ const CalcCard = () => {
     }
   }, [CalcFrame])
 
+
+  // TODO 
   return (
     <>
     <div className="landing-container mt-3">
@@ -270,18 +284,27 @@ const CalcCard = () => {
             className="mb-3 mt-1 calc-tabs"
           >
             <Tab eventKey="info" className="calc-tab" title="Info">
-              {test(GenInfo1, GenInfo2, "Gas Laws", "Ideal Gases")}
+              {/* {test(GenInfo1, GenInfo2, "Gas Laws", "Ideal Gases")} */}
+              {test(ThermInfo1, ThermInfo2, "Thermodynamics", "Laws of Thermodynamics")}
             </Tab>
-            <Tab eventKey="avgdr" className="calc-tab" title="Avogadro's Law">
-              {test(AvoInfo, CalcFrame)}
+            <Tab eventKey="enthalpy" className="calc-tab" title="Enthalpy Calculator">
+              {/* {test(AvoInfo, CalcFrame)} */}
+              TODO fill out
+              tortelloni
             </Tab>
-            <Tab eventKey="amntn" className="calc-tab" title="Amonton's Law">
-              {test(AmontonInfo, CalcFrame)}
+            <Tab eventKey="entropy" className="calc-tab" title="Entropy Calculator">
+              {/* {test(AmontonInfo, CalcFrame)} */}
+              TODO fill out
+              {frame == "entropy" && (
+                <Navigate to={`/calculators/thermo/entropy`}/>
+              )}
             </Tab>
-            <Tab eventKey="boyle" className="calc-tab" title="Boyle's Law">
-              {test(BoyleInfo, CalcFrame)}
+            <Tab eventKey="gibbsFE" className="calc-tab" title="Gibbs Free Energy Calculator">
+              {/* {test(BoyleInfo, CalcFrame)} */}
+              TODO fill out
+
             </Tab>
-            <Tab eventKey="chrls" className="calc-tab" title="Charles' Law">
+            {/* <Tab eventKey="chrls" className="calc-tab" title="">
               {test(CharlesInfo, CalcFrame)}
             </Tab>
             <Tab
@@ -293,7 +316,7 @@ const CalcCard = () => {
             </Tab>
             <Tab eventKey="ideal" className="calc-tab" title="Ideal Gas Law">
               {test(IdealInfo, CalcFrame)}
-            </Tab>
+            </Tab> */}
           </Tabs>
         </Card>
       </div>
@@ -302,4 +325,4 @@ const CalcCard = () => {
   );
 };
 
-export default CalcCard;
+export default Thermo;
