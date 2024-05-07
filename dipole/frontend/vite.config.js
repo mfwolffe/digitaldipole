@@ -24,5 +24,8 @@ export default defineConfig({
     outDir,
     assetsDir,
     emptyOutDir: false,
+    // during development, you may want the options set as below, of you would liek to optimize for production, you may wosh to comment them out
+    minify: false,
+    sourcemap: true,
   }
 })
