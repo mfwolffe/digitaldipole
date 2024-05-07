@@ -20,7 +20,9 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 
 import { ThermInfo1, ThermInfo2 } from "../../components/CalcInfo";
-import { StateHeat } from "../../components/CalcInfo";
+import { StateHeat, EntropyInfo, GibbsInfo } from "../../components/CalcInfo";
+
+
 
 import { all } from '@awesome.me/kit-a655910996/icons'
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -288,15 +290,10 @@ const Thermo = () => {
               {test(StateHeat, CalcFrame)}
             </Tab>
             <Tab eventKey="entropy" className="calc-tab" title="Entropy Calculator">
-              {/* {test(AmontonInfo, CalcFrame)} */}
-              TODO fill out
-              {frame == "entropy" && (
-                <Navigate to={`/calculators/thermo/entropy`}/>
-              )}
+              {test(EntropyInfo, CalcFrame)}
             </Tab>
             <Tab eventKey="gibbsFE" className="calc-tab" title="Gibbs Free Energy Calculator">
-              {/* {test(BoyleInfo, CalcFrame)} */}
-              TODO fill out
+              {test(GibbsInfo, CalcFrame)}
 
             </Tab>
             {/* <Tab eventKey="chrls" className="calc-tab" title="">

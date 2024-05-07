@@ -208,7 +208,7 @@ export function ThermInfo1() {
             measured as the energy necessary to change the system from its standard to present state, 
             often expressed in units of {"\\(\\text{J}\\)"}
           </dd>
-          <dt>Specific Heat Capacity, {"\\(\\hspace{1mm} c_{sp}\\)"}</dt>
+          <dt>Specific Heat Capacity, {"\\(\\hspace{1mm} C_{sp}\\)"}</dt>
           <dd>
             the amount of heat that must be added to 
             one unit of mass of the substance in order to cause an increase of one unit in 
@@ -294,6 +294,39 @@ export function StateHeat() {
       <p className="text-center">{"$$\\Delta\\text{H} \\; = \\; \\Delta\\text{U} + \\Delta\\text{PV} \\; \\approx \\; \\text{q}$$"}</p>
       <p className="text-left">The variable {"\\(\\text{q}\\)"} is commonly used to represent the heat change of a system and is given the formula,</p>
       <p className="text-center">{"$$\\text{q} \\; = \\; m C_{sp} \\Delta T$$"}</p>
+    </>
+  )
+}
+
+export function EntropyInfo() {
+  return (
+    <>
+      <p className="text-left">
+        Entropy is a measure of the degree to which the energy of a system has dispersed such that it is 
+        no longer available to perform mechanical work.
+      </p>
+      <p className="text-center">{"$$ S \\; = \\; k_{b} + \\ln\\Omega$$"}</p>
+      <p className="text-left">
+        Where {"\\(k_{b}\\)"} is the Boltzmann constant, and {"\\(\\Omega\\)"} is the number of distinct state configurations.
+        Entropy is often erroneously described in popular science outlets as a measure of disorder or chaos. 
+      </p>
+    </>
+  )
+}
+
+export function GibbsInfo() {
+  return (
+    <>
+      <p className="text-left">
+        Gibbs Free Energy is a thermodynamic function that is proportional to the negative of
+        the change in entropy of the universe. It enables us to determine the spontaneity of a 
+        reaction. Below is the equation for the free energy under standard state:
+      </p>
+      <p className="text-center">{"$$ \\Delta G^\\circ \\; = \\; \\Delta H^\\circ - T\\Delta S^\\circ $$"}</p>
+      <p className="text-left">
+        When {"\\(\\Delta G < 0\\)"}, a chemmical reaction is spontaneous. When {"\\(\\Delta G > 0\\)"}, 
+        the reaction is not spontaneous
+      </p>
     </>
   )
 }
