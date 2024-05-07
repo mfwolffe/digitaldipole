@@ -228,7 +228,7 @@ export function ThermInfo1() {
         </dl>
       </p>
       <p className="text-left">
-        The thermodynamic systems referenced above adhere to the <strong>laws of thermodynamics</strong>,
+        The systems referenced above adhere to the <strong>laws of thermodynamics</strong>,
         four laws which use thermodynamic properties to characterize systems in thermodynamic equilibrium.
       </p>
     </>
@@ -277,3 +277,25 @@ export function ThermInfo2() {
     </>
   );
 }
+
+export function StateHeat() {
+  return (
+    <>
+      <p className="text-left">
+        Enthalpy is the sum of the internal energy of a system and the product of its pressure and volume:
+      </p>
+      <p className="text-center">{"$$\\text{H} \\; = \\; \\text{U} + \\text{PV}$$"}</p>
+      <p className="text-left">
+        However, measuring the enthalpy of a system directly is infeasible, and so it is common to measure the
+        heat evolved from a system during some process. Changes in pressure and volume during measurements are 
+        often considered negligible and so the change in enthalpy is considered essentially equal to the change in heat
+        of the system:
+      </p>
+      <p className="text-center">{"$$\\Delta\\text{H} \\; = \\; \\Delta\\text{U} + \\Delta\\text{PV} \\; \\approx \\; \\text{q}$$"}</p>
+      <p className="text-left">The variable {"\\(\\text{q}\\)"} is commonly used to represent the heat change of a system and is given the formula,</p>
+      <p className="text-center">{"$$\\text{q} \\; = \\; m C_{sp} \\Delta T$$"}</p>
+    </>
+  )
+}
+
+

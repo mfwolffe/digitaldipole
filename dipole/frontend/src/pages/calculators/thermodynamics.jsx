@@ -18,15 +18,9 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 // SEEME MathJax on Async Typesetting:
 // https://docs.mathjax.org/en/latest/web/typeset.html#handling-asynchronous-typesetting
 
-import {
-  AvoInfo,
-  AmontonInfo,
-  BoyleInfo,
-  CharlesInfo,
-  CombinedInfo,
-  IdealInfo,
-} from "../../components/CalcInfo";
+
 import { ThermInfo1, ThermInfo2 } from "../../components/CalcInfo";
+import { StateHeat } from "../../components/CalcInfo";
 
 import { all } from '@awesome.me/kit-a655910996/icons'
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -42,7 +36,10 @@ library.add(...all)
 const Spinner  = <FontAwesomeIcon icon="fa-duotone fa-spinner" size="2xl" spinPulse />
 const Bouncer  = <FontAwesomeIcon icon="fa-duotone fa-seal-exclamation" className="j-self-center" fontSize={"4rem"} bounce />
 const RootIco  = <FontAwesomeIcon icon="fa-duotone fa-square-root-variable" size="lg" style={{"--fa-primary-color": "#ffffff", "--fa-secondary-color": "#fc6601", "--fa-secondary-opacity": "1",}} className="pr-2 hvr-bob" />
-const IdealGas = <FontAwesomeIcon icon="fa-duotone fa-wind" size="lg" style={{"--fa-secondary-color": "#ffffff", "--fa-primary-color": "#fc6601", "--fa-secondary-opacity": "1",}} className="pr-2 hvr-pulse-grow" />
+const ThermCurv = <FontAwesomeIcon icon="fa-duotone fa-fire-flame-curved" size="lg" style={{"--fa-secondary-color": "#fc6601", "--fa-primary-color": "#ffffff", "--fa-secondary-opacity": "1",}} className="pr-2 hvr-pulse-grow" />
+const FnIco     = <FontAwesomeIcon icon="fa-duotone fa-function" size="lg" style={{"--fa-primary-color": "#ffffff", "--fa-secondary-color": "#cccccc", "--fa-secondary-opacity": "1",}} className="pr-2 hvr-bob" />
+
+
 
 function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
   return (
@@ -59,7 +56,7 @@ function test(Ac1, Ac2, act1 = "Info", act2 = "Calculator") {
         </Accordion.Item>
         <Accordion.Item eventKey="1">
           <Accordion.Header>
-            { act2 != "Calculator" ? IdealGas : RootIco }
+            { act2 != "Calculator" ? ThermCurv : FnIco }
             {act2}
           </Accordion.Header>
           <Accordion.Body>
@@ -240,14 +237,14 @@ const Thermo = () => {
 
 
     // SEEME uncomment for api
-    // setRspns(null);
-    // fetch(`/api/calculators/${frame}/ini`)
-    //   .then(response => response.json())
-    //   .then(data => {setRspns(data);})
-    //   .catch(e => console.log(e));
-    // return () => {
-    //   ignore = true;
-    // }
+    setRspns(null);
+    fetch(`/api/calculators/${frame}/ini`)
+      .then(response => response.json())
+      .then(data => {setRspns(data);})
+      .catch(e => console.log(e));
+    return () => {
+      ignore = true;
+    }
   }, [frame])
 
   useEffect(() => {
@@ -288,9 +285,7 @@ const Thermo = () => {
               {test(ThermInfo1, ThermInfo2, "Thermodynamics", "Laws of Thermodynamics")}
             </Tab>
             <Tab eventKey="enthalpy" className="calc-tab" title="Enthalpy Calculator">
-              {/* {test(AvoInfo, CalcFrame)} */}
-              TODO fill out
-              tortelloni
+              {test(StateHeat, CalcFrame)}
             </Tab>
             <Tab eventKey="entropy" className="calc-tab" title="Entropy Calculator">
               {/* {test(AmontonInfo, CalcFrame)} */}
