@@ -1,30 +1,44 @@
 import React from "react";
+import { useState, useEffect } from 'react';
+import { NavLink as Link } from "react-router-dom";
+
 import Tab from "react-bootstrap/Tab";
 import Form from 'react-bootstrap/Form';
 import Card from "react-bootstrap/Card";
 import Tabs from "react-bootstrap/Tabs";
+import Modal from 'react-bootstrap/Modal';
+import { CardTitle } from "react-bootstrap";
 import Button from "react-bootstrap/esm/Button";
+import Dropdown from 'react-bootstrap/Dropdown';
 import Accordion from "react-bootstrap/Accordion";
 import CardBody from "react-bootstrap/esm/CardBody";
-import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/bootstrap.min-dipole.css';
 import '../App.css'
-import { useState, useEffect } from 'react';
+
 import data from './terms.json';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CardTitle } from "react-bootstrap";
+
+
 // import MadLibAccordion from "./MadLibAccordion";
 
 let madLibQuery = "";
 
-const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" bounce />
-
+// const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" bounce />
+const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" shake style={{"--fa-animation-duration": "2s",}}/>
+const AIBotIcon  = <FontAwesomeIcon fontSize={"7rem"} icon="fa-duotone fa-message-bot" className="m-auto" bounce />
+const RadiateIcon = <FontAwesomeIcon fontSize={"5.5rem"} icon="fa-thin fa-radiation" className="m-auto" spin />
 
 const MemeGen = () => {
+    const [show, setShow] = useState(false);
     const [inputValue, setInputValue] = useState('');
+
     const query = inputValue;
+
+    const handleShow  = () => setShow (true);
+    const handleClose = () => setShow (false);
 
     const handleSubmit = () => {
         requestMeme(query);
@@ -35,57 +49,138 @@ const MemeGen = () => {
     }
 
     return (
-        <>
-            <div className="landing-container mt-3">
-                <div className="landing mt-0">
-                    <Card className="mt-5 m-auto meme-card" id="ref-default">
-                        <Tabs
-                            defaultActiveKey="MemeGen"
-                            id="uncontrolled-tab-example"
-                            className="mb-3 mt-1 calc-tabs"
+      <>
+        <div className="landing-container mt-3">
+          <div className="landing mt-0">
+            <Card className="mt-5 m-auto meme-card" id="ref-default">
+              <Tabs
+                defaultActiveKey="MemeGen"
+                id="uncontrolled-tab-example"
+                className="mb-3 mt-1 calc-tabs"
+              >
+                <Tab
+                  eventKey="MemeGen"
+                  className="calc-tab"
+                  title="Instructions"
+                >
+                  <Card className="bg-transparent brdr-none m-auto w-50">
+                    <CardBody className="bg-transparent brdr-none m-auto w-90">
+                      <Card className="w-100 m-auto b-shadow">
+                        <CardTitle className="mt-4 off-white">
+                          AI Meme Generator
+                        </CardTitle>
+                        {AIChipIcon}
+                        <p className="text-center off-white mb-2">
+                          Powered by{" "}
+                          <a
+                            href="https://imgflip.com"
+                            target="_blank"
+                            className="hvr-underline-from-center api"
+                          >
+                            <em>ImgFlip</em>
+                          </a>
+                        </p>
+                        <Button
+                          className="ml-auto mr-auto mb-5 dp-button"
+                          onClick={handleShow}
                         >
-                          <Tab eventKey="MemeGen" className="calc-tab" title="Instructions">
-                            <Card className="bg-transparent brdr-none m-auto w-55">
-                              <CardBody className="bg-transparent brdr-none m-auto w-90">
-                                <Card className="w-100 m-auto b-shadow">
-                                  <CardTitle className="mt-3 off-white">AI Meme Generator</CardTitle>
-                                  { AIChipIcon }
-                                  <p className="text-center off-white mb-2">
-                                    Powered by <a href="https://imgflip.com" target="_blank" className="hvr-underline-from-center api"><em>ImgFlip</em></a>
-                                  </p>
-                                  <Button className="ml-auto mr-auto mb-3 dp-button">Start!</Button>
-                                </Card>
-                              </CardBody>
-                            </Card>
-                          </Tab>
+                          Start!
+                        </Button>
+                        <Modal
+                          show={show}
+                          onHide={handleClose}
+                          backdrop="static"
+                          keyboard={false}
+                        >
+                          <Modal.Header closeButton className="modal-bg">
+                            <Modal.Title>Warning!</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body className="modal-bg">
+                            <div className="d-flex">{RadiateIcon}</div>
 
-                            <Tab eventKey="raw" className="calc-tab" title="Raw Input" disabled>
-                                {/* <h1>Pure Prompting!</h1> */}
-                                <Card className="bg-transparent brdr-none gl-calc">
-                                    <CardBody className="bg-transparent brdr-none m-auto gl- w-85">
-                                        <Form.Floating className="m-auto">
-                                            <Form.Control type="text" placeholder="" required onChange={handleInputChange} />
-                                            <label className="calc-float-label">Prompt</label>
-                                        </Form.Floating>
-                                        <Button as="input" type="submit" value="Submit" onClick={handleSubmit} />{' '}
-                                    </CardBody>
-                                </Card>
-                            </Tab>
+                            <p>
+                              <em>Per the imgflip API:</em>
+                            </p>
 
-                            <Tab eventKey="madlib" className="calc-tab" title="Mad Libs Input" disabled>
-                                <h1>Madlib Mode!</h1>
-                                <MadLibAccordion />
-                                
-                                    <MadLibQueryForm />
-                                
-                            </Tab>
-                        </Tabs>
+                            <div className="code-warn p-1">
+                              <code>
+                                The AI is trained on all public user-generated
+                                content, so it is NOT censored or curated in
+                                anyway, and therefore may contain vulgarities or
+                                other potentially unsuitable content. If this
+                                doesn't fit your use case, you may want to
+                                filter the output based on language.
+                              </code>
+                            </div>
+                          </Modal.Body>
+                          <Modal.Footer className="modal-bg d-flex flex-row justify-content-end align-items-start">
+                            <Link to="/">
+                              <Button
+                                className="mb-3 dp-button"
+                                onClick={handleClose}
+                              >
+                                Return Home
+                              </Button>
+                            </Link>
+                            <Button
+                              className="mb-3 dp-button"
+                              onClick={handleClose}
+                            >
+                              Proceed
+                            </Button>
+                          </Modal.Footer>
+                        </Modal>
+                      </Card>
+                    </CardBody>
+                  </Card>
+                </Tab>
 
-                        <img id="memecanvas" src="" className="m-auto w-85"></img>
-                    </Card>
-                </div>
-            </div>
-        </>
+                <Tab
+                  eventKey="raw"
+                  className="calc-tab"
+                  title="Raw Input"
+                  disabled
+                >
+                  {/* <h1>Pure Prompting!</h1> */}
+                  <Card className="bg-transparent brdr-none gl-calc">
+                    <CardBody className="bg-transparent brdr-none m-auto gl- w-85">
+                      <Form.Floating className="m-auto">
+                        <Form.Control
+                          type="text"
+                          placeholder=""
+                          required
+                          onChange={handleInputChange}
+                        />
+                        <label className="calc-float-label">Prompt</label>
+                      </Form.Floating>
+                      <Button
+                        as="input"
+                        type="submit"
+                        value="Submit"
+                        onClick={handleSubmit}
+                      />{" "}
+                    </CardBody>
+                  </Card>
+                </Tab>
+
+                <Tab
+                  eventKey="madlib"
+                  className="calc-tab"
+                  title="Mad Libs Input"
+                  disabled
+                >
+                  <h1>Madlib Mode!</h1>
+                  <MadLibAccordion />
+
+                  <MadLibQueryForm />
+                </Tab>
+              </Tabs>
+
+              <img id="memecanvas" src="" className="m-auto w-85"></img>
+            </Card>
+          </div>
+        </div>
+      </>
     );
 }
 

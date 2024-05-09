@@ -72,6 +72,24 @@
     box-sizing: border-box;
 }
 
+.fit-height {
+  max-height: fit-content !important;
+}
+
+.gap-2 {
+  gap: 1rem;
+}
+
+.modal-bg {
+  background-color: #6c757d !important;
+  color: #fff !important;
+}
+
+.code-warn {
+  background-color: #dfdfdf !important;
+  border-radius: 5px;
+}
+
 .nav-link[aria-selected=false] {
   pointer-events: all !important;
   cursor: not-allowed !important;
