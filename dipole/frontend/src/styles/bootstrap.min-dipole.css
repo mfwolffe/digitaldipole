@@ -10,6 +10,7 @@
     --teal: #20c997;
     --cyan: #17a2b8;
     --white: #fff;
+    --dipole-gray: #ffffff;
     --gray: #6c757d;
     --gray-dark: #333333;
     --primary: #450084;
@@ -19,8 +20,13 @@
     --warning: #ffc107;
     --danger: #dc3545;
     --light: #8EE4D7;
+    --minty: #00d0ff;
     --dark: #333333;
     --bs-primary-bg-subtle: rgba(125, 71, 131, 0.6);
+    --dp-button: #811c98;
+    --dp-button-hvr: #8e2aa4db;
+
+
 
     /* --bs-primary-bg-subtle: rgba(141, 95, 152, 0.8); */
     --breakpoint-xs: 0;
@@ -66,6 +72,35 @@
     box-sizing: border-box;
 }
 
+.nav-link[aria-selected=false] {
+  pointer-events: all !important;
+  cursor: not-allowed !important;
+}
+
+.off-white {
+  color: var(--dipole-gray) !important;
+}
+
+a.api:hover {
+  color: var(--minty) !important;
+}
+
+.dp-button {
+  background-color: var(--dp-button) !important;
+  box-shadow: 0 0 1rem 0.5rem #45008440 !important;
+
+}
+
+.dp-button:hover {
+  background-color: var(--dp-button-hvr) !important;
+}
+
+.tab-pane {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+
+}
+
 /* CSSCHECK */
 html {
     font-family: sans-serif;
@@ -94,7 +129,6 @@ h2#site-scaffolds {
 h3#scaffold-prompt {
   color: hsl(44, 99%, 54%);
   text-shadow: 0px 0px 12px hsl(44, 99%, 54%);
-
 }
 
 article,
@@ -8478,7 +8512,11 @@ button.bg-dark:hover {
 }
 
 .w-50 {
-    width: 50% !important
+    width: 50% !important;
+}
+
+.w-55 {
+  width: 55% !important;
 }
 
 .w-60 {

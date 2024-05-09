@@ -119,6 +119,10 @@ input[type=number] {
   width: 80vw !important;
 }
 
+.meme-card {
+  width: 50vw !important;
+}
+
 .calcframe {
   background-color: transparent !important;
 }
@@ -135,6 +139,9 @@ input[type=number] {
   color: rgba(255, 255, 255, 1) !important;
 }
 
+.b-shadow {
+  box-shadow: 0.1rem 0.1rem 8px 3px #888;
+}
 
 .calc-acc {
   width: 95% !important;

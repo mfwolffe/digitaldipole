@@ -13,9 +13,14 @@ import '../styles/bootstrap.min-dipole.css';
 import '../App.css'
 import { useState, useEffect } from 'react';
 import data from './terms.json';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CardTitle } from "react-bootstrap";
 // import MadLibAccordion from "./MadLibAccordion";
 
 let madLibQuery = "";
+
+const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" bounce />
+
 
 const MemeGen = () => {
     const [inputValue, setInputValue] = useState('');
@@ -31,18 +36,31 @@ const MemeGen = () => {
 
     return (
         <>
-            <h1>AI Meme Generator</h1>
             <div className="landing-container mt-3">
                 <div className="landing mt-0">
-                    <Card className="mt-5 m-auto gl-calc" id="ref-default">
+                    <Card className="mt-5 m-auto meme-card" id="ref-default">
                         <Tabs
-                            defaultActiveKey="madlib"
+                            defaultActiveKey="MemeGen"
                             id="uncontrolled-tab-example"
                             className="mb-3 mt-1 calc-tabs"
                         >
+                          <Tab eventKey="MemeGen" className="calc-tab" title="Instructions">
+                            <Card className="bg-transparent brdr-none m-auto w-55">
+                              <CardBody className="bg-transparent brdr-none m-auto w-90">
+                                <Card className="w-100 m-auto b-shadow">
+                                  <CardTitle className="mt-3 off-white">AI Meme Generator</CardTitle>
+                                  { AIChipIcon }
+                                  <p className="text-center off-white mb-2">
+                                    Powered by <a href="https://imgflip.com" target="_blank" className="hvr-underline-from-center api"><em>ImgFlip</em></a>
+                                  </p>
+                                  <Button className="ml-auto mr-auto mb-3 dp-button">Start!</Button>
+                                </Card>
+                              </CardBody>
+                            </Card>
+                          </Tab>
 
-                            <Tab eventKey="raw" className="calc-tab" title="Raw Input">
-                                <h1>Pure Prompting!</h1>
+                            <Tab eventKey="raw" className="calc-tab" title="Raw Input" disabled>
+                                {/* <h1>Pure Prompting!</h1> */}
                                 <Card className="bg-transparent brdr-none gl-calc">
                                     <CardBody className="bg-transparent brdr-none m-auto gl- w-85">
                                         <Form.Floating className="m-auto">
@@ -54,7 +72,7 @@ const MemeGen = () => {
                                 </Card>
                             </Tab>
 
-                            <Tab eventKey="madlib" className="calc-tab" title="Mad Libs Input">
+                            <Tab eventKey="madlib" className="calc-tab" title="Mad Libs Input" disabled>
                                 <h1>Madlib Mode!</h1>
                                 <MadLibAccordion />
                                 
@@ -63,7 +81,6 @@ const MemeGen = () => {
                             </Tab>
                         </Tabs>
 
-                        <p id="meme">Generate a meme...</p>
                         <img id="memecanvas" src="" className="m-auto w-85"></img>
                     </Card>
                 </div>
