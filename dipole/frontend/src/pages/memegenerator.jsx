@@ -63,7 +63,7 @@ const MemeGen = () => {
                   className="calc-tab"
                   title="Instructions"
                 >
-                  <Card className="bg-transparent brdr-none m-auto w-50">
+                  <Card className="bg-transparent brdr-none m-auto w-45">
                     <CardBody className="bg-transparent brdr-none m-auto w-90">
                       <Card className="w-100 m-auto b-shadow">
                         <CardTitle className="mt-4 off-white">
@@ -81,7 +81,7 @@ const MemeGen = () => {
                           </a>
                         </p>
                         <Button
-                          className="ml-auto mr-auto mb-5 dp-button"
+                          className="ml-auto mr-auto mt-2 mb-4 dp-button"
                           onClick={handleShow}
                         >
                           Start!

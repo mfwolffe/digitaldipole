@@ -43,10 +43,10 @@ const Home = () => {
                     </button> */}
                 </div>
                 <p className="read-the-docs">
-                    Visit the <a className="hvr-pulse-grow" href="https://github.com/347S24/347-final-project-digitaldipole">github</a>
+                    Visit the <a target="_blank" className="hvr-underline-from-center api" href="https://github.com/347S24/347-final-project-digitaldipole">github</a>
                 </p>
                 <p className="read-the-docs">
-                    What's a <a className="hvr-pulse-grow" href="https://www.chem.ucla.edu/~harding/IGOC/D/dipole.html">dipole</a> anyway?
+                    What's a <a target="_blank" className="hvr-underline-from-center api" href="https://www.chem.ucla.edu/~harding/IGOC/D/dipole.html">dipole</a> anyway?
                 </p>
             </div>
         </div>
