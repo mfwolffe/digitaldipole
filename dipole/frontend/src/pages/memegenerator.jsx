@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import { NavLink as Link } from "react-router-dom";
 
+import { saveAs } from "file-saver";
+
 import Tab from "react-bootstrap/Tab";
 import Form from 'react-bootstrap/Form';
 import Card from "react-bootstrap/Card";
@@ -33,14 +35,18 @@ const RadiateIcon = <FontAwesomeIcon fontSize={"5.5rem"} icon="fa-thin fa-radiat
 const Spinner = <FontAwesomeIcon icon="fa-duotone fa-loader" fontSize={"5.5rem"} className="m-auto" spinPulse />
 const SpinnerThird = <FontAwesomeIcon icon="fa-duotone fa-spinner-third" fontSize={"5.5rem"} className="m-auto" spin />
 
-
-
 const MemeGen = () => {
     const [lock, setLock] = useState(true);
     const [show, setShow] = useState(false);
     const [imgurl, setImgUrl] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [respModal, setRespModal] = useState(false);
+  
+    const downloadImage = () => {
+      const dlDate = new Date();
+      const timeStr = dlDate.toUTCString();
+      saveAs(imgurl, `meme-${timeStr}.jpg`);
+    }
 
     const MemeLoading = (
       <>
@@ -80,7 +86,9 @@ const MemeGen = () => {
       const meme = await response.json();
       console.log(meme)
       setImgUrl (meme.data.url);
-  }
+    }
+
+    const DownloadIcon = <FontAwesomeIcon icon="fa-duotone fa-download" size="xl" className="hvr-bounce-in mt-2 float-right as-btn" onClick={downloadImage} />
 
     // TODO less rudimentary approach to unlock
     useEffect(() => {
@@ -193,7 +201,7 @@ const MemeGen = () => {
                         </li>
                         <li className="text-left">Hit Generate!</li>
                         <li className="text-left">
-                          Wait a few seconds for your result!
+                          Wait for your meme to be served (<em>can sometimes take 1+ minutes</em>)
                         </li>
                         <li className="text-left">Profit!</li>
                       </ol>
@@ -238,13 +246,12 @@ const MemeGen = () => {
                 </Modal.Header>
                 <Modal.Body className="modal-bg w-100">
                   <div className="m-auto w-100">
-                    { imgurl != "" ? <img id="memecanvas" src={imgurl} className="m-auto w-100"></img> : MemeLoading }
+                    { imgurl != "" ? <> <img id="memecanvas" src={imgurl} className="m-auto w-100"></img> { DownloadIcon } </> : MemeLoading }
                   </div>
-                  <Button ></Button>
                 </Modal.Body>
                 <Modal.Footer className="modal-bg d-flex flex-row justify-content-end align-items-start">
-                  <Button className="mb-3 dp-button" onClick={handleRespClose}>
-                    Exit
+                  <Button className="mb-2 mt-2 dp-button" onClick={handleRespClose}>
+                    Back
                   </Button>
                 </Modal.Footer>
               </Modal>
@@ -267,11 +274,6 @@ function MadLibQueryForm() {
         </Card>
     );
 }
-
-
-
-
-
 
 function MadLibAccordion() {
     return (

@@ -10,9 +10,6 @@ import re
 import nltk
 
 nltk.download('punkt', "nltk/")
-
-
-
 env = environ.Env()
 
 GPKEY   = env('GPKEY')
@@ -22,17 +19,14 @@ IM_PASS = env('IM_PASS')
 
 api = NinjaAPI()
 
-
 class VariableSchema(Schema):
     val:  str
     name: str
-
 
 class CalcNumericEndpoint(Schema):
     name:     str
     unknown:  str
     listVars: list[VariableSchema]
-
 
 # DONE these API requests are really just to
 #       verify that the cursed process for

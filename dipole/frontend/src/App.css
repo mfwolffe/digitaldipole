@@ -23,6 +23,10 @@ input::-webkit-inner-spin-button {
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
+.as-btn:hover {
+  cursor: pointer !important;
+}
+
 span.text-white.hvr-underline-from-left::before {
   color: white !important;
 }
