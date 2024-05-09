@@ -6,9 +6,17 @@ from dipole.calculators.models import Equation
 from django.shortcuts import get_object_or_404
 import requests
 import environ
+import re
+import nltk
+
+nltk.download('punkt', "nltk/")
+
+
 
 env = environ.Env()
 
+GPKEY   = env('GPKEY')
+GPHOST  = env('GPHOST')
 IM_USER = env('IM_USER')
 IM_PASS = env('IM_PASS')
 
@@ -27,7 +35,7 @@ class CalcNumericEndpoint(Schema):
 
 
 # DONE these API requests are really just to
-#       verify that the cursed process for 
+#       verify that the cursed process for
 #       SymPy CAS is working as "intended"
 #
 # DONE  Finish request eq member methods &
@@ -106,13 +114,87 @@ def calcnumeric(request, payload: CalcNumericEndpoint):
 
 @api.get("/memegen/{queryString}")
 def memegen(request, queryString):
+    url = "https://chatgpt-42.p.rapidapi.com/conversationgpt4-2"
 
-    # Requesting data from imgflip servers, with necessary parameters.
-    response = requests.post('https://api.imgflip.com/ai_meme', data={'username': IM_USER,
-                                                        'password': IM_PASS,
-                                                        'prefix_text': queryString,
-                                                        'no_watermark' : 'true'
-                                                        })
+    payload = {
+      "messages": [
+        {
+          "role": "user",
+          "content": f"Make a single funny, short meme text from this input: {queryString}. Do not include hashtags, wrap it in double quotes, and it must be less than 64 characters",
+        }
+      ],
+      "system_prompt": "",
+      "temperature": 0.9,
+      "top_k": 8,
+      "top_p": 0.9,
+      "max_tokens": 256,
+      "web_access": False
+    }
+    headers = {
+      "content-type": "application/json",
+      "X-RapidAPI-Key": GPKEY,
+      "X-RapidAPI-Host": GPHOST
+    }
+
+    response = requests.post(url, json=payload, headers=headers)
+    raw_meme = response.json()['result']
+    print(raw_meme)
+
+    re_meme = re.findall(r'".*"', raw_meme)
+    match_meme = re_meme[0]
+    print(match_meme)
+    strip_meme = match_meme.replace('"', '')
+    print(strip_meme)
+
+    response = requests.post(
+        "https://api.imgflip.com/ai_meme",
+        data={
+            "username": IM_USER,
+            "password": IM_PASS,
+            "prefix_text": strip_meme,
+        },
+    )
+
+    count = 1
+    while not (response.json()['success']) and count <= 10:
+        payload['messages'][0]['content'] = f"Can you make this meme text funnier: {strip_meme}, but it must be less than 64 characters and wrap the text in double quotes"
+        response = requests.post(url, json=payload, headers=headers)
+
+        raw_meme = response.json()['result']
+        re_meme = re.findall(r'".*"', raw_meme)
+        match_meme = re_meme[0]
+        print(match_meme)
+        strip_meme = match_meme.replace('"', '')
+        print(strip_meme)
+
+        if (strip_meme.lower().find("char") != -1):
+            # nltk.download('punkt')
+            print("tokenizing...")
+            # tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+            strip_list = nltk.sent_tokenize(strip_meme)
+            print(strip_list)
+            strip_meme = strip_list[0]
+
+        response = requests.post(
+          "https://api.imgflip.com/ai_meme",
+          data={
+              "username": IM_USER,
+              "password": IM_PASS,
+              "prefix_text": strip_meme,
+          },
+        )
+        count += 1
+
+    print(f"{count} request(s) attempted")
+
+    # response = requests.post(
+    #     "https://api.imgflip.com/automeme",
+    #     data={
+    #         "username": IM_USER,
+    #         "password": IM_PASS,
+    #         "text": "look at me I am so good",
+    #         "no_watermark": "true",
+    #     },
+    # )
 
     return response.json()
-        

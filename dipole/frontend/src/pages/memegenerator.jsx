@@ -30,23 +30,64 @@ let madLibQuery = "";
 const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" shake style={{"--fa-animation-duration": "2s",}}/>
 const AIBotIcon  = <FontAwesomeIcon fontSize={"7rem"} icon="fa-duotone fa-message-bot" className="m-auto" bounce />
 const RadiateIcon = <FontAwesomeIcon fontSize={"5.5rem"} icon="fa-thin fa-radiation" className="m-auto" spin />
+const Spinner = <FontAwesomeIcon icon="fa-duotone fa-loader" fontSize={"5.5rem"} className="m-auto" spinPulse />
+const SpinnerThird = <FontAwesomeIcon icon="fa-duotone fa-spinner-third" fontSize={"5.5rem"} className="m-auto" spin />
+
+
 
 const MemeGen = () => {
+    const [lock, setLock] = useState(true);
     const [show, setShow] = useState(false);
+    const [imgurl, setImgUrl] = useState('');
     const [inputValue, setInputValue] = useState('');
+    const [respModal, setRespModal] = useState(false);
+
+    const MemeLoading = (
+      <>
+        <p className="lead text-center mb-1">Your prompt:</p>
+        <p className="text-center">{inputValue}</p>
+        <div className="w-100 d-flex">{SpinnerThird}</div>
+      </>
+    )
 
     const query = inputValue;
 
     const handleShow  = () => setShow (true);
     const handleClose = () => setShow (false);
 
+    const handleRespShow  = () => setRespModal (true);
+    const handleRespClose = () => setRespModal (false);
+
     const handleSubmit = () => {
         requestMeme(query);
+        handleRespShow();
+        setImgUrl('');
     }
 
     const handleInputChange = (event) => {
-        setInputValue(event.target.value)
+        setInputValue(event.target.value);
+        setImgUrl('');
     }
+
+    async function requestMeme(queryString) {
+      console.log(queryString);
+
+      if (queryString.length === 0) {
+          queryString = "digital dipole"
+      }
+  
+      const response = await fetch('/api/memegen/' + queryString);
+      const meme = await response.json();
+      console.log(meme)
+      setImgUrl (meme.data.url);
+  }
+
+    // TODO less rudimentary approach to unlock
+    useEffect(() => {
+      if (show) {
+        setLock(false);
+      };
+    }, [show])
 
     return (
       <>
@@ -56,7 +97,7 @@ const MemeGen = () => {
               <Tabs
                 defaultActiveKey="MemeGen"
                 id="uncontrolled-tab-example"
-                className="mb-3 mt-1 calc-tabs"
+                className="mb-3 mt-1 calc-tabs dsb-tabs"
               >
                 <Tab
                   eventKey="MemeGen"
@@ -71,7 +112,7 @@ const MemeGen = () => {
                         </CardTitle>
                         {AIChipIcon}
                         <p className="text-center off-white mb-2">
-                          Powered by{" "}
+                          Powered by GPT-4 and {" "}
                           <a
                             href="https://imgflip.com"
                             target="_blank"
@@ -138,36 +179,51 @@ const MemeGen = () => {
                 <Tab
                   eventKey="raw"
                   className="calc-tab"
-                  title="Raw Input"
-                  disabled
+                  title="Natural Language"
+                  disabled={lock}
                 >
                   {/* <h1>Pure Prompting!</h1> */}
-                  <Card className="bg-transparent brdr-none gl-calc">
-                    <CardBody className="bg-transparent brdr-none m-auto gl- w-85">
+                  <Card className="bg-transparent brdr-none w-100">
+                    <CardBody className="bg-transparent brdr-none m-auto w-85">
+                      <p className="text-left lead mt-1 mb-0">Instructions</p>
+                      <ol>
+                        <li className="text-left">
+                          Enter a brief prompt to feed to the AI (
+                          <em>maximum 64 characters</em>)
+                        </li>
+                        <li className="text-left">Hit Generate!</li>
+                        <li className="text-left">
+                          Wait a few seconds for your result!
+                        </li>
+                        <li className="text-left">Profit!</li>
+                      </ol>
                       <Form.Floating className="m-auto">
                         <Form.Control
                           type="text"
+                          maxLength={64}
                           placeholder=""
                           required
                           onChange={handleInputChange}
+                          className="no-brd-rd"
+                          id="nat-lang"
                         />
                         <label className="calc-float-label">Prompt</label>
                       </Form.Floating>
                       <Button
                         as="input"
                         type="submit"
-                        value="Submit"
+                        value="Generate!"
                         onClick={handleSubmit}
+                        className="mt-3 dp-button"
                       />{" "}
                     </CardBody>
                   </Card>
                 </Tab>
-
                 <Tab
                   eventKey="madlib"
                   className="calc-tab"
                   title="Mad Libs Input"
-                  disabled
+                  disabled={lock}
                 >
                   <h1>Madlib Mode!</h1>
                   <MadLibAccordion />
@@ -176,7 +232,22 @@ const MemeGen = () => {
                 </Tab>
               </Tabs>
 
-              <img id="memecanvas" src="" className="m-auto w-85"></img>
+              <Modal show={respModal} onHide={handleRespClose} backdrop="static" keyboard={false}>
+                <Modal.Header closeButton className="modal-bg">
+                  <Modal.Title>Did Someone Order a Meme?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="modal-bg w-100">
+                  <div className="m-auto w-100">
+                    { imgurl != "" ? <img id="memecanvas" src={imgurl} className="m-auto w-100"></img> : MemeLoading }
+                  </div>
+                  <Button ></Button>
+                </Modal.Body>
+                <Modal.Footer className="modal-bg d-flex flex-row justify-content-end align-items-start">
+                  <Button className="mb-3 dp-button" onClick={handleRespClose}>
+                    Exit
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </Card>
           </div>
         </div>
@@ -198,26 +269,7 @@ function MadLibQueryForm() {
 }
 
 
-async function requestMeme(queryString) {
-    queryString = JSON.stringify(queryString)
-    const memeFrame = document.getElementById('meme')
-    const memeCanvas = document.getElementById('memecanvas')
 
-    if (queryString.length === 0) {
-        queryString = "digital dipole"
-    }
-
-    memeFrame.innerText = "Making Masterpiece..."
-
-    const response = await fetch('/api/memegen/' + queryString);
-    const meme = await response.json();
-    console.log(meme)
-    const url = meme.data.url
-    memeCanvas.src = url
-
-    memeFrame.innerText = "Magnificent Meme!"
-
-}
 
 
 
