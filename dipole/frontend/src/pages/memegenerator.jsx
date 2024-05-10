@@ -2,46 +2,62 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import { NavLink as Link } from "react-router-dom";
 
-import { saveAs } from "file-saver";
-
 import Tab from "react-bootstrap/Tab";
 import Form from 'react-bootstrap/Form';
 import Card from "react-bootstrap/Card";
 import Tabs from "react-bootstrap/Tabs";
 import Modal from 'react-bootstrap/Modal';
-import { CardTitle } from "react-bootstrap";
 import Button from "react-bootstrap/esm/Button";
-import Dropdown from 'react-bootstrap/Dropdown';
 import Accordion from "react-bootstrap/Accordion";
 import CardBody from "react-bootstrap/esm/CardBody";
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import { CardTitle, FormSelect } from "react-bootstrap";
+
+// import Dropdown from 'react-bootstrap/Dropdown';
+// import DropdownButton from 'react-bootstrap/DropdownButton';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/bootstrap.min-dipole.css';
 import '../App.css'
 
 import data from './terms.json';
+import { saveAs } from "file-saver";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
-// import MadLibAccordion from "./MadLibAccordion";
-
-let madLibQuery = "";
-
-// const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" bounce />
-const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" shake style={{"--fa-animation-duration": "2s",}}/>
-const AIBotIcon  = <FontAwesomeIcon fontSize={"7rem"} icon="fa-duotone fa-message-bot" className="m-auto" bounce />
 const RadiateIcon = <FontAwesomeIcon fontSize={"5.5rem"} icon="fa-thin fa-radiation" className="m-auto" spin />
+const BellAlert = <FontAwesomeIcon icon="fa-duotone fa-bell-ring" fontSize={"4rem"} className="m-auto" shake />
 const Spinner = <FontAwesomeIcon icon="fa-duotone fa-loader" fontSize={"5.5rem"} className="m-auto" spinPulse />
+const AIBotIcon  = <FontAwesomeIcon fontSize={"7rem"} icon="fa-duotone fa-message-bot" className="m-auto" bounce />
 const SpinnerThird = <FontAwesomeIcon icon="fa-duotone fa-spinner-third" fontSize={"5.5rem"} className="m-auto" spin />
+// const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" bounce />
+const FailedRequest = <FontAwesomeIcon icon="fa-duotone fa-skull-cow" fontSize={"5.5rem"} className="m-auto" flip style={{"--fa-animation-duration": "3s",}} />
+const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" shake style={{"--fa-animation-duration": "2s",}}/>
 
 const MemeGen = () => {
-    const [lock, setLock] = useState(true);
-    const [show, setShow] = useState(false);
+
+    const [lock, setLock]     = useState(true);
+    const [show, setShow]     = useState(false);
+    const [shown, setShown]   = useState(false);
+    
     const [imgurl, setImgUrl] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [respModal, setRespModal] = useState(false);
-  
+    const [activeTab, setActiveTab] = useState("MemeGen");
+
+    const [verb, setVerb] = useState('');
+    const [prep, setPrep] = useState('');
+    const [object, setObject] = useState('');
+    const [phrase, setPhrase] = useState('');
+    const [active, setActive] = useState('0');
+    const [subject, setSubject] = useState('');
+
+
+    useEffect (() => {
+      const mlStr = `${subject} ${verb} ${object} ${prep} ${phrase}`;
+      setInputValue(mlStr);
+      console.log("Post setter: ", inputValue);
+    }, [subject, verb, object, phrase, prep])
+
     const downloadImage = () => {
       const dlDate = new Date();
       const timeStr = dlDate.toUTCString();
@@ -56,16 +72,30 @@ const MemeGen = () => {
       </>
     )
 
-    const query = inputValue;
+    const BadRequest = (
+      <>
+        <p className="lead text-center mb-2">Bad Request!</p>
+        <div className="w-100 d-flex">{ FailedRequest }</div>
+        <p className="lead text-center mt-2">Either the AI could not build a meme, or the request timed out!</p>
+      </>
+    )
 
-    const handleShow  = () => setShow (true);
-    const handleClose = () => setShow (false);
+    const handleShow  = () => {
+      !shown && setShow (true);
+      shown && setActiveTab("madlib");
+    };
+
+    const handleClose = () => {
+      setShown (true);
+      setShow (false);
+      setActiveTab("madlib");
+    };
 
     const handleRespShow  = () => setRespModal (true);
     const handleRespClose = () => setRespModal (false);
 
     const handleSubmit = () => {
-        requestMeme(query);
+        requestMeme(inputValue);
         handleRespShow();
         setImgUrl('');
     }
@@ -84,7 +114,10 @@ const MemeGen = () => {
   
       const response = await fetch('/api/memegen/' + queryString);
       const meme = await response.json();
-      console.log(meme)
+
+      if (meme.success == false)
+          setImgUrl("badurl");
+
       setImgUrl (meme.data.url);
     }
 
@@ -97,6 +130,105 @@ const MemeGen = () => {
       };
     }, [show])
 
+    const tabSwitch = (eventKey) => {
+      console.log(eventKey);
+      setActiveTab(eventKey);
+    }
+
+    const loadWords = (word_class) => {
+      const word_list = data.terms[word_class];
+      const optList = [];
+      
+      word_list.forEach((word) => {
+        optList.push(
+          <option key={word} value={word}>{ word }</option>
+        )
+      })
+
+      return (
+        <>
+          { optList }
+        </>
+      )
+    }
+
+    function MLAccordion() {
+      return (
+        <Accordion defaultActiveKey={active} className="w-55 ml-auto mr-auto mb-4 mt-5 shadow-lg">
+          <Accordion.Item eventKey="0">
+            <Accordion.Header>Subject</Accordion.Header>
+            <Accordion.Body className="d-flex justify-content-center align-items-center">
+              <Form>
+                <FormSelect value={subject} aria-label="subject" className="madlib-dd mb-2 mt-2 ml-auto mr-auto w-35" onChange={(e) => {
+                  setActive('0')
+                  setSubject(e.target.value)
+                  }}>
+                    <option value='' default>Select a subject</option>
+                    { loadWords("subject") }
+                </FormSelect>
+              </Form>
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header>Verb</Accordion.Header>
+              <Accordion.Body className="d-flex justify-content-center align-items-center">
+              <Form>
+                <FormSelect value={verb} aria-label="verb" className="madlib-dd mb-2 mt-2 ml-auto mr-auto w-35" onChange={(e) => {
+                  setActive('1')
+                  setVerb(e.target.value)
+                  }}>
+                    <option value='' default>Select a verb</option>
+                    { loadWords("verb") }
+                </FormSelect>
+              </Form>
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="2">
+            <Accordion.Header>Object</Accordion.Header>
+              <Accordion.Body className="d-flex justify-content-center align-items-center">
+              <Form>
+                <FormSelect value={object} aria-label="object" className="madlib-dd mb-2 mt-2 ml-auto mr-auto w-35" onChange={(e) => {
+                  setActive('2')
+                  setObject(e.target.value)
+                  }}>
+                    <option value='' default>Select an object</option>
+                    { loadWords("object") }
+                </FormSelect>
+              </Form>
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="3">
+            <Accordion.Header>Preposition</Accordion.Header>
+              <Accordion.Body className="d-flex justify-content-center align-items-center">
+              <Form>
+                <FormSelect value={prep} aria-label="preposition" className="madlib-dd mb-2 mt-2 ml-auto mr-auto w-35" onChange={(e) => {
+                  setActive('3')
+                  setPrep(e.target.value)
+                  }}>
+                    <option value='' default>Select a preposition</option>
+                    { loadWords("preposition") }
+                </FormSelect>
+              </Form>
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="4">
+            <Accordion.Header>Phrase</Accordion.Header>
+              <Accordion.Body className="d-flex justify-content-center align-items-center">
+              <Form>
+                <FormSelect value={phrase} aria-label="phrase" className="madlib-dd mb-2 mt-2 ml-auto mr-auto w-35" onChange={(e) => {
+                  setActive('4')
+                  setPhrase(e.target.value)
+                  }}>
+                    <option value='' default>Select a phrase</option>
+                    { loadWords("phrase") }
+                </FormSelect>
+              </Form>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+      );
+    }
+
     return (
       <>
         <div className="landing-container mt-3">
@@ -106,6 +238,8 @@ const MemeGen = () => {
                 defaultActiveKey="MemeGen"
                 id="uncontrolled-tab-example"
                 className="mb-3 mt-1 calc-tabs dsb-tabs"
+                activeKey={activeTab}
+                onSelect={(e) => tabSwitch(e)}
               >
                 <Tab
                   eventKey="MemeGen"
@@ -120,7 +254,7 @@ const MemeGen = () => {
                         </CardTitle>
                         {AIChipIcon}
                         <p className="text-center off-white mb-2">
-                          Powered by GPT-4 and {" "}
+                          Powered by GPT-4 and{" "}
                           <a
                             href="https://imgflip.com"
                             target="_blank"
@@ -190,25 +324,36 @@ const MemeGen = () => {
                   title="Natural Language"
                   disabled={lock}
                 >
-                  {/* <h1>Pure Prompting!</h1> */}
                   <Card className="bg-transparent brdr-none w-100">
                     <CardBody className="bg-transparent brdr-none m-auto w-85">
-                      <p className="text-left lead mt-1 mb-0">Instructions</p>
-                      <ol>
-                        <li className="text-left">
-                          Enter a brief prompt to feed to the AI (
-                          <em>maximum 64 characters</em>)
-                        </li>
-                        <li className="text-left">Hit Generate!</li>
-                        <li className="text-left">
-                          Wait for your meme to be served (<em>can sometimes take 1+ minutes</em>)
-                        </li>
-                        <li className="text-left">Profit!</li>
-                      </ol>
+                      <div className="d-flex justify-content-around">
+                        <div className="w-55">
+                          <p className="text-left lead mt-1 mb-0">
+                            Instructions
+                          </p>
+                          <ol>
+                            <li className="text-left">
+                              Enter a brief prompt to feed to the AI (
+                              <em>128 characters max</em>)
+                            </li>
+                            <li className="text-left">Hit Generate!</li>
+                            <li className="text-left">
+                              Wait for your meme to be served (
+                              <em>can sometimes take longer than one minute</em>)
+                            </li>
+                            <li className="text-left">Profit!</li>
+                          </ol>
+                        </div>
+                        <div className="w-40">
+                          <p className="lead text-center"><em>Note</em></p>
+                          { BellAlert }
+                          <p className="text-center lead smallish">Natural language input tends to go way off topic and dives into absurdity far more often than the madlib version!</p>
+                        </div>
+                      </div>
                       <Form.Floating className="m-auto">
                         <Form.Control
                           type="text"
-                          maxLength={64}
+                          maxLength={128}
                           placeholder=""
                           required
                           onChange={handleInputChange}
@@ -233,24 +378,54 @@ const MemeGen = () => {
                   title="Mad Libs Input"
                   disabled={lock}
                 >
-                  <h1>Madlib Mode!</h1>
-                  <MadLibAccordion />
+                  <MLAccordion />
 
-                  <MadLibQueryForm />
+                  <div className="w-100">
+                    <p className="lead text-center mb-0 text-underline">Your Prompt:</p>
+                    {<p className="lead text-center mt-1">{inputValue == "" ? "Choose some words!" : inputValue}</p>}
+
+                    <Button
+                      as="input"
+                      type="submit"
+                      value="Generate!"
+                      onClick={handleSubmit}
+                      className="mt-3 dp-button"
+                    />
+                  </div>
                 </Tab>
               </Tabs>
 
-              <Modal show={respModal} onHide={handleRespClose} backdrop="static" keyboard={false}>
+              <Modal
+                show={respModal}
+                onHide={handleRespClose}
+                backdrop="static"
+                keyboard={false}
+              >
                 <Modal.Header closeButton className="modal-bg">
                   <Modal.Title>Did Someone Order a Meme?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="modal-bg w-100">
                   <div className="m-auto w-100">
-                    { imgurl != "" ? <> <img id="memecanvas" src={imgurl} className="m-auto w-100"></img> { DownloadIcon } </> : MemeLoading }
+                    {imgurl != "" ? imgurl == "badurl" ? BadRequest : (
+                      <>
+                        {" "}
+                        <img
+                          id="memecanvas"
+                          src={imgurl}
+                          className="m-auto w-100"
+                        ></img>{" "}
+                        {DownloadIcon}{" "}
+                      </>
+                    ) : (
+                      MemeLoading
+                    )}
                   </div>
                 </Modal.Body>
                 <Modal.Footer className="modal-bg d-flex flex-row justify-content-end align-items-start">
-                  <Button className="mb-2 mt-2 dp-button" onClick={handleRespClose}>
+                  <Button
+                    className="mb-2 mt-2 dp-button"
+                    onClick={handleRespClose}
+                  >
                     Back
                   </Button>
                 </Modal.Footer>
@@ -260,121 +435,6 @@ const MemeGen = () => {
         </div>
       </>
     );
-}
-
-function MadLibQueryForm() {
-    return (
-        <Card className="w-100">
-            <Card.Body>
-                <Card.Text>
-                    <Button active><p id="madlibprompt">Add Words!</p></Button>
-                </Card.Text>
-                <Button variant="primary" onClick={()=>requestMeme(madLibQuery)}>Generate!</Button>
-            </Card.Body>
-        </Card>
-    );
-}
-
-function MadLibAccordion() {
-    return (
-        <Accordion defaultActiveKey="0" className="w-90 ml-auto mr-auto mb-4">
-            <Accordion.Item eventKey="0">
-                <Accordion.Header>Subject</Accordion.Header>
-                <DropdownComponent category={"subject"} />
-            </Accordion.Item>
-            <Accordion.Item eventKey="1">
-                <Accordion.Header>Verb</Accordion.Header>
-                <DropdownComponent category={"verb"} />
-            </Accordion.Item>
-            <Accordion.Item eventKey="2">
-                <Accordion.Header>Object</Accordion.Header>
-                <DropdownComponent category={"object"} />
-            </Accordion.Item>
-            <Accordion.Item eventKey="3">
-                <Accordion.Header>Preposition</Accordion.Header>
-                <DropdownComponent category={"preposition"} />
-            </Accordion.Item>
-            <Accordion.Item eventKey="4">
-                <Accordion.Header>Phrase</Accordion.Header>
-                <DropdownComponent category={"phrase"} />
-            </Accordion.Item>
-        </Accordion>
-    );
-}
-
-
-
-const DropdownComponent = ({ category }) => {
-    const [dropdownItems, setDropdownItems] = useState([]);
-    category = JSON.stringify(category);
-
-    useEffect(() => {
-        let items;
-        switch (category) {
-            case JSON.stringify("subject"):
-                items = data.terms.subject.map((term, index) => (
-                    <Dropdown.Item key={index} eventKey={term} onClick={() => appendMadLibQuery(term)}>{term}</Dropdown.Item>
-                ));
-                break;
-            case JSON.stringify("verb"):
-                items = data.terms.verb.map((term, index) => (
-                    <Dropdown.Item key={index} eventKey={term} onClick={() => appendMadLibQuery(term)}>{term}</Dropdown.Item>
-                ));
-                break;
-            case JSON.stringify("object"):
-                items = data.terms.object.map((term, index) => (
-                    <Dropdown.Item key={index} eventKey={term} onClick={() => appendMadLibQuery(term)}>{term}</Dropdown.Item>
-                ));
-                break;
-            case JSON.stringify("preposition"):
-                items = data.terms.preposition.map((term, index) => (
-                    <Dropdown.Item key={index} eventKey={term} onClick={() => appendMadLibQuery(term)}>{term}</Dropdown.Item>
-                ));
-                break;
-            case JSON.stringify("phrase"):
-                items = data.terms.phrase.map((term, index) => (
-                    <Dropdown.Item key={index} eventKey={term} onClick={() => appendMadLibQuery(term)}>{term}</Dropdown.Item>
-                ));
-                break;
-            default:
-                console.log(category, "is being default")
-                items = data.terms.object.map((term, index) => (
-                    <Dropdown.Item key={index} eventKey={term}>{term}</Dropdown.Item>
-                ));
-                break;
-
-        }
-
-        setDropdownItems(items);
-    }, []);
-
-    return (
-        <Accordion.Body>
-            <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select a term&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                    {dropdownItems}
-                </Dropdown.Menu>
-            </Dropdown>
-        </Accordion.Body>
-    );
-};
-
-function appendMadLibQuery(input) {
-    input = JSON.stringify(input);
-    madLibQuery += input + " ";
-
-    madLibQuery = madLibQuery.replace(/['"]+/g, '')
-
-    console.log(madLibQuery)
-
-    const madlibprompt = document.getElementById('madlibprompt')
-
-    madlibprompt.innerText = madLibQuery
-
 }
 
 export default MemeGen;

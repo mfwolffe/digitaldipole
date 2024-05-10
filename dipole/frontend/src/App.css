@@ -15,6 +15,15 @@
   box-shadow: 0 0 2rem 2rem #45008440 !important;
 } */
 
+:root {
+  --minty-inactive: hsla(191, 100%, 50%, 0.781);
+  --minty-active: hsla(191, 100%, 50%, 0.934);
+  --muted-minty-active: hsl(188, 78%, 52%);
+  --muted-minty-inactive: hsl(188, 78%, 40%);
+}
+
+
+
 /* hide number input arrow buttons */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -70,14 +79,19 @@ input[type=number] {
 }
 
 .accordion-button:not([aria-expanded="true"]) {
-  background-color:  rgba(123, 0, 255, 0.63) !important;
-  color: rgba(255, 255, 255, 0.8)
+  /* background-color:  rgba(123, 0, 255, 0.63) !important; */
+  /* background-color:  rgba(23, 162, 184, 0.7) !important; */
+  background-color: var(--muted-minty-inactive);
+
+  color: rgba(255, 255, 255, 1)
 }
 
 .accordion-button[aria-expanded="true"] {
   /* border: 1px -webkit-focus-ring-color !important; */
   box-shadow: 0 0 0.75rem 0.5rem #544bcd73 !important;
-  background-color:  rgba(152, 52, 197, 0.8) !important;
+  /* background-color:  rgba(152, 52, 197, 0.8) !important; */
+  /* background-color:  #17a2b8 !important; */
+  background-color: var(--muted-minty-active);
   color: rgba(255, 255, 255, 1)
 }
 
@@ -117,6 +131,10 @@ input[type=number] {
 
 .unknown-dd {
   width: 12rem !important;
+}
+
+.madlib-dd {
+  width: 13rem !important;
 }
 
 .gl-calc {

@@ -150,7 +150,7 @@ def memegen(request, queryString):
     )
 
     count = 1
-    while not (response.json()['success']) and count <= 10:
+    while not (response.json()['success']) and count <= 6:
         payload['messages'][0]['content'] = f"Can you make this meme text funnier: {strip_meme}, but it must be less than 64 characters and wrap the text in double quotes"
         response = requests.post(url, json=payload, headers=headers)
 

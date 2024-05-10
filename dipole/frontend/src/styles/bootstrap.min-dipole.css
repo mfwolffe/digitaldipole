@@ -25,8 +25,7 @@
     --bs-primary-bg-subtle: rgba(125, 71, 131, 0.6);
     --dp-button: #811c98;
     --dp-button-hvr: #8e2aa4db;
-
-
+    --muted-mint: #17a2b8;
 
     /* --bs-primary-bg-subtle: rgba(141, 95, 152, 0.8); */
     --breakpoint-xs: 0;
@@ -70,6 +69,14 @@
 ::after,
 ::before {
     box-sizing: border-box;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.text-mint {
+  color: var(--minty) !important;
 }
 
 #nat-lang {
@@ -300,6 +307,10 @@ strong {
 
 small {
     font-size: 80%
+}
+
+.smallish {
+  font-size: 92% !important;
 }
 
 sub,
@@ -8560,11 +8571,15 @@ button.bg-dark:hover {
 }
 
 .shadow-none {
-    box-shadow: none !important
+    box-shadow: none !important;
 }
 
 .w-25 {
-    width: 25% !important
+    width: 25% !important;
+}
+
+.w-30 {
+  width: 30% !important;
 }
 
 .w-40 {
