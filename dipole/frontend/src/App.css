@@ -154,6 +154,10 @@ input[type=number] {
   width: 80vw !important;
 }
 
+.ref-card {
+  width: 45vw !important;
+}
+
 .meme-card {
   width: 50vw !important;
 }
