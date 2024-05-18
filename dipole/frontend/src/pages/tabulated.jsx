@@ -1,62 +1,101 @@
 import React from "react";
-import Card from "react-bootstrap/Card"
+import { useState } from 'react';
+
 import Tab from "react-bootstrap/Tab";
+import Card from "react-bootstrap/Card";
 import Tabs from "react-bootstrap/Tabs";
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 import Popover from 'react-bootstrap/Popover';
+import Carousel from 'react-bootstrap/Carousel';
+import InputGroup from 'react-bootstrap/InputGroup';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import { NavLink as Link } from "react-router-dom"
-import NavDropdown from 'react-bootstrap/NavDropdown';
+// import Nav from 'react-bootstrap/Nav';
+// import Navbar from 'react-bootstrap/Navbar';
+// import { NavLink as Link } from "react-router-dom"
+// import NavDropdown from 'react-bootstrap/NavDropdown';
 
+import data from '../data/PubChemElements_all.json'
 import { all } from '@awesome.me/kit-a655910996/icons'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useState } from 'react';
-import Carousel from 'react-bootstrap/Carousel';
-// import ExampleCarouselImage from 'components/ExampleCarouselImage';
+library.add(...all);
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/bootstrap.min-dipole.css';
 import '../App.css'
 import '../styles/refs.css'
 
-function ControlledCarousel() {
-    const [index, setIndex] = useState(0);
+const colorTable = {
+  "Nonmetal"              : "#F6BE9A",
+  "Noble gas"             : "#FCAA67",
+  "Alkali metal"          : "#B0413E",
+  "Alkaline earth metal"  : "#30638E",
+  "Metalloid"             : "#4DAA57",
+  "Halogen"               : "#A39594",
+  "Transition metal"      : "#548687",
+  "Post-transition metal" : "#B5DDA4",
+  "Lanthanide"            : "#B4C5E4",
+  "Actinide"              : "#94ECBE"
+}
 
-    const handleSelect = (selectedIndex) => {
-        setIndex(selectedIndex);
-    };
+function buildAtomJSON() {
+  const atomData = [];
+  data["Table"]["Row"].forEach(cell => {
+    const atom = {};
+    cell.Cell.forEach((property, index) => {
+        atom[data["Table"]["Columns"]["Column"][index]] = property;
+    })
+    atomData.push(atom);
+  });
 
-    return (
-        <Carousel activeIndex={index} onSelect={handleSelect}>
-            <Carousel.Item>
-                <Carousel.Caption>
-                    <h3>First slide label</h3>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-                <Carousel.Caption>
-                    <h3>Second slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-                <Carousel.Caption>
-                    <h3>Third slide label</h3>
-                    <p>
-                        Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                    </p>
-                </Carousel.Caption>
-            </Carousel.Item>
-        </Carousel>
-    );
+  return atomData;
+}
+
+function AtomSlide(atomData) {
+  return (
+    <Carousel.Item id={atomData['Name']}>
+          { AtomTable(atomData) }
+    </Carousel.Item>
+  )
+}
+
+function AtomTable(atomData) {
+  const tableStyle = {"background-color": colorTable[atomData['GroupBlock']]}
+
+  function RowBuilder (atom) {
+    const rows = []
+    for (const [key, val] of Object.entries(atom)) {
+      rows.push((
+        <tr>
+          <td className="text-left pl-2">{ key }</td>
+          <td className="text-center pr-2">{ val }</td>
+        </tr>
+      ))
+    }
+    return rows;
+  }
+
+  // TODO maybe just have the table header be the color for the PT group
+  return (
+      <Table className="w-80 ml-auto mr-auto mt-2 carousel-table b-shadow" striped hover style={{"backgroundColor": colorTable[atomData['GroupBlock']]}}>
+        <thead>
+          <tr>
+            <th colSpan={2}>{ atomData['Name'] }</th>
+          </tr>
+          <tr>
+            <th className="text-left pl-4">Property</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          { RowBuilder(atomData) }
+        </tbody>
+      </Table>
+  )
 }
 
 const CarouselTip = (
@@ -73,6 +112,20 @@ const CarouselTip = (
 )
 
 const Tabulated = () => {
+    const atoms = buildAtomJSON();
+    const [index, setIndex] = useState(0);
+
+    const handleSelect = (selectedIndex) => {
+        setIndex(selectedIndex);
+    };
+
+    console.log(data);
+
+    const slides = []
+
+    atoms.forEach((atom) => {
+      slides.push(AtomSlide(atom));
+    })
 
     return (
         <div className="landing-container mt-3">
@@ -99,6 +152,12 @@ const Tabulated = () => {
                             </InputGroup>
                           </Form>
                         </div>
+
+                        <Card className="bg-transparent brdr-none ml-auto mr-auto mt-2 w-80 h-100">
+                          <Carousel activeIndex={index} fade interval={null} onSelect={handleSelect} className="m-auto w-100">
+                            { slides }
+                          </Carousel>
+                        </Card>
 
                     </Tab>
                   </Tabs>

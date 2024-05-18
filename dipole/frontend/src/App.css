@@ -37,6 +37,10 @@ input::-webkit-inner-spin-button {
   color: #00d0ff !important;
 }
 
+.carousel-table {
+  color: white;
+}
+
 #carousel-tip {
   width: 2rem !important;
 }
