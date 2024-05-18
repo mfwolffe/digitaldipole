@@ -8630,6 +8630,10 @@ button.bg-dark:hover {
     width: 95% !important
 }
 
+.w-98 {
+  width: 98% !important
+}
+
 .w-100 {
     width: 100% !important
 }

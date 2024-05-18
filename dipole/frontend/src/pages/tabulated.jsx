@@ -1,9 +1,21 @@
 import React from "react";
 import Card from "react-bootstrap/Card"
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { NavLink as Link } from "react-router-dom"
 import NavDropdown from 'react-bootstrap/NavDropdown';
+
+import { all } from '@awesome.me/kit-a655910996/icons'
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
@@ -24,9 +36,6 @@ function ControlledCarousel() {
     return (
         <Carousel activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
-                <Card>
-
-                </Card>
                 <Carousel.Caption>
                     <h3>First slide label</h3>
                     <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
@@ -50,36 +59,49 @@ function ControlledCarousel() {
     );
 }
 
+const CarouselTip = (
+  <Popover id="carousel-tip">
+    <Popover.Body>
+      <p className="lead mb-0">Jump to an element by entering:</p>
+        <ul className="pb-0 mb-0">
+            <li>Its atomic number</li>
+            <li>Its name (US English)</li>
+            <li>Or its element symbol</li>
+        </ul>
+    </Popover.Body>
+</Popover>
+)
 
 const Tabulated = () => {
 
     return (
         <div className="landing-container mt-3">
             <div className="landing mt-0">
-                <h1>References</h1>
-                <h3>Tabulated Data</h3>
-                <Card id="ref-default" className="mt-5">
-                    <Card.Header>
-                        <Nav variant="tabs" defaultActiveKey="#first" className="ref-default-tab">
-                            <Nav.Item className="nav-item no-b-border">
-                                <Nav.Link href="#first">Atom Carousel</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item className="nav-item no-b-border">
-                                <Nav.Link href="#second">Filter and Sort</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item className="nav-item no-b-border">
-                                <Nav.Link href="#third">
-                                    Disabled
-                                </Nav.Link>
-                            </Nav.Item>
-                        </Nav>
-                    </Card.Header>
-                    <Card.Body>
-                        <Card.Title>Pick a Tab Above</Card.Title>
-                        <Card.Text>
-                            As you can see, there's nothing here
-                        </Card.Text>
-                    </Card.Body>
+                <Card id="ref-default" className="mt-5 m-auto ">
+                  <Tabs
+                  defaultActiveKey="AtomCarousel"
+                  id="uncontrolled-tab-example"
+                  className="mb-3 mt-1 calc-tabs dsb-tabs">
+                    <Tab
+                      eventKey="AtomCarousel"
+                      className="calc-tab"
+                      title="Atom Carousel">
+                        <div className="d-flex justify-content-between w-99 m-auto">
+                          <p className="lead pl-2">Atom Carousel</p>
+                          <Form inline>
+                            <InputGroup>
+                                <OverlayTrigger trigger="focus" overlay={CarouselTip} placement="bottom" delay="2000">
+                                    <Form.Control type="text" placeholder="Jump-to" id="jump-to"/>
+                                </OverlayTrigger>
+                                <Button className="sbar-btn hvr-grow-rotate">
+                                    <FontAwesomeIcon icon="fa-duotone fa-magnifying-glass" fontSize={"1.4rem"}/>
+                                </Button>
+                            </InputGroup>
+                          </Form>
+                        </div>
+
+                    </Tab>
+                  </Tabs>
                 </Card>
             </div>
         </div>

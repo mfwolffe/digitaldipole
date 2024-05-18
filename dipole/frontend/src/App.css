@@ -22,14 +22,23 @@
   --muted-minty-inactive: hsl(188, 78%, 40%);
 }
 
-
-
 /* hide number input arrow buttons */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+#jump-to:focus {
+  box-shadow: none !important;
+  outline: 2px auto -webkit-focus-ring-color;
+  background-color: rgb(126, 126, 126) !important;
+  color: #00d0ff !important;
+}
+
+#carousel-tip {
+  width: 2rem !important;
 }
 
 .as-btn:hover {
