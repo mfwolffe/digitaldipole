@@ -1,0 +1,26 @@
+[Unit]
+Description=Digital Dipole Gunicorn Application Server
+Documentation=https://github.com/mfwolffe/digitaldipole
+After=network.target postgresql.service redis.service
+Requires=postgresql.service redis.service
+
+[Service]
+Type=exec
+User=digitaldipole
+Group=digitaldipole
+RuntimeDirectory=digitaldipole
+WorkingDirectory=/opt/digitaldipole/app
+Environment=PATH=/opt/digitaldipole/venv/bin
+Environment=DJANGO_SETTINGS_MODULE=config.settings.production
+ExecStart=/opt/digitaldipole/venv/bin/gunicorn \
+    --config /opt/digitaldipole/config/gunicorn.conf.py \
+    config.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
