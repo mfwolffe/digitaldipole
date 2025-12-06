@@ -81,30 +81,76 @@ function AtomCard({ atom }) {
   ];
 
   return (
-    <div className="max-w-lg mx-auto">
+    <div style={{ maxWidth: '32rem', margin: '0 auto' }}>
       <div
-        className="rounded-2xl overflow-hidden shadow-2xl"
-        style={{ backgroundColor: bgColor }}
+        style={{
+          backgroundColor: bgColor,
+          borderRadius: '1rem',
+          overflow: 'hidden',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        }}
       >
         {/* Element header with symbol and number */}
-        <div className="px-8 py-6 text-center border-b border-white/20">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-white/80 text-lg font-medium">{atom['AtomicNumber']}</span>
-            <span className="text-white/80 text-sm px-3 py-1 bg-white/20 rounded-full">{atom['GroupBlock']}</span>
+        <div style={{
+          padding: '1.5rem 2rem',
+          textAlign: 'center',
+          borderBottom: '1px solid rgba(255,255,255,0.2)',
+        }}>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '0.75rem',
+          }}>
+            <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.125rem', fontWeight: 500 }}>
+              {atom['AtomicNumber']}
+            </span>
+            <span style={{
+              color: 'rgba(255,255,255,0.8)',
+              fontSize: '0.875rem',
+              padding: '0.25rem 0.75rem',
+              backgroundColor: 'rgba(255,255,255,0.2)',
+              borderRadius: '9999px',
+            }}>
+              {atom['GroupBlock']}
+            </span>
           </div>
-          <div className="text-7xl font-bold text-white mb-2">{atom['Symbol']}</div>
-          <div className="text-3xl font-semibold text-white">{atom['Name']}</div>
-          <div className="text-white/80 text-lg mt-2">{atom['AtomicMass']} u</div>
+          <div style={{ fontSize: '4.5rem', fontWeight: 'bold', color: 'white', marginBottom: '0.5rem' }}>
+            {atom['Symbol']}
+          </div>
+          <div style={{ fontSize: '1.875rem', fontWeight: 600, color: 'white' }}>
+            {atom['Name']}
+          </div>
+          <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.125rem', marginTop: '0.5rem' }}>
+            {atom['AtomicMass']} u
+          </div>
         </div>
 
         {/* Properties table */}
-        <div className="max-h-64 overflow-y-auto">
-          <table className="w-full">
+        <div style={{ maxHeight: '16rem', overflowY: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <tbody>
               {displayProps.map(([key, val], idx) => (
-                <tr key={idx} className={idx % 2 === 0 ? 'bg-black/10' : 'bg-black/5'}>
-                  <td className="text-left pl-6 py-2 text-white/90 font-medium text-sm">{key}</td>
-                  <td className="text-right pr-6 py-2 text-white text-sm">{val}</td>
+                <tr key={idx} style={{
+                  backgroundColor: idx % 2 === 0 ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)',
+                }}>
+                  <td style={{
+                    textAlign: 'left',
+                    paddingLeft: '1.5rem',
+                    paddingTop: '0.5rem',
+                    paddingBottom: '0.5rem',
+                    color: 'rgba(255,255,255,0.9)',
+                    fontWeight: 500,
+                    fontSize: '0.875rem',
+                  }}>{key}</td>
+                  <td style={{
+                    textAlign: 'right',
+                    paddingRight: '1.5rem',
+                    paddingTop: '0.5rem',
+                    paddingBottom: '0.5rem',
+                    color: 'white',
+                    fontSize: '0.875rem',
+                  }}>{val}</td>
                 </tr>
               ))}
             </tbody>

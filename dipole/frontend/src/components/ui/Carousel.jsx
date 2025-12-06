@@ -57,16 +57,20 @@ export function Carousel({
   return (
     <div className={`relative ${className}`}>
       {/* Slides container */}
-      <div className="relative min-h-[400px]">
+      <div className="relative" style={{ minHeight: '450px' }}>
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`
-              transition-all duration-300 ease-in-out
-              ${index === activeIndex
-                ? 'opacity-100 relative z-10'
-                : 'opacity-0 absolute inset-0 pointer-events-none'}
-            `}
+            style={{
+              transition: 'opacity 300ms ease-in-out',
+              opacity: index === activeIndex ? 1 : 0,
+              position: index === activeIndex ? 'relative' : 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: index === activeIndex ? 10 : 0,
+              pointerEvents: index === activeIndex ? 'auto' : 'none',
+            }}
           >
             {slide}
           </div>
