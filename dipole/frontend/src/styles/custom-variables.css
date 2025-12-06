@@ -1,0 +1,80 @@
+/**
+ * Custom CSS Variables and Legacy Bootstrap Variable Replacements
+ *
+ * This file contains CSS variables used throughout the app,
+ * migrated from the legacy bootstrap.min-dipole.css file.
+ */
+
+:root {
+  /* Dipole theme colors */
+  --minty: #00d0ff;
+  --muted-mint: #17a2b8;
+  --dp-button: #811c98;
+  --dp-button-hvr: #8e2aa4db;
+  --dipole-gray: #ffffff;
+
+  /* Shadow colors for animations */
+  --shadow-color-title: 191 100% 50%;
+  --shadow-color-scaffolds: 261, 99%, 69%;
+
+  /* Legacy Bootstrap card spacing (for refs.css compatibility) */
+  --bs-card-spacer-x: 1.25rem;
+  --bs-card-spacer-y: 1.25rem;
+  --bs-card-cap-padding-x: 1.25rem;
+  --bs-card-cap-padding-y: 0.75rem;
+  --bs-offcanvas-padding-x: 1rem;
+  --bs-primary-bg-subtle: rgba(125, 71, 131, 0.6);
+}
+
+/* Custom card style */
+.card-dp {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: inherit;
+  background-clip: border-box;
+  border: none;
+  border-radius: 0;
+}
+
+/* Text utilities */
+.text-mint {
+  color: var(--minty) !important;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+/* Natural language input styling */
+#nat-lang {
+  border-radius: 0.2rem !important;
+}
+
+#nat-lang:focus {
+  outline: 4px auto -webkit-focus-ring-color;
+  box-shadow: none !important;
+  background-color: rgb(126, 126, 126) !important;
+  color: #00d0ff !important;
+}
+
+/* Custom scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 3px;
+}

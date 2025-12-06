@@ -26,9 +26,8 @@ function PageLoader() {
   );
 }
 
-// Note: react-bootstrap removed - now using Tailwind CSS + Headless UI
-// Keeping bootstrap.min-dipole.css temporarily for custom styles that may still be in use
-import './styles/bootstrap.min-dipole.css';
+// Custom CSS variables and styles (migrated from legacy Bootstrap)
+import './styles/custom-variables.css';
 import './App.css'
 
 // function App({username}) {
