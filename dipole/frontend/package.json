@@ -8,7 +8,8 @@
     "build": "vite build",
     "autobuild": "vite build --watch",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node src/calculators/components/equation-renderer/equation-renderer.test.js"
   },
   "dependencies": {
     "@awesome.me/kit-a655910996": "^1.0.10",
