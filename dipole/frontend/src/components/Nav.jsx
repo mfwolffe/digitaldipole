@@ -21,7 +21,7 @@ const NavOffCanvas = () => {
 
     return (
         <>
-            <div className="w-[85%] mx-auto py-3 relative flex items-center justify-between">
+            <div className="w-[85%] mx-auto py-3 grid grid-cols-[auto_1fr_auto] items-center gap-4">
                 {/* Left: Atom icon */}
                 <button
                     type="button"
@@ -42,8 +42,8 @@ const NavOffCanvas = () => {
                     />
                 </button>
 
-                {/* Center: Search bar - absolutely positioned for true center */}
-                <div className="absolute left-1/2 -translate-x-1/2">
+                {/* Center: Search bar - centered in middle column */}
+                <div className="flex justify-center">
                     <SearchBar />
                 </div>
 
