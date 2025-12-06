@@ -59,7 +59,7 @@ export function Calculator({ calculatorId }) {
     <div className="calculator-container" ref={containerRef}>
       {/* Original equation display with favorite button in header */}
       <div className="text-center mb-4 relative">
-        <div className="absolute top-0 right-0">
+        <div className="absolute top-0 right-0 z-10">
           <FavoriteButton equationName={calculatorId} size="xl" />
         </div>
         <EquationDisplay latex={calculator.latexEquation} />
