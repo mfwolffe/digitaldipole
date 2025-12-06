@@ -5,7 +5,7 @@
  */
 import { useState, useCallback, useMemo } from 'react';
 import { getCalculator } from '../registry';
-import { solve, solveSymbolic } from '../engine/nerdamer-solver';
+import { solve, solveSymbolic, solveLogarithmic } from '../engine/nerdamer-solver';
 
 /**
  * Hook for managing a single calculator's state
@@ -112,13 +112,30 @@ export function useCalculator(calculatorId) {
         values[variable.id] = parsed;
       }
 
-      // Solve using nerdamer
-      const solveResult = solve(
-        calculator.equation,
-        unknownVariable,
-        values,
-        symbolMap
-      );
+      // Solve using appropriate solver
+      let solveResult;
+
+      if (calculator.logarithmic) {
+        // Use logarithmic solver for equations with ln(ratio)
+        solveResult = solveLogarithmic(
+          {
+            equation: calculator.equation,
+            logNumerator: calculator.logarithmic.numerator,
+            logDenominator: calculator.logarithmic.denominator
+          },
+          unknownVariable,
+          values,
+          symbolMap
+        );
+      } else {
+        // Standard algebraic solver
+        solveResult = solve(
+          calculator.equation,
+          unknownVariable,
+          values,
+          symbolMap
+        );
+      }
 
       if (solveResult.success) {
         setResult(solveResult);

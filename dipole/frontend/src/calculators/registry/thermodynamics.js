@@ -10,7 +10,9 @@ import {
   EntropyChangeInfo,
   WorkPVInfo,
   FirstLawInfo,
-  MolarHeatCapacityInfo
+  MolarHeatCapacityInfo,
+  ClausiusClapeyronInfo,
+  IsothermalWorkInfo
 } from '../../components/CalcInfo';
 
 export const thermodynamicsCalculators = [
@@ -296,6 +298,140 @@ export const thermodynamicsCalculators = [
       }
     ],
     InfoComponent: MolarHeatCapacityInfo
+  },
+
+  {
+    id: 'clausiusClapeyron',
+    name: 'Clausius-Clapeyron',
+    category: 'THRM',
+    // ln(P2/P1) = -ΔHvap/R × (1/T2 - 1/T1)
+    // Using substitution: lnRatio + deltaHvap/R * (1/T2 - 1/T1) = 0
+    equation: 'lnRatio + deltaHvap/R*(1/T2 - 1/T1)',
+    latexEquation: '\\ln\\left(\\frac{P_2}{P_1}\\right) = -\\frac{\\Delta H_{vap}}{R}\\left(\\frac{1}{T_2} - \\frac{1}{T_1}\\right)',
+    logarithmic: {
+      numerator: 'P2',
+      denominator: 'P1'
+    },
+    variables: [
+      {
+        id: 'P2',
+        name: 'Final Pressure',
+        symbol: 'P_2',
+        htmlSymbol: 'P<sub>2</sub>',
+        unit: 'atm',
+        description: 'Vapor pressure at temperature T₂'
+      },
+      {
+        id: 'P1',
+        name: 'Initial Pressure',
+        symbol: 'P_1',
+        htmlSymbol: 'P<sub>1</sub>',
+        unit: 'atm',
+        description: 'Vapor pressure at temperature T₁'
+      },
+      {
+        id: 'deltaHvap',
+        name: 'Enthalpy of Vaporization',
+        symbol: '\\Delta H_{vap}',
+        htmlSymbol: 'ΔH<sub>vap</sub>',
+        unit: 'J/mol',
+        description: 'Enthalpy of vaporization'
+      },
+      {
+        id: 'R',
+        name: 'Gas Constant',
+        symbol: 'R',
+        htmlSymbol: 'R',
+        unit: 'J/(mol·K)',
+        defaultValue: 8.314,
+        isConstant: true,
+        description: 'Ideal gas constant (8.314 J/(mol·K))'
+      },
+      {
+        id: 'T1',
+        name: 'Initial Temperature',
+        symbol: 'T_1',
+        htmlSymbol: 'T<sub>1</sub>',
+        unit: 'K',
+        description: 'Initial temperature (Kelvin)'
+      },
+      {
+        id: 'T2',
+        name: 'Final Temperature',
+        symbol: 'T_2',
+        htmlSymbol: 'T<sub>2</sub>',
+        unit: 'K',
+        description: 'Final temperature (Kelvin)'
+      }
+    ],
+    InfoComponent: ClausiusClapeyronInfo
+  },
+
+  {
+    id: 'isothermalWork',
+    name: 'Isothermal Work',
+    category: 'THRM',
+    // w = -nRT*ln(V2/V1)
+    // Using substitution: w + n*R*T*lnRatio = 0
+    equation: 'w + n*R*T*lnRatio',
+    latexEquation: 'w = -nRT\\ln\\left(\\frac{V_2}{V_1}\\right)',
+    logarithmic: {
+      numerator: 'V2',
+      denominator: 'V1'
+    },
+    variables: [
+      {
+        id: 'w',
+        name: 'Work',
+        symbol: 'w',
+        htmlSymbol: 'w',
+        unit: 'J',
+        description: 'Work done (negative for expansion)'
+      },
+      {
+        id: 'n',
+        name: 'Moles',
+        symbol: 'n',
+        htmlSymbol: 'n',
+        unit: 'mol',
+        description: 'Amount of gas in moles'
+      },
+      {
+        id: 'R',
+        name: 'Gas Constant',
+        symbol: 'R',
+        htmlSymbol: 'R',
+        unit: 'J/(mol·K)',
+        defaultValue: 8.314,
+        isConstant: true,
+        description: 'Ideal gas constant (8.314 J/(mol·K))'
+      },
+      {
+        id: 'T',
+        name: 'Temperature',
+        symbol: 'T',
+        htmlSymbol: 'T',
+        unit: 'K',
+        description: 'Temperature (Kelvin)'
+      },
+      {
+        id: 'V2',
+        name: 'Final Volume',
+        symbol: 'V_2',
+        htmlSymbol: 'V<sub>2</sub>',
+        unit: 'L',
+        description: 'Final volume'
+      },
+      {
+        id: 'V1',
+        name: 'Initial Volume',
+        symbol: 'V_1',
+        htmlSymbol: 'V<sub>1</sub>',
+        unit: 'L',
+        description: 'Initial volume'
+      }
+    ],
+    InfoComponent: IsothermalWorkInfo
   }
 ];
 

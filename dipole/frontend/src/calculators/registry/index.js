@@ -6,11 +6,13 @@
  */
 import { gasLawCalculators, gasLawsInfo } from './gas-laws';
 import { thermodynamicsCalculators, thermodynamicsInfo } from './thermodynamics';
+import { kineticsCalculators, kineticsInfo } from './kinetics';
 
 // Combine all calculators
 const allCalculators = [
   ...gasLawCalculators,
-  ...thermodynamicsCalculators
+  ...thermodynamicsCalculators,
+  ...kineticsCalculators
 ];
 
 // Create lookup map by ID
@@ -58,7 +60,9 @@ export {
   gasLawCalculators,
   gasLawsInfo,
   thermodynamicsCalculators,
-  thermodynamicsInfo
+  thermodynamicsInfo,
+  kineticsCalculators,
+  kineticsInfo
 };
 
 // Export all calculators
@@ -70,5 +74,6 @@ export default {
   getAllCalculatorIds,
   hasCalculator,
   gasLawCalculators,
-  thermodynamicsCalculators
+  thermodynamicsCalculators,
+  kineticsCalculators
 };

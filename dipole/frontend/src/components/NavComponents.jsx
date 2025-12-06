@@ -217,14 +217,21 @@ export function OffCDropCalc () {
                     </li>
                     <li>
                         <div eventKey="ref-3" className="text-wrap pl-0 hvr-underline-from-left">
-                            Unit Conversions
+                            <Link to="/calculators/kinetics" className="pl-0 ml-0">
+                                Kinetics
+                            </Link>
                         </div>
                     </li>
                     <li>
                         <div eventKey="ref-4" className="text-wrap pl-0 hvr-underline-from-left">
+                            Unit Conversions
+                        </div>
+                    </li>
+                    <li>
+                        <div eventKey="ref-5" className="text-wrap pl-0 hvr-underline-from-left">
                             Solutions & Titrations
                         </div>
-                        
+
                     </li>
                 </ul>
                 </div>

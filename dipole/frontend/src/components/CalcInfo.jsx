@@ -454,4 +454,64 @@ export function MolarHeatCapacityInfo() {
   );
 }
 
+export function ClausiusClapeyronInfo() {
+  return (
+    <>
+      <p className="text-left mb-1">
+        The Clausius-Clapeyron equation describes how vapor pressure changes with temperature.
+        It's essential for understanding phase transitions and boiling points at different pressures.
+      </p>
+      <p className="text-center">{"$$\\ln\\left(\\frac{P_2}{P_1}\\right) = -\\frac{\\Delta H_{vap}}{R}\\left(\\frac{1}{T_2} - \\frac{1}{T_1}\\right)$$"}</p>
+      <p className="text-left mt-2">
+        Where {"\\(\\Delta H_{vap}\\)"} is the enthalpy of vaporization, {"\\(R\\)"} is the gas constant
+        (8.314 J/(mol·K)), and {"\\(P_1, P_2\\)"} are vapor pressures at temperatures {"\\(T_1, T_2\\)"}.
+      </p>
+      <p className="text-left mt-2">
+        This equation can predict boiling points at different altitudes or estimate vapor pressures
+        at various temperatures.
+      </p>
+    </>
+  );
+}
+
+export function IsothermalWorkInfo() {
+  return (
+    <>
+      <p className="text-left mb-1">
+        In an isothermal (constant temperature) reversible expansion or compression, work is
+        calculated using the natural logarithm of the volume ratio:
+      </p>
+      <p className="text-center">{"$$w = -nRT\\ln\\left(\\frac{V_2}{V_1}\\right)$$"}</p>
+      <p className="text-left mt-2">
+        For expansion ({"\\(V_2 > V_1\\)"}), work is negative (system does work on surroundings).
+        For compression ({"\\(V_2 < V_1\\)"}), work is positive (surroundings do work on system).
+      </p>
+      <p className="text-left mt-2">
+        This represents the maximum work obtainable from an isothermal process, achieved only
+        in the idealized reversible limit.
+      </p>
+    </>
+  );
+}
+
+export function ArrheniusInfo() {
+  return (
+    <>
+      <p className="text-left mb-1">
+        The Arrhenius equation describes how reaction rate constants depend on temperature,
+        providing insight into activation energies and reaction mechanisms:
+      </p>
+      <p className="text-center">{"$$k = Ae^{-E_a/RT}$$"}</p>
+      <p className="text-left mt-2">
+        Where {"\\(k\\)"} is the rate constant, {"\\(A\\)"} is the pre-exponential factor (frequency factor),
+        {"\\(E_a\\)"} is the activation energy, {"\\(R\\)"} is the gas constant, and {"\\(T\\)"} is temperature in Kelvin.
+      </p>
+      <p className="text-left mt-2">
+        The two-point form is often more practical for calculations:
+      </p>
+      <p className="text-center">{"$$\\ln\\left(\\frac{k_2}{k_1}\\right) = -\\frac{E_a}{R}\\left(\\frac{1}{T_2} - \\frac{1}{T_1}\\right)$$"}</p>
+    </>
+  );
+}
+
 

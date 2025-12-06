@@ -7,20 +7,10 @@ import Tabs from "react-bootstrap/Tabs";
 import Accordion from "react-bootstrap/Accordion";
 
 import { Calculator } from "../../calculators";
-import { thermodynamicsInfo } from "../../calculators/registry";
+import { kineticsInfo } from "../../calculators/registry";
 
 import {
-  ThermInfo1,
-  ThermInfo2,
-  StateHeat,
-  EntropyInfo,
-  GibbsInfo,
-  EntropyChangeInfo,
-  WorkPVInfo,
-  FirstLawInfo,
-  MolarHeatCapacityInfo,
-  ClausiusClapeyronInfo,
-  IsothermalWorkInfo,
+  ArrheniusInfo,
 } from "../../components/CalcInfo";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -47,9 +37,9 @@ const RootIco = (
   />
 );
 
-const ThermCurv = (
+const KineticsIcon = (
   <FontAwesomeIcon
-    icon="fa-duotone fa-fire-flame-curved"
+    icon="fa-duotone fa-chart-line"
     size="lg"
     style={{
       "--fa-secondary-color": "#fc6601",
@@ -104,7 +94,7 @@ function CalculatorAccordion({ InfoComponent, calculatorId }) {
 /**
  * Info-only accordion (for the main info tab)
  */
-function InfoAccordion({ Info1, Info2, title1, title2 }) {
+function InfoAccordion({ Info1, title1 }) {
   return (
     <Accordion defaultActiveKey="0" className="ml-auto mr-auto mb-3 calc-acc">
       <Accordion.Item eventKey="0">
@@ -116,29 +106,50 @@ function InfoAccordion({ Info1, Info2, title1, title2 }) {
           <Info1 />
         </Accordion.Body>
       </Accordion.Item>
-      <Accordion.Item eventKey="1">
-        <Accordion.Header>
-          {ThermCurv}
-          {title2}
-        </Accordion.Header>
-        <Accordion.Body>
-          <Info2 />
-        </Accordion.Body>
-      </Accordion.Item>
     </Accordion>
   );
 }
 
+/**
+ * Kinetics overview for info tab
+ */
+function KineticsOverview() {
+  return (
+    <>
+      <p className="text-left mb-2">
+        <strong>Chemical kinetics</strong> is the study of reaction rates — how fast reactants
+        are consumed and products are formed. Understanding kinetics helps predict reaction
+        timescales and design efficient processes.
+      </p>
+      <p className="text-left mb-2">
+        Key concepts include:
+      </p>
+      <ul className="text-left">
+        <li><strong>Rate Laws</strong>: Mathematical expressions relating rate to concentrations</li>
+        <li><strong>Rate Constants</strong>: Temperature-dependent proportionality factors</li>
+        <li><strong>Activation Energy</strong>: Energy barrier that must be overcome for reaction</li>
+        <li><strong>Half-Life</strong>: Time for concentration to decrease by half</li>
+      </ul>
+      <p className="text-center mt-3">
+        {"$$\\text{rate} = k[A]^m[B]^n$$"}
+      </p>
+      <p className="text-center text-muted">
+        where {"\\(k\\)"} is the rate constant and {"\\(m, n\\)"} are reaction orders.
+      </p>
+    </>
+  );
+}
+
 // Valid tab keys for this page
-const VALID_TABS = ['info', 'enthalpy', 'heat', 'gibbs', 'entropyChange', 'work', 'firstLaw', 'molarHeat', 'clausiusClapeyron', 'isothermalWork'];
+const VALID_TABS = ['info', 'arrhenius', 'halfLife', 'secondOrder'];
 
 /**
- * Thermodynamics Calculator Page
+ * Kinetics Calculator Page
  *
  * Uses the new client-side calculator system with Nerdamer.js
- * URL structure: /calculators/thermo/:tab?
+ * URL structure: /calculators/kinetics/:tab?
  */
-const ThermodynamicsPage = () => {
+const KineticsPage = () => {
   const { tab } = useParams();
   const navigate = useNavigate();
 
@@ -148,9 +159,9 @@ const ThermodynamicsPage = () => {
   // Handle tab selection - update URL
   const handleTabSelect = (selectedTab) => {
     if (selectedTab === 'info') {
-      navigate('/calculators/thermo');
+      navigate('/calculators/kinetics');
     } else {
-      navigate(`/calculators/thermo/${selectedTab}`);
+      navigate(`/calculators/kinetics/${selectedTab}`);
     }
   };
 
@@ -169,78 +180,34 @@ const ThermodynamicsPage = () => {
           <Tabs
             activeKey={activeTab}
             onSelect={handleTabSelect}
-            id="thermodynamics-tabs"
+            id="kinetics-tabs"
             className="mb-3 mt-1 calc-tabs"
           >
             <Tab eventKey="info" className="calc-tab" title="Info">
               <InfoAccordion
-                Info1={ThermInfo1}
-                Info2={ThermInfo2}
-                title1="Thermodynamics"
-                title2="Laws of Thermodynamics"
+                Info1={KineticsOverview}
+                title1="Chemical Kinetics"
               />
             </Tab>
 
-            <Tab eventKey="enthalpy" className="calc-tab" title="Enthalpy Calculator">
+            <Tab eventKey="arrhenius" className="calc-tab" title="Arrhenius Equation">
               <CalculatorAccordion
-                InfoComponent={StateHeat}
-                calculatorId="enthalpy"
+                InfoComponent={ArrheniusInfo}
+                calculatorId="arrhenius"
               />
             </Tab>
 
-            <Tab eventKey="heat" className="calc-tab" title="Heat Transfer">
+            <Tab eventKey="halfLife" className="calc-tab" title="Half-Life">
               <CalculatorAccordion
-                InfoComponent={StateHeat}
-                calculatorId="heat"
+                InfoComponent={ArrheniusInfo}
+                calculatorId="halfLife"
               />
             </Tab>
 
-            <Tab eventKey="gibbs" className="calc-tab" title="Gibbs Free Energy">
+            <Tab eventKey="secondOrder" className="calc-tab" title="Second Order">
               <CalculatorAccordion
-                InfoComponent={GibbsInfo}
-                calculatorId="gibbs"
-              />
-            </Tab>
-
-            <Tab eventKey="entropyChange" className="calc-tab" title="Entropy Change">
-              <CalculatorAccordion
-                InfoComponent={EntropyChangeInfo}
-                calculatorId="entropyChange"
-              />
-            </Tab>
-
-            <Tab eventKey="work" className="calc-tab" title="Work (PV)">
-              <CalculatorAccordion
-                InfoComponent={WorkPVInfo}
-                calculatorId="work"
-              />
-            </Tab>
-
-            <Tab eventKey="firstLaw" className="calc-tab" title="First Law">
-              <CalculatorAccordion
-                InfoComponent={FirstLawInfo}
-                calculatorId="firstLaw"
-              />
-            </Tab>
-
-            <Tab eventKey="molarHeat" className="calc-tab" title="Molar Heat Capacity">
-              <CalculatorAccordion
-                InfoComponent={MolarHeatCapacityInfo}
-                calculatorId="molarHeat"
-              />
-            </Tab>
-
-            <Tab eventKey="clausiusClapeyron" className="calc-tab" title="Clausius-Clapeyron">
-              <CalculatorAccordion
-                InfoComponent={ClausiusClapeyronInfo}
-                calculatorId="clausiusClapeyron"
-              />
-            </Tab>
-
-            <Tab eventKey="isothermalWork" className="calc-tab" title="Isothermal Work">
-              <CalculatorAccordion
-                InfoComponent={IsothermalWorkInfo}
-                calculatorId="isothermalWork"
+                InfoComponent={ArrheniusInfo}
+                calculatorId="secondOrder"
               />
             </Tab>
           </Tabs>
@@ -250,4 +217,4 @@ const ThermodynamicsPage = () => {
   );
 };
 
-export default ThermodynamicsPage;
+export default KineticsPage;
