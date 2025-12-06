@@ -139,8 +139,8 @@ export function SearchBar() {
     });
   }, [query, searchIndex]);
 
-  // Group results by type
-  const groupedResults = useMemo(() => {
+  // Group results by type and build flat list in render order
+  const { groupedResults, flatResults } = useMemo(() => {
     const groups = {
       calculator: [],
       element: [],
@@ -151,11 +151,16 @@ export function SearchBar() {
         groups[r.item.type].push(r);
       }
     });
-    return groups;
-  }, [results]);
 
-  // Flat list for keyboard navigation
-  const flatResults = useMemo(() => results.map(r => r.item), [results]);
+    // Build flat list in the same order as rendered (calculators, elements, pages)
+    const flat = [
+      ...groups.calculator.map(r => r.item),
+      ...groups.element.map(r => r.item),
+      ...groups.page.map(r => r.item),
+    ];
+
+    return { groupedResults: groups, flatResults: flat };
+  }, [results]);
 
   // Handle navigation to result
   const navigateToResult = useCallback((item) => {
@@ -292,7 +297,8 @@ export function SearchBar() {
                     Calculators
                   </div>
                   {groupedResults.calculator.map((result, idx) => {
-                    const globalIdx = flatResults.indexOf(result.item);
+                    // Index in flat list: calculators come first
+                    const globalIdx = idx;
                     return (
                       <button
                         key={result.item.id}
@@ -328,8 +334,9 @@ export function SearchBar() {
                   <div className="px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50">
                     Elements
                   </div>
-                  {groupedResults.element.map((result) => {
-                    const globalIdx = flatResults.indexOf(result.item);
+                  {groupedResults.element.map((result, idx) => {
+                    // Index in flat list: elements come after calculators
+                    const globalIdx = groupedResults.calculator.length + idx;
                     return (
                       <button
                         key={result.item.id}
@@ -368,8 +375,9 @@ export function SearchBar() {
                   <div className="px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50">
                     Pages
                   </div>
-                  {groupedResults.page.map((result) => {
-                    const globalIdx = flatResults.indexOf(result.item);
+                  {groupedResults.page.map((result, idx) => {
+                    // Index in flat list: pages come after calculators and elements
+                    const globalIdx = groupedResults.calculator.length + groupedResults.element.length + idx;
                     return (
                       <button
                         key={result.item.id}
