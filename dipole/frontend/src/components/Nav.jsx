@@ -21,13 +21,13 @@ const NavOffCanvas = () => {
 
     return (
         <>
-            <div className="w-[85%] mx-auto py-3 flex flex-row items-center justify-between gap-4" style={{ display: 'flex', flexDirection: 'row' }}>
+            <div className="w-[85%] mx-auto py-3 relative flex items-center" style={{ display: 'flex', flexDirection: 'row' }}>
                 {/* Left: Atom icon */}
                 <Button
                     variant="ghost"
                     size="icon"
                     onClick={toggleShow}
-                    className="sbar-btn p-2 shrink-0 border-0 bg-transparent"
+                    className="sbar-btn p-2 border-0 bg-transparent"
                 >
                     <FontAwesomeIcon
                         icon="fa-duotone fa-atom"
@@ -42,13 +42,13 @@ const NavOffCanvas = () => {
                     />
                 </Button>
 
-                {/* Center: Search bar */}
-                <div className="flex-1 flex justify-center">
+                {/* Center: Search bar - absolutely positioned for true center */}
+                <div className="absolute left-1/2 transform -translate-x-1/2">
                     <SearchBar />
                 </div>
 
                 {/* Right: User dropdown */}
-                <div className="shrink-0">
+                <div className="ml-auto">
                     <UserDrop />
                 </div>
             </div>

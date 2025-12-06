@@ -181,28 +181,29 @@ export function OffCDropRef({ onNavigate }) {
             <Link
               to="/tabulated"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
+              className="block py-2 px-2 font-medium hover:bg-white rounded transition-colors"
+              style={{ color: '#111827' }}
             >
               Tabulated Data
             </Link>
           </li>
           <li>
-            <span className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors cursor-pointer">
+            <span className="block py-2 px-2 font-medium hover:bg-white rounded transition-colors cursor-pointer" style={{ color: '#111827' }}>
               Periodic Tables
             </span>
           </li>
           <li>
-            <span className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors cursor-pointer">
+            <span className="block py-2 px-2 font-medium hover:bg-white rounded transition-colors cursor-pointer" style={{ color: '#111827' }}>
               Conversion Factors
             </span>
           </li>
           <li>
-            <span className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors cursor-pointer">
+            <span className="block py-2 px-2 font-medium hover:bg-white rounded transition-colors cursor-pointer" style={{ color: '#111827' }}>
               Fundamental Constants
             </span>
           </li>
           <li>
-            <span className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors cursor-pointer">
+            <span className="block py-2 px-2 font-medium hover:bg-white rounded transition-colors cursor-pointer" style={{ color: '#111827' }}>
               Common Equations
             </span>
           </li>
@@ -243,7 +244,8 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/gas-laws"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
+              className="block py-2 px-2 font-medium hover:bg-white rounded transition-colors"
+              style={{ color: '#111827' }}
             >
               Gas Laws (Ideal)
             </Link>
@@ -252,7 +254,8 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/thermo"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
+              className="block py-2 px-2 font-medium hover:bg-white rounded transition-colors"
+              style={{ color: '#111827' }}
             >
               Thermodynamics
             </Link>
@@ -261,7 +264,8 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/kinetics"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
+              className="block py-2 px-2 font-medium hover:bg-white rounded transition-colors"
+              style={{ color: '#111827' }}
             >
               Kinetics
             </Link>
@@ -270,7 +274,8 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/solutions"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
+              className="block py-2 px-2 font-medium hover:bg-white rounded transition-colors"
+              style={{ color: '#111827' }}
             >
               Solutions
             </Link>
@@ -279,7 +284,8 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/electrochemistry"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
+              className="block py-2 px-2 font-medium hover:bg-white rounded transition-colors"
+              style={{ color: '#111827' }}
             >
               Electrochemistry
             </Link>
