@@ -22,3 +22,8 @@ export {
   OxidationStateSummary,
   ElectronTransfer,
 } from './HalfReactionDisplay.jsx';
+export {
+  MatrixVisualizationPanel,
+  MatrixStepViewer,
+  MatrixOverview,
+} from './MatrixVisualization.jsx';

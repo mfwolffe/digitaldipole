@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { VisualEquation } from './VisualEquation.jsx';
 import { HalfReactionPanel } from './HalfReactionDisplay.jsx';
+import { MatrixVisualizationPanel } from './MatrixVisualization.jsx';
 import { Card } from '../../components/ui/Card.jsx';
 import { Alert } from '../../components/ui/Alert.jsx';
 import { Accordion, AccordionItem, AccordionHeader, AccordionBody } from '../../components/ui/Accordion.jsx';
@@ -88,6 +89,25 @@ export function BalanceResult({
             />
           </div>
         </Card>
+      )}
+
+      {/* Matrix Visualization (for molecular/ionic mode) */}
+      {balanceResult.matrixData && (
+        <Accordion>
+          <AccordionItem eventKey="matrix">
+            <AccordionHeader>
+              <span className="flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+                Matrix Visualization
+              </span>
+            </AccordionHeader>
+            <AccordionBody>
+              <MatrixVisualizationPanel matrixData={balanceResult.matrixData} />
+            </AccordionBody>
+          </AccordionItem>
+        </Accordion>
       )}
 
       {/* Balancing steps */}

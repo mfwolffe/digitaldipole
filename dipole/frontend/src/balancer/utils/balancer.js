@@ -61,20 +61,22 @@ export function balanceEquation(equation, options = {}) {
       });
     }
 
-    // Solve using null space method
-    const solution = findNullSpace(matrix);
+    // Solve using null space method (with step tracking for visualization)
+    const nullSpaceResult = findNullSpace(matrix, showSteps);
 
-    if (!solution) {
+    if (!nullSpaceResult.solution) {
       return { success: false, error: 'No solution found - equation may be impossible to balance' };
     }
 
+    const { solution: rawSolution, reductionSteps, freeVars, pivotCols } = nullSpaceResult;
+
     // Convert to smallest positive integers
-    const coefficients = toSmallestIntegers(solution);
+    const coefficients = toSmallestIntegers(rawSolution);
 
     if (showSteps) {
       steps.push({
         description: 'Find coefficients',
-        detail: `Raw solution: [${solution.map(x => x.toFixed(4)).join(', ')}]`,
+        detail: `Raw solution: [${rawSolution.map(x => x.toFixed(4)).join(', ')}]`,
       });
       steps.push({
         description: 'Convert to integers',
@@ -106,6 +108,17 @@ export function balanceEquation(equation, options = {}) {
       success: true,
       coefficients: coefficientMap,
       steps,
+      // Matrix visualization data
+      matrixData: showSteps ? {
+        initialMatrix: matrix,
+        elements,
+        compounds: allCompounds.map(c => c.formula),
+        reductionSteps,
+        freeVars,
+        pivotCols,
+        rawSolution,
+        finalCoefficients: coefficients,
+      } : null,
     };
   } catch (error) {
     return { success: false, error: error.message };
@@ -162,19 +175,23 @@ function getElementCountInCompound(compound, elementSymbol) {
 
 /**
  * Find null space of matrix using Gaussian elimination
- * Returns a non-trivial solution vector
+ * Returns { solution, reductionSteps } with detailed step tracking
  */
-function findNullSpace(matrix) {
+function findNullSpace(matrix, trackSteps = false) {
   const m = matrix.length;      // rows (constraints)
   const n = matrix[0].length;   // columns (variables/compounds)
-
-  if (n <= m) {
-    // Need more variables than constraints for a non-trivial solution
-    // This can still work if the system is underdetermined
-  }
+  const reductionSteps = [];
 
   // Create augmented matrix (copy)
   const aug = matrix.map(row => [...row]);
+
+  if (trackSteps) {
+    reductionSteps.push({
+      type: 'initial',
+      description: 'Initial matrix',
+      matrix: aug.map(row => [...row]),
+    });
+  }
 
   // Perform Gaussian elimination with partial pivoting
   let pivotRow = 0;
@@ -194,13 +211,33 @@ function findNullSpace(matrix) {
       continue;
     }
 
-    // Swap rows
-    [aug[pivotRow], aug[maxRow]] = [aug[maxRow], aug[pivotRow]];
+    // Swap rows if needed
+    if (maxRow !== pivotRow) {
+      [aug[pivotRow], aug[maxRow]] = [aug[maxRow], aug[pivotRow]];
+      if (trackSteps) {
+        reductionSteps.push({
+          type: 'swap',
+          description: `Swap R${pivotRow + 1} ↔ R${maxRow + 1}`,
+          matrix: aug.map(row => [...row]),
+          highlight: { rows: [pivotRow, maxRow] },
+        });
+      }
+    }
 
     // Scale pivot row
     const pivotVal = aug[pivotRow][col];
-    for (let j = 0; j < n; j++) {
-      aug[pivotRow][j] /= pivotVal;
+    if (Math.abs(pivotVal - 1) > 1e-10) {
+      for (let j = 0; j < n; j++) {
+        aug[pivotRow][j] /= pivotVal;
+      }
+      if (trackSteps) {
+        reductionSteps.push({
+          type: 'scale',
+          description: `R${pivotRow + 1} ÷ ${formatNumber(pivotVal)}`,
+          matrix: aug.map(row => [...row]),
+          highlight: { rows: [pivotRow], pivot: { row: pivotRow, col } },
+        });
+      }
     }
 
     // Eliminate other rows
@@ -210,11 +247,28 @@ function findNullSpace(matrix) {
         for (let j = 0; j < n; j++) {
           aug[row][j] -= factor * aug[pivotRow][j];
         }
+        if (trackSteps) {
+          reductionSteps.push({
+            type: 'eliminate',
+            description: `R${row + 1} − ${formatNumber(factor)} × R${pivotRow + 1}`,
+            matrix: aug.map(row => [...row]),
+            highlight: { rows: [row], pivot: { row: pivotRow, col } },
+          });
+        }
       }
     }
 
     pivotCols.push(col);
     pivotRow++;
+  }
+
+  if (trackSteps) {
+    reductionSteps.push({
+      type: 'rref',
+      description: 'Row-reduced echelon form (RREF)',
+      matrix: aug.map(row => [...row]),
+      pivotCols,
+    });
   }
 
   // Find free variables (columns without pivots)
@@ -226,9 +280,6 @@ function findNullSpace(matrix) {
   }
 
   if (freeVars.length === 0) {
-    // System is fully determined - only trivial solution exists
-    // This means the equation can't be balanced (or is already balanced with all 1s)
-    // Try setting last variable as free
     freeVars.push(n - 1);
   }
 
@@ -250,7 +301,6 @@ function findNullSpace(matrix) {
   // Check if solution is valid (no zeros, all same sign or correctable)
   const nonZero = solution.filter(x => Math.abs(x) > 1e-10);
   if (nonZero.length !== n) {
-    // Some coefficients are zero - try different free variable
     for (let tryFree = 1; tryFree < freeVars.length; tryFree++) {
       solution.fill(0);
       solution[freeVars[tryFree]] = 1;
@@ -273,18 +323,37 @@ function findNullSpace(matrix) {
   const hasNegative = solution.some(x => x < -1e-10);
   const hasPositive = solution.some(x => x > 1e-10);
 
+  let finalSolution = solution;
   if (hasNegative && hasPositive) {
-    // Mixed signs - this shouldn't happen for valid equations
-    // Try flipping all signs
     const flipped = solution.map(x => -x);
     if (flipped.every(x => x >= -1e-10)) {
-      return flipped;
+      finalSolution = flipped;
     }
   } else if (hasNegative) {
-    return solution.map(x => -x);
+    finalSolution = solution.map(x => -x);
   }
 
-  return solution;
+  if (trackSteps) {
+    reductionSteps.push({
+      type: 'solution',
+      description: 'Null space solution',
+      solution: finalSolution,
+      freeVars,
+      pivotCols,
+    });
+  }
+
+  return { solution: finalSolution, reductionSteps, freeVars, pivotCols };
+}
+
+/**
+ * Format a number for display in matrix steps
+ */
+function formatNumber(num) {
+  if (Math.abs(num - Math.round(num)) < 1e-10) {
+    return Math.round(num).toString();
+  }
+  return num.toFixed(3);
 }
 
 /**
