@@ -45,7 +45,7 @@ export function Accordion({
 
   return (
     <AccordionContext.Provider value={{ toggleItem, isOpen }}>
-      <div className={`divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-sm ${className}`}>
+      <div className={`divide-y divide-gray-200 rounded-lg border border-gray-300 bg-gray-50 shadow-sm ${className}`}>
         {children}
       </div>
     </AccordionContext.Provider>
@@ -110,9 +110,12 @@ export function AccordionHeader({
         aria-controls={_panelId}
         onClick={_toggle}
         className={`
+          accordion-header-btn
           flex w-full items-center justify-between px-4 py-4
           text-left text-base font-medium text-gray-900
-          hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500
+          !bg-gray-200 hover:!bg-gray-300
+          border-b-2 border-gray-400
+          focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500
           transition-colors duration-200
           ${className}
         `}
