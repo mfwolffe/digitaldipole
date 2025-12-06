@@ -187,9 +187,9 @@ export function BalancerPage() {
 
   return (
     <div className="balancer-page text-white">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="px-4 py-8">
         {/* Header */}
-        <header className="mb-8 text-center">
+        <header className="mb-8">
           <h1 className="text-3xl font-bold text-teal-400 mb-2">
             Equation Balancer
           </h1>
@@ -200,7 +200,7 @@ export function BalancerPage() {
         </header>
 
         {/* Main Editor Card */}
-        <Card className="bg-slate-800/50 border-slate-700 mb-6">
+        <Card className="bg-slate-800/50 border-slate-700 mb-6 w-fit">
           <div className="p-6">
             <EquationEditor
               equation={equation}
@@ -313,7 +313,7 @@ export function BalancerPage() {
 
         {/* Element Palette (collapsible) */}
         {showPalette && (
-          <Card className="bg-slate-800/50 border-slate-700 mb-6">
+          <Card className="bg-slate-800/50 border-slate-700 mb-6 w-fit">
             <div className="p-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-medium text-gray-300">Element Palette</h3>
@@ -416,7 +416,7 @@ export function BalancerPage() {
 
         {/* Practice Mode */}
         {practiceMode && equation && (
-          <Card className="bg-slate-800/50 border-slate-700 mb-6">
+          <Card className="bg-slate-800/50 border-slate-700 mb-6 w-fit">
             <div className="p-6">
               <PracticeMode
                 equation={equation}
@@ -471,11 +471,11 @@ function ExamplesSection({ onSelectExample }) {
   ];
 
   return (
-    <div className="examples-section mt-8 text-center">
+    <div className="examples-section mt-8">
       <h3 className="text-lg font-medium text-gray-300 mb-3">
         Try an Example
       </h3>
-      <div className="flex flex-wrap gap-2 justify-center">
+      <div className="flex flex-wrap gap-2">
         {examples.map((ex) => (
           <button
             key={ex.name}
