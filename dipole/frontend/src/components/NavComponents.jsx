@@ -76,23 +76,14 @@ const calcIcon = (
 export function SearchBar() {
   return (
     <Popover>
-      <div className="relative w-64 sm:w-80 md:w-96">
-        <PopoverTrigger className="w-full">
-          <Input
-            type="text"
-            placeholder="Search"
-            className="w-full pr-10"
-            id="hdr-search"
-          />
-        </PopoverTrigger>
-        <button
-          type="button"
-          className="absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:opacity-70 transition-opacity hvr-grow-rotate"
-          style={{ background: 'transparent', border: 'none' }}
-        >
-          <FontAwesomeIcon icon="fa-duotone fa-magnifying-glass" style={icoStyle} />
-        </button>
-      </div>
+      <PopoverTrigger>
+        <Input
+          type="text"
+          placeholder="Search"
+          id="hdr-search"
+          className="w-72 sm:w-80 md:w-96"
+        />
+      </PopoverTrigger>
       <PopoverContent position="bottom" align="center" className="w-80">
         <PopoverHeader className="flex items-center gap-2">
           <FontAwesomeIcon
