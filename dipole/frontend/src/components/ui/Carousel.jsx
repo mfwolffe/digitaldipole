@@ -57,7 +57,7 @@ export function Carousel({
   return (
     <div className={`relative ${className}`}>
       {/* Slides container */}
-      <div className="relative" style={{ minHeight: '450px' }}>
+      <div className="relative" style={{ minHeight: '550px' }}>
         {slides.map((slide, index) => (
           <div
             key={index}
