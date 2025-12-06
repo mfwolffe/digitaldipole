@@ -1,0 +1,254 @@
+/**
+ * Equation Renderer Styles
+ *
+ * Styles for the interactive equation display with inline inputs.
+ */
+
+/* Main container */
+.equation-renderer {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.equation-display {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* Equals sign */
+.eq-equals {
+  font-size: 1.5rem;
+  padding: 0 0.25rem;
+}
+
+/* Variable symbol display */
+.eq-var-symbol {
+  font-style: italic;
+}
+
+.eq-unknown-var {
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+/* Numbers */
+.eq-number {
+  font-family: inherit;
+}
+
+/* Operators */
+.eq-multiply,
+.eq-plus,
+.eq-minus {
+  padding: 0 0.3rem;
+  font-weight: normal;
+}
+
+/* Fraction */
+.eq-fraction {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  padding: 0 0.25rem;
+}
+
+.eq-fraction-num,
+.eq-fraction-denom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.25rem;
+}
+
+.eq-fraction-bar {
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  min-width: 2rem;
+}
+
+/* Product (multiplication chain) */
+.eq-product {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Power/exponent */
+.eq-power {
+  display: inline-flex;
+  align-items: flex-start;
+}
+
+.eq-power-base {
+  display: inline-flex;
+  align-items: center;
+}
+
+.eq-power-exp {
+  font-size: 0.7em;
+  margin-left: 0.1em;
+}
+
+/* Square root */
+.eq-sqrt {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.eq-sqrt-symbol {
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.eq-sqrt-content {
+  border-top: 2px solid currentColor;
+  padding: 0 0.2rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Parentheses */
+.eq-parens {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.eq-paren-left,
+.eq-paren-right {
+  font-size: 1.3em;
+  display: flex;
+  align-items: center;
+}
+
+.eq-paren-content {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Functions */
+.eq-function {
+  display: inline-flex;
+  align-items: center;
+}
+
+.eq-fn-name {
+  font-style: normal;
+  margin-right: 0.1em;
+}
+
+.eq-fn-paren {
+  font-size: 1.1em;
+}
+
+/* exp() rendered as e^x */
+.eq-exp {
+  display: inline-flex;
+  align-items: flex-start;
+}
+
+.eq-exp-base {
+  font-style: italic;
+}
+
+.eq-exp-power {
+  font-size: 0.75em;
+}
+
+/* Logarithm ratio: ln(a/b) */
+.eq-log-ratio {
+  display: inline-flex;
+  align-items: center;
+}
+
+.eq-ln {
+  font-style: normal;
+  margin-right: 0.15em;
+}
+
+/* Negation */
+.eq-negate {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Variable input fields */
+.eq-var-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.eq-input-field {
+  width: 5rem;
+  height: 2rem;
+  padding: 0.2rem 0.4rem;
+  font-size: 1rem;
+  text-align: center;
+  border: 2px solid #4a90d9;
+  border-radius: 4px;
+  background-color: #f8faff;
+  font-family: inherit;
+}
+
+.eq-input-field:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  background-color: #fff;
+}
+
+.eq-input-field::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.eq-input-unit {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-style: normal;
+}
+
+/* Small inputs (for inside fractions/logs) */
+.eq-input-sm .eq-input-field {
+  width: 4rem;
+  height: 1.6rem;
+  font-size: 0.9rem;
+}
+
+.eq-input-sm .eq-input-unit {
+  font-size: 0.75rem;
+}
+
+/* Add/subtract expressions */
+.eq-add,
+.eq-subtract {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Error state */
+.equation-renderer-error {
+  color: #dc2626;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .equation-display {
+    font-size: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .eq-input-field {
+    width: 4rem;
+    height: 1.8rem;
+    font-size: 0.9rem;
+  }
+}
