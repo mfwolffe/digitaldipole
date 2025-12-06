@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 /**
  * Carousel - image/content slider
@@ -18,6 +18,7 @@ export function Carousel({
   children,
 }) {
   const [internalIndex, setInternalIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Use controlled or uncontrolled mode
   const activeIndex = controlledIndex !== undefined ? controlledIndex : internalIndex;
@@ -28,6 +29,8 @@ export function Carousel({
 
   const goTo = useCallback((index) => {
     const newIndex = Math.max(0, Math.min(index, slideCount - 1));
+    setIsTransitioning(true);
+    setTimeout(() => setIsTransitioning(false), 300);
     if (onSelect) {
       onSelect(newIndex);
     } else {
@@ -38,17 +41,31 @@ export function Carousel({
   const goToPrev = () => goTo(activeIndex - 1);
   const goToNext = () => goTo(activeIndex + 1);
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        goToPrev();
+      } else if (e.key === 'ArrowRight') {
+        goToNext();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeIndex, slideCount]);
+
   return (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div className={`relative ${className}`}>
       {/* Slides container */}
-      <div className="relative">
+      <div className="relative min-h-[400px]">
         {slides.map((slide, index) => (
           <div
             key={index}
             className={`
-              ${fade ? 'absolute inset-0' : ''}
-              transition-opacity duration-500 ease-in-out
-              ${index === activeIndex ? 'opacity-100 relative' : 'opacity-0 hidden'}
+              transition-all duration-300 ease-in-out
+              ${index === activeIndex
+                ? 'opacity-100 relative z-10'
+                : 'opacity-0 absolute inset-0 pointer-events-none'}
             `}
           >
             {slide}
@@ -56,55 +73,37 @@ export function Carousel({
         ))}
       </div>
 
-      {/* Navigation arrows */}
+      {/* Bottom navigation bar */}
       {slideCount > 1 && (
-        <>
+        <div className="flex items-center justify-center gap-4 mt-4 py-3">
           <button
             type="button"
             onClick={goToPrev}
             disabled={activeIndex === 0}
-            className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 text-white hover:bg-black/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="p-3 rounded-full bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             aria-label="Previous slide"
           >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
+
+          {/* Slide counter */}
+          <div className="bg-gray-700 text-white px-4 py-2 rounded-full text-sm font-medium min-w-[80px] text-center">
+            {activeIndex + 1} / {slideCount}
+          </div>
+
           <button
             type="button"
             onClick={goToNext}
             disabled={activeIndex === slideCount - 1}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 text-white hover:bg-black/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="p-3 rounded-full bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             aria-label="Next slide"
           >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
-        </>
-      )}
-
-      {/* Slide indicators */}
-      {slideCount > 1 && slideCount <= 10 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              type="button"
-              onClick={() => goTo(index)}
-              className={`w-2 h-2 rounded-full transition-colors ${
-                index === activeIndex ? 'bg-white' : 'bg-white/50 hover:bg-white/75'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* Slide counter for many slides */}
-      {slideCount > 10 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-          {activeIndex + 1} / {slideCount}
         </div>
       )}
     </div>

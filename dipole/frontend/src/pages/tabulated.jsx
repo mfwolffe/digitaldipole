@@ -78,8 +78,8 @@ function AtomTable(atomData) {
     for (const [key, val] of Object.entries(atom)) {
       rows.push((
         <tr key={idx} className={idx % 2 === 0 ? 'bg-white/10' : 'bg-white/5'}>
-          <td className="text-left pl-4 py-2 text-white/90">{ key }</td>
-          <td className="text-center pr-4 py-2 text-white">{ val }</td>
+          <td className="text-left pl-6 py-3 text-white/90 font-medium">{ key }</td>
+          <td className="text-right pr-6 py-3 text-white">{ val }</td>
         </tr>
       ))
       idx++;
@@ -87,31 +87,38 @@ function AtomTable(atomData) {
     return rows;
   }
 
+  const bgColor = colorTable[atomData['GroupBlock']] || '#548687';
+
   return (
-    <div className="max-w-sm mx-auto my-4">
-      <Table
-        className="rounded-lg overflow-hidden shadow-xl"
-        style={{ backgroundColor: colorTable[atomData['GroupBlock']] }}
+    <div className="max-w-md mx-auto my-4">
+      <div
+        className="rounded-xl overflow-hidden shadow-2xl"
+        style={{ backgroundColor: bgColor }}
       >
-        <thead>
-          <tr>
-            <th
-              colSpan={2}
-              className="text-center py-3 text-xl font-bold text-white"
-              style={{ backgroundColor: colorTable[atomData['GroupBlock']] }}
-            >
-              { atomData['Name'] }
-            </th>
-          </tr>
-          <tr className="bg-black/20">
-            <th className="text-left pl-4 py-2 text-white font-medium">Property</th>
-            <th className="text-center pr-4 py-2 text-white font-medium">Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          { RowBuilder(atomData) }
-        </tbody>
-      </Table>
+        {/* Element header with symbol and number */}
+        <div className="px-6 py-4 text-center border-b border-white/20">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-white/70 text-sm">{atomData['AtomicNumber']}</span>
+            <span className="text-white/70 text-sm">{atomData['GroupBlock']}</span>
+          </div>
+          <div className="text-5xl font-bold text-white mb-1">{atomData['Symbol']}</div>
+          <div className="text-2xl font-semibold text-white">{atomData['Name']}</div>
+          <div className="text-white/80 text-sm mt-1">{atomData['AtomicMass']} u</div>
+        </div>
+
+        {/* Properties table */}
+        <Table className="w-full">
+          <thead>
+            <tr className="bg-black/20">
+              <th className="text-left pl-6 py-3 text-white font-semibold">Property</th>
+              <th className="text-right pr-6 py-3 text-white font-semibold">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            { RowBuilder(atomData) }
+          </tbody>
+        </Table>
+      </div>
     </div>
   )
 }
