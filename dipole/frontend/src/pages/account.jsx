@@ -12,6 +12,8 @@ const Account = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -87,6 +89,27 @@ const Account = () => {
       hour: '2-digit',
       minute: '2-digit',
     });
+  };
+
+  const handleDeleteAccount = async () => {
+    setDeleteLoading(true);
+    try {
+      const response = await fetch('/api/user/me', {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      if (data.success) {
+        // Redirect to home after deletion
+        window.location.href = '/';
+      } else {
+        setError(data.error || 'Failed to delete account');
+      }
+    } catch (err) {
+      setError('Failed to delete account');
+    } finally {
+      setDeleteLoading(false);
+      setShowDeleteConfirm(false);
+    }
   };
 
   return (
@@ -217,6 +240,53 @@ const Account = () => {
                 <FontAwesomeIcon icon="fa-duotone fa-right-from-bracket" className="mr-2" />
                 Sign Out
               </Button>
+            </div>
+
+            {/* Danger Zone - Delete Account */}
+            <div className="mt-8 pt-4 border-t border-red-200">
+              <h2 className="text-lg font-semibold text-red-600 flex items-center gap-2 mb-4">
+                <FontAwesomeIcon
+                  icon="fa-duotone fa-triangle-exclamation"
+                  className="text-red-500"
+                />
+                Danger Zone
+              </h2>
+
+              {!showDeleteConfirm ? (
+                <Button
+                  onClick={() => setShowDeleteConfirm(true)}
+                  variant="outline-danger"
+                  className="w-full justify-center"
+                >
+                  <FontAwesomeIcon icon="fa-duotone fa-trash" className="mr-2" />
+                  Delete Account
+                </Button>
+              ) : (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <p className="text-red-700 mb-4 text-sm">
+                    Are you sure you want to delete your account? This action is permanent
+                    and cannot be undone. All your data including favorites will be deleted.
+                  </p>
+                  <div className="flex gap-3">
+                    <Button
+                      onClick={handleDeleteAccount}
+                      variant="danger"
+                      className="flex-1 justify-center"
+                      disabled={deleteLoading}
+                    >
+                      {deleteLoading ? 'Deleting...' : 'Yes, Delete My Account'}
+                    </Button>
+                    <Button
+                      onClick={() => setShowDeleteConfirm(false)}
+                      variant="outline-secondary"
+                      className="flex-1 justify-center"
+                      disabled={deleteLoading}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </CardBody>
         </Card>

@@ -46,6 +46,24 @@ def get_current_user(request):
     }
 
 
+@api.delete("/user/me")
+def delete_current_user(request):
+    """Delete the current user's account permanently."""
+    if not request.user.is_authenticated:
+        return {"success": False, "error": "Authentication required"}
+
+    user = request.user
+    username = user.username
+
+    # Delete the user (this cascades to favorites, etc.)
+    user.delete()
+
+    return {
+        "success": True,
+        "message": f"Account '{username}' has been permanently deleted",
+    }
+
+
 # ============================================
 # Favorites API Endpoints
 # ============================================
