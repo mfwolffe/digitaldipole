@@ -1,6 +1,103 @@
 {% extends "base.html" %}
+{% load i18n static %}
 
-{% block main %}
-  {% block content %}
-  {% endblock content %}
-{% endblock main %}
+{% block css %}
+{{ block.super }}
+<style>
+  :root {
+    --primary-500: #6366f1;
+    --primary-600: #4f46e5;
+    --primary-700: #4338ca;
+    --surface-50: #f8fafc;
+    --surface-100: #f1f5f9;
+    --surface-200: #e2e8f0;
+    --surface-800: #1e293b;
+  }
+  .manage-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    padding: 2rem 1rem;
+  }
+  .manage-container {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .manage-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .manage-card h1, .manage-card h2, .manage-card h3 {
+    color: var(--surface-800);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .manage-card .btn-primary {
+    background-color: var(--primary-600);
+    border-color: var(--primary-600);
+    border-radius: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    font-weight: 500;
+  }
+  .manage-card .btn-primary:hover {
+    background-color: var(--primary-700);
+    border-color: var(--primary-700);
+  }
+  .manage-card .btn-secondary, .manage-card .btn-danger {
+    border-radius: 0.5rem;
+    padding: 0.625rem 1.25rem;
+  }
+  .manage-card .form-control {
+    border-radius: 0.5rem;
+    border-color: var(--surface-200);
+    padding: 0.625rem 0.875rem;
+  }
+  .manage-card .form-control:focus {
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+  .manage-card a {
+    color: var(--primary-600);
+  }
+  .manage-card a:hover {
+    color: var(--primary-700);
+  }
+  .manage-card .card {
+    border: 1px solid var(--surface-200);
+    border-radius: 0.75rem;
+  }
+  .manage-card .card-body {
+    padding: 1.5rem;
+  }
+  .manage-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-600);
+    margin-bottom: 1rem;
+    text-decoration: none;
+  }
+  .manage-back-link:hover {
+    color: var(--primary-700);
+  }
+</style>
+{% endblock css %}
+
+{% block body %}
+  <div class="manage-page">
+    <div class="manage-container">
+      <a href="/account" class="manage-back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+        Back to Account
+      </a>
+      <div class="manage-card">
+        {% block content %}
+        {% endblock content %}
+      </div>
+    </div>
+  </div>
+{% endblock body %}

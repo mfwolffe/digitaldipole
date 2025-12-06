@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { NavLink as Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 import {
   Input,
@@ -8,6 +9,7 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownHeader,
+  DropdownDivider,
   Collapse,
   Popover,
   PopoverTrigger,
@@ -24,7 +26,7 @@ import { getSearchIndex } from '../utils/searchIndex';
 import userIcon from '../assets/png/user-astronaut-light.png';
 import userGear from '../assets/png/light-user-astronaut-gear.png';
 import userLock from '../assets/png/light-user-astronaut-lock.png';
-import userShield from '../assets/png/light-user-astronaut-shield.png';
+import userHeart from '../assets/png/user-astronaut-light.png';
 
 import '../App.css'
 import '../styles/hover.css'
@@ -459,6 +461,35 @@ export function SearchBar() {
 }
 
 export function UserDrop() {
+  const { isAuthenticated, username, logout, redirectToLogin, redirectToSignup } = useAuth();
+  const navigate = useNavigate();
+
+  if (!isAuthenticated) {
+    return (
+      <Dropdown>
+        <DropdownTrigger className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+          {usrIcon}
+        </DropdownTrigger>
+        <DropdownMenu align="end">
+          <DropdownHeader>
+            <div className="flex items-center gap-2">
+              <img src={userIcon} width="24" alt="" />
+              <strong>Guest</strong>
+            </div>
+          </DropdownHeader>
+          <DropdownItem className="hvr-underline-from-left" onClick={redirectToLogin}>
+            <FontAwesomeIcon icon="fa-duotone fa-right-to-bracket" className="w-6 text-primary-500" />
+            Sign In
+          </DropdownItem>
+          <DropdownItem className="hvr-underline-from-left" onClick={redirectToSignup}>
+            <FontAwesomeIcon icon="fa-duotone fa-user-plus" className="w-6 text-primary-500" />
+            Create Account
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+    );
+  }
+
   return (
     <Dropdown>
       <DropdownTrigger className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
@@ -468,20 +499,21 @@ export function UserDrop() {
         <DropdownHeader>
           <div className="flex items-center gap-2">
             <img src={userIcon} width="24" alt="" />
-            <strong>{typeof username !== 'undefined' ? username : 'Guest'}</strong>
+            <strong>{username || 'User'}</strong>
           </div>
         </DropdownHeader>
-        <DropdownItem className="hvr-underline-from-left">
+        <DropdownItem className="hvr-underline-from-left" onClick={() => navigate('/account')}>
           <img src={userGear} width="24" alt="" />
-          Settings
+          Account
         </DropdownItem>
-        <DropdownItem className="hvr-underline-from-left">
-          <img src={userShield} width="24" alt="" />
-          Privacy
+        <DropdownItem className="hvr-underline-from-left" onClick={() => navigate('/favorites')}>
+          <FontAwesomeIcon icon="fa-duotone fa-heart" className="w-6 text-red-500" />
+          Favorites
         </DropdownItem>
-        <DropdownItem className="hvr-underline-from-left">
+        <DropdownDivider />
+        <DropdownItem className="hvr-underline-from-left" onClick={logout}>
           <img src={userLock} width="24" alt="" />
-          Sign out
+          Sign Out
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

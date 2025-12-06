@@ -1,9 +1,10 @@
 from functools import reduce
-import numpy as np
-from django.db import models
-from django.db.models.functions import Lower
-from django.db.models import UniqueConstraint
 
+import numpy as np
+from django.conf import settings
+from django.db import models
+from django.db.models import UniqueConstraint
+from django.db.models.functions import Lower
 from sympy import *
 from sympy.parsing.latex import parse_latex
 # from sympy.printing.mathml import print_mathml, mathml
@@ -148,3 +149,34 @@ class Calculator(models.Model):
             ),
         ]
         ordering = ['calc_category', 'name']
+
+
+class FavoriteEquation(models.Model):
+    """
+    Tracks user's favorite equations for quick access.
+    """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='favorite_equations',
+    )
+    equation = models.ForeignKey(
+        Equation,
+        on_delete=models.CASCADE,
+        related_name='favorited_by',
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Favorite Equation"
+        verbose_name_plural = "Favorite Equations"
+        constraints = [
+            UniqueConstraint(
+                fields=['user', 'equation'],
+                name='unique_user_equation_favorite',
+            ),
+        ]
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user.username} - {self.equation.name}"

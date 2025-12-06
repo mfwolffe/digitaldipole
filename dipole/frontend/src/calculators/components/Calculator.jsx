@@ -10,6 +10,7 @@ import { useCalculator } from '../hooks/useCalculator';
 import { EquationDisplay } from './EquationDisplay';
 import { SolutionSteps } from './SolutionSteps';
 import { InlineEquationInput } from './InlineEquationInput';
+import { FavoriteButton } from '../../components/FavoriteButton';
 
 export function Calculator({ calculatorId }) {
   const {
@@ -56,8 +57,11 @@ export function Calculator({ calculatorId }) {
 
   return (
     <div className="calculator-container" ref={containerRef}>
-      {/* Original equation display */}
-      <div className="text-center mb-4">
+      {/* Original equation display with favorite button in header */}
+      <div className="text-center mb-4 relative">
+        <div className="absolute top-0 right-0">
+          <FavoriteButton equationName={calculatorId} size="lg" />
+        </div>
         <EquationDisplay latex={calculator.latexEquation} />
       </div>
 
@@ -120,6 +124,7 @@ export function Calculator({ calculatorId }) {
 
           {/* Action buttons - compact row below equation */}
           <div className="flex justify-center items-center gap-3 mt-4">
+            <FavoriteButton equationName={calculatorId} size="sm" className="mr-1" />
             <Button
               type="submit"
               variant="primary"

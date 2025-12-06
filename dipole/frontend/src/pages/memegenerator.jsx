@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 import { NavLink as Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 import {
   Tabs,
@@ -36,6 +37,7 @@ const FailedRequest = <FontAwesomeIcon icon="fa-duotone fa-skull-cow" fontSize={
 const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" shake style={{"--fa-animation-duration": "2s",}}/>
 
 const MemeGen = () => {
+    const { isAuthenticated, openLoginModal } = useAuth();
 
     const [lock, setLock]     = useState(true);
     const [show, setShow]     = useState(false);
@@ -105,6 +107,11 @@ const MemeGen = () => {
     const handleRespClose = () => setRespModal (false);
 
     const handleSubmit = () => {
+        // Check authentication before generating
+        if (!isAuthenticated) {
+            openLoginModal('Sign in to generate AI memes!');
+            return;
+        }
         requestMeme(inputValue);
         handleRespShow();
         setImgUrl('');
