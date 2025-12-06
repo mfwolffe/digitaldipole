@@ -189,7 +189,7 @@ export function BalancerPage() {
     <div className="balancer-page min-h-screen bg-slate-900 text-white">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <header className="mb-8 max-w-3xl">
+        <header className="mb-8">
           <h1 className="text-3xl font-bold text-teal-400 mb-2">
             Equation Balancer
           </h1>
@@ -199,8 +199,8 @@ export function BalancerPage() {
           </p>
         </header>
 
-        {/* Main Editor Card - fits content, not full width */}
-        <Card className="bg-slate-800/50 border-slate-700 mb-6 inline-block w-auto max-w-full">
+        {/* Main Editor Card */}
+        <Card className="bg-slate-800/50 border-slate-700 mb-6 max-w-4xl">
           <div className="p-6">
             <EquationEditor
               equation={equation}
@@ -274,7 +274,7 @@ export function BalancerPage() {
                 </Button>
 
                 {/* Quick insert common items */}
-                <div className="flex items-center gap-1 ml-auto">
+                <div className="flex items-center gap-1 ml-auto flex-wrap">
                   <span className="text-xs text-gray-500 mr-2">Quick add:</span>
                   {['H2O', 'O2', 'CO2', 'H2', 'N2'].map(formula => (
                     <button
@@ -286,18 +286,25 @@ export function BalancerPage() {
                       {formula}
                     </button>
                   ))}
-                  <button
-                    onClick={() => {
-                      if (!textInput.includes('->')) {
-                        setTextInput(prev => prev ? `${prev} -> ` : '-> ');
-                      }
-                    }}
-                    className="px-2 py-1 text-xs bg-slate-700 hover:bg-slate-600
-                               rounded transition-colors"
-                    title="Add reaction arrow"
-                  >
-                    →
-                  </button>
+                  <span className="text-gray-600 mx-1">|</span>
+                  {/* Syntax helpers */}
+                  {[
+                    { char: '+', title: 'Plus (separate compounds)' },
+                    { char: '->', title: 'Reaction arrow' },
+                    { char: '^', title: 'Charge (e.g., Fe^2+)' },
+                    { char: '(', title: 'Open parenthesis for groups' },
+                    { char: ')', title: 'Close parenthesis' },
+                  ].map(({ char, title }) => (
+                    <button
+                      key={char}
+                      onClick={() => setTextInput(prev => prev + char)}
+                      className="px-2 py-1 text-xs bg-slate-700 hover:bg-slate-600
+                                 rounded transition-colors font-mono"
+                      title={title}
+                    >
+                      {char}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
@@ -345,6 +352,20 @@ export function BalancerPage() {
                       }}
                     >
                       Add to {builderSide === 'reactant' ? 'Reactants' : 'Products'}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const formula = buildingElements.map(e =>
+                          e.count > 1 ? `${e.symbol}${e.count}` : e.symbol
+                        ).join('');
+                        insertIntoInput(formula);
+                        setBuildingElements([]);
+                      }}
+                      title="Add compound and continue building another"
+                    >
+                      + Add More
                     </Button>
                     <Button
                       variant="ghost"
@@ -395,7 +416,7 @@ export function BalancerPage() {
 
         {/* Practice Mode */}
         {practiceMode && equation && (
-          <Card className="bg-slate-800/50 border-slate-700 mb-6 inline-block w-auto max-w-full">
+          <Card className="bg-slate-800/50 border-slate-700 mb-6 max-w-4xl">
             <div className="p-6">
               <PracticeMode
                 equation={equation}
@@ -450,7 +471,7 @@ function ExamplesSection({ onSelectExample }) {
   ];
 
   return (
-    <div className="examples-section mt-8 max-w-3xl">
+    <div className="examples-section mt-8 max-w-4xl">
       <h3 className="text-lg font-medium text-gray-300 mb-3">
         Try an Example
       </h3>
