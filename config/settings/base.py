@@ -16,7 +16,8 @@ if READ_DOT_ENV_FILE:
     env.read_env(str(BASE_DIR / ".env"))
 
 SECRET_KEY = env('SECRET_KEY')
-CLIENT_ID = env('CLIENT_ID')
+CLIENT_ID = env('CLIENT_ID', default='')
+GOOGLE_CLIENT_SECRET = env('GOOGLE_CLIENT_SECRET', default='')
 
 IM_USER = env('IM_USER')
 IM_PASS = env('IM_PASS')
@@ -313,7 +314,7 @@ SOCIALACCOUNT_PROVIDERS = {
         "APPS": [
             {
                 "client_id": CLIENT_ID,
-                "secret": SECRET_KEY,
+                "secret": GOOGLE_CLIENT_SECRET,
                 "key": "",
             },
         ],
