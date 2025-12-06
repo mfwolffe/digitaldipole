@@ -1,0 +1,374 @@
+[
+  {
+    "model": "calculators.calculator",
+    "pk": 1,
+    "fields": {
+      "registry_id": "avogadro",
+      "name": "Avogadro's Law",
+      "calc_category": "GSLW",
+      "latex_equation": "\\frac{V_1}{n_1} = \\frac{V_2}{n_2}",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 2,
+    "fields": {
+      "registry_id": "amonton",
+      "name": "Amonton's Law",
+      "calc_category": "GSLW",
+      "latex_equation": "\\frac{P_1}{T_1} = \\frac{P_2}{T_2}",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 3,
+    "fields": {
+      "registry_id": "boyle",
+      "name": "Boyle's Law",
+      "calc_category": "GSLW",
+      "latex_equation": "P_1 V_1 = P_2 V_2",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 4,
+    "fields": {
+      "registry_id": "charles",
+      "name": "Charles' Law",
+      "calc_category": "GSLW",
+      "latex_equation": "\\frac{V_1}{T_1} = \\frac{V_2}{T_2}",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 5,
+    "fields": {
+      "registry_id": "combined",
+      "name": "Combined Gas Law",
+      "calc_category": "GSLW",
+      "latex_equation": "\\frac{P_1 V_1}{T_1} = \\frac{P_2 V_2}{T_2}",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 6,
+    "fields": {
+      "registry_id": "ideal",
+      "name": "Ideal Gas Law",
+      "calc_category": "GSLW",
+      "latex_equation": "PV = nRT",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 7,
+    "fields": {
+      "registry_id": "density",
+      "name": "Gas Density",
+      "calc_category": "GSLW",
+      "latex_equation": "d = \\frac{PM}{RT}",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 8,
+    "fields": {
+      "registry_id": "graham",
+      "name": "Graham's Law",
+      "calc_category": "GSLW",
+      "latex_equation": "\\frac{r_1}{r_2} = \\sqrt{\\frac{M_2}{M_1}}",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 9,
+    "fields": {
+      "registry_id": "dalton",
+      "name": "Dalton's Law",
+      "calc_category": "GSLW",
+      "latex_equation": "P_{total} = P_1 + P_2",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 10,
+    "fields": {
+      "registry_id": "vanDerWaals",
+      "name": "Van der Waals Equation",
+      "calc_category": "GSLW",
+      "latex_equation": "\\left(P + \\frac{an^2}{V^2}\\right)(V - nb) = nRT",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 11,
+    "fields": {
+      "registry_id": "heat",
+      "name": "Heat Transfer",
+      "calc_category": "THRM",
+      "latex_equation": "q = m C_{sp} \\Delta T",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 12,
+    "fields": {
+      "registry_id": "gibbs",
+      "name": "Gibbs Free Energy",
+      "calc_category": "THRM",
+      "latex_equation": "\\Delta G = \\Delta H - T \\Delta S",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 13,
+    "fields": {
+      "registry_id": "enthalpy",
+      "name": "Enthalpy",
+      "calc_category": "THRM",
+      "latex_equation": "H = U + PV",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 14,
+    "fields": {
+      "registry_id": "entropyChange",
+      "name": "Entropy Change",
+      "calc_category": "THRM",
+      "latex_equation": "\\Delta S = \\frac{q_{rev}}{T}",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 15,
+    "fields": {
+      "registry_id": "work",
+      "name": "Work (PV)",
+      "calc_category": "THRM",
+      "latex_equation": "w = -P \\Delta V",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 16,
+    "fields": {
+      "registry_id": "firstLaw",
+      "name": "First Law of Thermodynamics",
+      "calc_category": "THRM",
+      "latex_equation": "\\Delta U = q + w",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 17,
+    "fields": {
+      "registry_id": "molarHeat",
+      "name": "Molar Heat Capacity",
+      "calc_category": "THRM",
+      "latex_equation": "q = n C_p \\Delta T",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 18,
+    "fields": {
+      "registry_id": "clausiusClapeyron",
+      "name": "Clausius-Clapeyron",
+      "calc_category": "THRM",
+      "latex_equation": "\\ln\\left(\\frac{P_2}{P_1}\\right) = -\\frac{\\Delta H_{vap}}{R}\\left(\\frac{1}{T_2} - \\frac{1}{T_1}\\right)",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 19,
+    "fields": {
+      "registry_id": "isothermalWork",
+      "name": "Isothermal Work",
+      "calc_category": "THRM",
+      "latex_equation": "w = -nRT\\ln\\left(\\frac{V_2}{V_1}\\right)",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 20,
+    "fields": {
+      "registry_id": "arrhenius",
+      "name": "Arrhenius Equation (Two-Point)",
+      "calc_category": "KNTC",
+      "latex_equation": "\\ln\\left(\\frac{k_2}{k_1}\\right) = -\\frac{E_a}{R}\\left(\\frac{1}{T_2} - \\frac{1}{T_1}\\right)",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 21,
+    "fields": {
+      "registry_id": "halfLife",
+      "name": "Half-Life (First Order)",
+      "calc_category": "KNTC",
+      "latex_equation": "t_{1/2} = \\frac{\\ln(2)}{k}",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 22,
+    "fields": {
+      "registry_id": "secondOrder",
+      "name": "Second Order Rate Law",
+      "calc_category": "KNTC",
+      "latex_equation": "\\frac{1}{[A]} = \\frac{1}{[A]_0} + kt",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 23,
+    "fields": {
+      "registry_id": "firstOrder",
+      "name": "First Order Rate Law",
+      "calc_category": "KNTC",
+      "latex_equation": "\\ln[A] = \\ln[A]_0 - kt",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 24,
+    "fields": {
+      "registry_id": "molarity",
+      "name": "Molarity",
+      "calc_category": "SOLN",
+      "latex_equation": "M = \\frac{n}{V}",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 25,
+    "fields": {
+      "registry_id": "dilution",
+      "name": "Dilution",
+      "calc_category": "SOLN",
+      "latex_equation": "M_1 V_1 = M_2 V_2",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 26,
+    "fields": {
+      "registry_id": "osmoticPressure",
+      "name": "Osmotic Pressure",
+      "calc_category": "SOLN",
+      "latex_equation": "\\Pi = MRT",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 27,
+    "fields": {
+      "registry_id": "raoult",
+      "name": "Raoult's Law",
+      "calc_category": "SOLN",
+      "latex_equation": "P = \\chi \\cdot P^\\circ",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 28,
+    "fields": {
+      "registry_id": "boilingPointElevation",
+      "name": "Boiling Point Elevation",
+      "calc_category": "SOLN",
+      "latex_equation": "\\Delta T_b = K_b \\cdot m \\cdot i",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 29,
+    "fields": {
+      "registry_id": "freezingPointDepression",
+      "name": "Freezing Point Depression",
+      "calc_category": "SOLN",
+      "latex_equation": "\\Delta T_f = K_f \\cdot m \\cdot i",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 30,
+    "fields": {
+      "registry_id": "faraday",
+      "name": "Faraday's Law",
+      "calc_category": "ELEC",
+      "latex_equation": "m = \\frac{M \\cdot I \\cdot t}{n \\cdot F}",
+      "equation": null,
+      "information": ""
+    }
+  },
+  {
+    "model": "calculators.calculator",
+    "pk": 31,
+    "fields": {
+      "registry_id": "nernst",
+      "name": "Nernst Equation",
+      "calc_category": "ELEC",
+      "latex_equation": "E = E^\\circ - \\frac{RT}{nF}\\ln Q",
+      "equation": null,
+      "information": ""
+    }
+  }
+]

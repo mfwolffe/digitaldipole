@@ -121,47 +121,53 @@ class Equation(models.Model):
 
 
 class Calculator(models.Model):
+    """
+    Registry of calculators that mirrors the frontend calculator registry.
+    Used for favorites, analytics, and potential future server-side features.
+    """
     CATEGORIES = [
         ("GSLW", "Gas Laws"),
-        ("SOLN", "Solutions"),
-        ("MISC", "Miscellaneous"),
-        ("STCH", "Stoichiometry"),
         ("THRM", "Thermodynamics"),
-        ("CNVR", "Unit Conversions"),
-        ("ELCT", "Electrochemistry"),
-        ("NCLR", "Nuclear Chemistry"),
+        ("KNTC", "Kinetics"),
+        ("SOLN", "Solutions"),
+        ("ELEC", "Electrochemistry"),
+        ("MISC", "Miscellaneous"),
     ]
 
-    # TOCONSIDER path to component? - if so, maybe make the constraint that?
-    name          = models.CharField(max_length=72, help_text="This calculator's name")
-    equation      = models.OneToOneField(Equation, on_delete=models.SET_NULL, null=True)
-    information   = models.TextField(help_text="The calculator reference the user may hide/show")
-    calc_category = models.CharField(max_length=4, choices=CATEGORIES, default="MISC", help_text="Calculator Category")
+    registry_id = models.CharField(
+        max_length=64,
+        unique=True,
+        help_text="Unique ID matching frontend registry (e.g., 'avogadro', 'ideal')"
+    )
+    name = models.CharField(max_length=72, help_text="Display name (e.g., \"Avogadro's Law\")")
+    calc_category = models.CharField(max_length=4, choices=CATEGORIES, default="MISC", help_text="Calculator category")
+    latex_equation = models.TextField(help_text="LaTeX representation for display", default="")
+
+    # Legacy fields - kept for potential future server-side solving
+    equation = models.OneToOneField(Equation, on_delete=models.SET_NULL, null=True, blank=True)
+    information = models.TextField(help_text="Educational reference content", default="", blank=True)
 
     class Meta:
-        verbose_name        = "Calculator"
+        verbose_name = "Calculator"
         verbose_name_plural = "Calculators"
-        constraints = [
-            UniqueConstraint(
-                Lower("name"),
-                name="calc_name_case_insensitive_unique",
-                violation_error_message="Calculator Already Exists",
-            ),
-        ]
         ordering = ['calc_category', 'name']
+
+    def __str__(self):
+        return f"{self.name} ({self.registry_id})"
 
 
 class FavoriteEquation(models.Model):
     """
-    Tracks user's favorite equations for quick access.
+    Tracks user's favorite calculators for quick access.
+    Links to Calculator model for data integrity.
     """
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='favorite_equations',
     )
-    equation = models.ForeignKey(
-        Equation,
+    calculator = models.ForeignKey(
+        Calculator,
         on_delete=models.CASCADE,
         related_name='favorited_by',
     )
@@ -172,11 +178,11 @@ class FavoriteEquation(models.Model):
         verbose_name_plural = "Favorite Equations"
         constraints = [
             UniqueConstraint(
-                fields=['user', 'equation'],
-                name='unique_user_equation_favorite',
+                fields=['user', 'calculator'],
+                name='unique_user_calculator_favorite',
             ),
         ]
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.user.username} - {self.equation.name}"
+        return f"{self.user.username} - {self.calculator.registry_id}"
