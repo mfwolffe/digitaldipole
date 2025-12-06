@@ -1,7 +1,5 @@
 import React from "react";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { all } from '@awesome.me/kit-a655910996/icons';
 
 import { CalculatorPage, InfoIcon } from "./CalculatorPage";
 
@@ -13,8 +11,6 @@ import {
   BoilingPointElevationInfo,
   FreezingPointDepressionInfo,
 } from "../../components/CalcInfo";
-
-library.add(...all);
 
 const SolutionIcon = (
   <FontAwesomeIcon

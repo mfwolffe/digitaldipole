@@ -3,15 +3,11 @@ import { useState } from 'react';
 import { NavLink as Link } from "react-router-dom";
 
 import { Offcanvas } from './ui';
-import { all } from '@awesome.me/kit-a655910996/icons';
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UserDrop, SearchBar, OffCDropRef, OffCDropCalc } from "./NavComponents";
 
 import '../App.css'
 import '../styles/hover.css'
-
-library.add(...all)
 
 const NavOffCanvas = () => {
     const [show, setShow] = useState(false);

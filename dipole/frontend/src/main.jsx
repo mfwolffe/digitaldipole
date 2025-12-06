@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 
+// Initialize FontAwesome icons (centralized import)
+import './utils/icons'
+
 // [x] TOASK forgot how to stop double renders w/out disabling strict mode
 //           by design, though theoretically shouldn't happen due to 
 //           autobuild

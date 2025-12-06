@@ -31,14 +31,10 @@ import {
   GenInfo2,
 } from "../../components/CalcInfo";
 
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { all } from '@awesome.me/kit-a655910996/icons'
 
 import "../../App.css";
 import "../../styles/refs.css";
-
-library.add(...all);
 
 const RootIco = (
   <FontAwesomeIcon

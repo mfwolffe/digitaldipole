@@ -26,13 +26,10 @@ import {
 } from "../components/ui";
 
 import data from '../data/PubChemElements_all.json'
-import { all } from '@awesome.me/kit-a655910996/icons'
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CircleX = <FontAwesomeIcon className="pr-3" icon="fa-duotone fa-circle-x" style={{"--fa-primary-color": "#e22828", "--fa-secondary-color": "#e22828",}} />;
 const CircleCheck = <FontAwesomeIcon className="pr-3" icon="fa-duotone fa-circle-check" style={{"--fa-primary-color": "#69d510", "--fa-secondary-color": "#69d510",}} />;
-library.add(...all);
 
 import '../App.css'
 import '../styles/refs.css'

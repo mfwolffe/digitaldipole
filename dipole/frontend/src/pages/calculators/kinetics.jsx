@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { all } from '@awesome.me/kit-a655910996/icons';
 
 import {
   Tabs,
@@ -28,8 +26,6 @@ import {
 
 import "../../App.css";
 import "../../styles/refs.css";
-
-library.add(...all);
 
 const KineticsIcon = (
   <FontAwesomeIcon
