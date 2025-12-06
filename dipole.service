@@ -1,0 +1,20 @@
+[Unit]
+Description=Gunicorn service for dipole
+Requires=dipole.socket
+After=network.target
+
+[Service]
+Type=simple
+User=nginx
+Group=nginx
+WorkingDirectory=/var/www/dipole.musicsian.com/current
+EnvironmentFile=/etc/dipole.env
+ExecStart=/var/www/dipole.musicsian.com/current/.venv/bin/python -m gunicorn \
+          --workers 3 \
+          --bind unix:/run/dipole/gunicorn.sock \
+          config.wsgi:application
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
