@@ -107,6 +107,7 @@ export function Calculator({ calculatorId }) {
             knownVariables={knownVariables}
             inputValues={inputValues}
             onVariableChange={setVariable}
+            logConfig={calculator.logarithmic}
           />
 
           {/* Error display */}
