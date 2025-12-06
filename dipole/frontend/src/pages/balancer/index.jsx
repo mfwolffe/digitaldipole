@@ -61,7 +61,7 @@ export function BalancerPage() {
   const [buildingElements, setBuildingElements] = useState([]);
 
   // Element palette visibility
-  const [showPalette, setShowPalette] = useState(false);
+  const [showPalette, setShowPalette] = useState(true);
 
   /**
    * Insert text at cursor position or append to input
