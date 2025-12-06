@@ -7,13 +7,63 @@ import { allCalculators } from '../calculators/registry';
 import elementsData from '../data/PubChemElements_all.json';
 
 // Category metadata for routing and display
+// Adding a new category here automatically:
+//   1. Routes calculators in that category to the correct page
+//   2. Adds a "Calculator Pages" search entry for the category page
 const CALCULATOR_CATEGORIES = {
-  GSLW: { name: 'Gas Laws', path: '/calculators/gas-laws' },
-  THRM: { name: 'Thermodynamics', path: '/calculators/thermo' },
-  KNTC: { name: 'Kinetics', path: '/calculators/kinetics' },
-  SOLN: { name: 'Solutions', path: '/calculators/solutions' },
-  ELEC: { name: 'Electrochemistry', path: '/calculators/electrochemistry' },
+  GSLW: {
+    name: 'Gas Laws',
+    path: '/calculators/gas-laws',
+    keywords: ['gas', 'ideal', 'pressure', 'volume', 'temperature'],
+    subtitle: 'Boyle, Charles, Ideal Gas Law...',
+  },
+  THRM: {
+    name: 'Thermodynamics',
+    path: '/calculators/thermo',
+    keywords: ['thermodynamics', 'heat', 'entropy', 'enthalpy', 'gibbs'],
+    subtitle: 'Heat, Entropy, Gibbs Energy...',
+  },
+  KNTC: {
+    name: 'Kinetics',
+    path: '/calculators/kinetics',
+    keywords: ['kinetics', 'rate', 'reaction', 'arrhenius', 'order'],
+    subtitle: 'Arrhenius, Half-life, Rate Laws...',
+  },
+  SOLN: {
+    name: 'Solutions',
+    path: '/calculators/solutions',
+    keywords: ['solutions', 'molarity', 'dilution', 'concentration'],
+    subtitle: 'Molarity, Dilution, Colligative...',
+  },
+  ELEC: {
+    name: 'Electrochemistry',
+    path: '/calculators/electrochemistry',
+    keywords: ['electrochemistry', 'faraday', 'nernst', 'cell', 'potential'],
+    subtitle: 'Faraday, Nernst Equation...',
+  },
 };
+
+// Static reference pages (non-calculator pages)
+// Add new reference pages here
+const STATIC_PAGES = [
+  {
+    id: 'tabulated',
+    name: 'Periodic Table Data',
+    category: 'References',
+    path: '/tabulated',
+    keywords: ['periodic table', 'elements', 'tabulated', 'data', 'atomic'],
+    subtitle: 'Element properties and data',
+  },
+  // Add more static pages here as needed, e.g.:
+  // {
+  //   id: 'constants',
+  //   name: 'Physical Constants',
+  //   category: 'References',
+  //   path: '/constants',
+  //   keywords: ['constants', 'avogadro', 'planck', 'boltzmann'],
+  //   subtitle: 'Fundamental physical constants',
+  // },
+];
 
 /**
  * Build calculator search items
@@ -75,70 +125,30 @@ function buildElementsIndex() {
 
 /**
  * Build reference pages index
+ * Auto-generates calculator category pages from CALCULATOR_CATEGORIES
+ * and includes static pages from STATIC_PAGES
  */
 function buildReferenceIndex() {
-  return [
-    {
-      type: 'page',
-      id: 'tabulated',
-      name: 'Periodic Table Data',
-      category: 'References',
-      path: '/tabulated',
-      keywords: ['periodic table', 'elements', 'tabulated', 'data', 'atomic'],
-      subtitle: 'Element properties and data',
-      icon: 'table',
-    },
-    {
-      type: 'page',
-      id: 'gas-laws',
-      name: 'Gas Laws Calculators',
-      category: 'Calculator Pages',
-      path: '/calculators/gas-laws',
-      keywords: ['gas', 'ideal', 'pressure', 'volume', 'temperature'],
-      subtitle: 'Boyle, Charles, Ideal Gas Law...',
-      icon: 'page',
-    },
-    {
-      type: 'page',
-      id: 'thermo',
-      name: 'Thermodynamics Calculators',
-      category: 'Calculator Pages',
-      path: '/calculators/thermo',
-      keywords: ['thermodynamics', 'heat', 'entropy', 'enthalpy', 'gibbs'],
-      subtitle: 'Heat, Entropy, Gibbs Energy...',
-      icon: 'page',
-    },
-    {
-      type: 'page',
-      id: 'kinetics',
-      name: 'Kinetics Calculators',
-      category: 'Calculator Pages',
-      path: '/calculators/kinetics',
-      keywords: ['kinetics', 'rate', 'reaction', 'arrhenius', 'order'],
-      subtitle: 'Arrhenius, Half-life, Rate Laws...',
-      icon: 'page',
-    },
-    {
-      type: 'page',
-      id: 'solutions',
-      name: 'Solutions Calculators',
-      category: 'Calculator Pages',
-      path: '/calculators/solutions',
-      keywords: ['solutions', 'molarity', 'dilution', 'concentration'],
-      subtitle: 'Molarity, Dilution, Colligative...',
-      icon: 'page',
-    },
-    {
-      type: 'page',
-      id: 'electrochemistry',
-      name: 'Electrochemistry Calculators',
-      category: 'Calculator Pages',
-      path: '/calculators/electrochemistry',
-      keywords: ['electrochemistry', 'faraday', 'nernst', 'cell', 'potential'],
-      subtitle: 'Faraday, Nernst Equation...',
-      icon: 'page',
-    },
-  ];
+  // Auto-generate calculator category pages
+  const categoryPages = Object.entries(CALCULATOR_CATEGORIES).map(([code, cat]) => ({
+    type: 'page',
+    id: code.toLowerCase(),
+    name: `${cat.name} Calculators`,
+    category: 'Calculator Pages',
+    path: cat.path,
+    keywords: cat.keywords || [],
+    subtitle: cat.subtitle || cat.name,
+    icon: 'page',
+  }));
+
+  // Static reference pages
+  const staticPages = STATIC_PAGES.map(page => ({
+    type: 'page',
+    icon: 'table',
+    ...page,
+  }));
+
+  return [...staticPages, ...categoryPages];
 }
 
 // Build and export the complete search index
