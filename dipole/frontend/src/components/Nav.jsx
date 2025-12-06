@@ -21,7 +21,7 @@ const NavOffCanvas = () => {
 
     return (
         <>
-            <nav className="nav-top w-[85%] mx-auto py-3 flex flex-row items-center justify-between gap-4">
+            <div className="w-[85%] mx-auto py-3 flex flex-row items-center justify-between gap-4" style={{ display: 'flex', flexDirection: 'row' }}>
                 {/* Left: Atom icon */}
                 <Button
                     variant="ghost"
@@ -51,7 +51,7 @@ const NavOffCanvas = () => {
                 <div className="shrink-0">
                     <UserDrop />
                 </div>
-            </nav>
+            </div>
 
             <Offcanvas
                 show={show}
