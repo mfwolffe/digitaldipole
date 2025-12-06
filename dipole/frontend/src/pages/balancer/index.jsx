@@ -35,6 +35,8 @@ export function BalancerPage() {
     verify,
     reset,
     setMode,
+    setSolution,
+    solution,
     setArrowType,
     reorderCompound,
     moveCompound,
@@ -155,6 +157,8 @@ export function BalancerPage() {
                   isLoading={isLoading}
                   mode={mode}
                   onModeChange={setMode}
+                  solution={solution}
+                  onSolutionChange={setSolution}
                 />
               </div>
             </Card>
@@ -296,6 +300,8 @@ function ExamplesSection({ onSelectExample }) {
     { name: 'Double Replacement', equation: 'AgNO3 + NaCl -> AgCl + NaNO3' },
     { name: 'Decomposition', equation: 'H2O2 -> H2O + O2' },
     { name: 'Synthesis', equation: 'N2 + H2 -> NH3' },
+    { name: 'Redox (Fe/Cu)', equation: 'Fe + Cu^2+ -> Fe^2+ + Cu', isRedox: true },
+    { name: 'Redox (MnO4)', equation: 'MnO4^- + Fe^2+ -> Mn^2+ + Fe^3+', isRedox: true },
   ];
 
   return (

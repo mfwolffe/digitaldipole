@@ -15,6 +15,7 @@
  */
 
 import { getAllElements, getElementCount } from './chemicalParser.js';
+import { balanceRedoxEquation, identifyRedoxChanges } from './redoxBalancer.js';
 
 /**
  * Balance a chemical equation
@@ -23,10 +24,15 @@ import { getAllElements, getElementCount } from './chemicalParser.js';
  * @returns {Object} { success, coefficients, steps, error }
  */
 export function balanceEquation(equation, options = {}) {
-  const { mode = 'molecular', showSteps = true } = options;
+  const { mode = 'molecular', showSteps = true, solution = 'acidic' } = options;
   const steps = [];
 
   try {
+    // For redox mode, use the half-reaction method
+    if (mode === 'redox') {
+      return balanceRedoxEquation(equation, { solution, showSteps });
+    }
+
     // Get all compounds in order
     const allCompounds = [...equation.reactants, ...equation.products];
     const numReactants = equation.reactants.length;

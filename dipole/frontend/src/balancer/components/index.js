@@ -15,3 +15,10 @@ export { ElementPalette } from './ElementPalette.jsx';
 export { CompoundBuilder } from './CompoundBuilder.jsx';
 export { DraggableCompound, DropZone } from './DraggableCompound.jsx';
 export { DraggableEquation } from './DraggableEquation.jsx';
+export {
+  HalfReactionPanel,
+  HalfReaction,
+  OxidationStateChange,
+  OxidationStateSummary,
+  ElectronTransfer,
+} from './HalfReactionDisplay.jsx';

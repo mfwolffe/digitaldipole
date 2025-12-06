@@ -22,7 +22,8 @@ export function useEquationBalancer() {
   const [equation, setEquation] = useState(null);
   const [coefficients, setCoefficients] = useState({});
   const [balanceResult, setBalanceResult] = useState(null);
-  const [mode, setMode] = useState('molecular'); // 'molecular' | 'ionic'
+  const [mode, setMode] = useState('molecular'); // 'molecular' | 'ionic' | 'redox'
+  const [solution, setSolution] = useState('acidic'); // 'acidic' | 'basic' (for redox)
 
   // UI state
   const [isLoading, setIsLoading] = useState(false);
@@ -92,6 +93,7 @@ export function useEquationBalancer() {
     try {
       const result = balanceEquation(equation, {
         mode,
+        solution,
         showSteps: true,
       });
 
@@ -109,7 +111,7 @@ export function useEquationBalancer() {
     } finally {
       setIsLoading(false);
     }
-  }, [equation, mode]);
+  }, [equation, mode, solution]);
 
   /**
    * Verify current coefficients are balanced
@@ -262,6 +264,7 @@ export function useEquationBalancer() {
     coefficients,
     balanceResult,
     mode,
+    solution,
     isLoading,
     error,
     parseError,
@@ -279,6 +282,7 @@ export function useEquationBalancer() {
     verify,
     reset,
     setMode,
+    setSolution,
     setArrowType,
     reorderCompound,
     moveCompound,

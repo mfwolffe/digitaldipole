@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react';
 import { VisualEquation } from './VisualEquation.jsx';
+import { HalfReactionPanel } from './HalfReactionDisplay.jsx';
 import { Card } from '../../components/ui/Card.jsx';
 import { Alert } from '../../components/ui/Alert.jsx';
 import { Accordion, AccordionItem, AccordionHeader, AccordionBody } from '../../components/ui/Accordion.jsx';
@@ -72,6 +73,22 @@ export function BalanceResult({
         inventory={elementInventory}
         isBalanced={isValid}
       />
+
+      {/* Half-reactions for redox equations */}
+      {balanceResult.isRedox && balanceResult.halfReactions && (
+        <Card className="bg-slate-800 border-slate-700">
+          <div className="p-4">
+            <h3 className="text-lg font-semibold text-teal-400 mb-4">
+              Half-Reaction Method
+            </h3>
+            <HalfReactionPanel
+              halfReactions={balanceResult.halfReactions}
+              solution={balanceResult.solution}
+              showSteps={true}
+            />
+          </div>
+        </Card>
+      )}
 
       {/* Balancing steps */}
       {balanceResult.steps && balanceResult.steps.length > 0 && (

@@ -27,6 +27,8 @@ export function EquationEditor({
   isLoading,
   mode,
   onModeChange,
+  solution,
+  onSolutionChange,
 }) {
   const [textInput, setTextInput] = useState('');
   const [hasEdited, setHasEdited] = useState(false);
@@ -118,7 +120,7 @@ export function EquationEditor({
       </div>
 
       {/* Mode selector */}
-      <div className="mode-section flex items-center gap-4">
+      <div className="mode-section flex flex-wrap items-center gap-4">
         <span className="text-sm text-gray-400">Mode:</span>
         <label className="inline-flex items-center">
           <input
@@ -142,6 +144,33 @@ export function EquationEditor({
           />
           <span className="ml-2 text-sm">Ionic</span>
         </label>
+        <label className="inline-flex items-center">
+          <input
+            type="radio"
+            name="mode"
+            value="redox"
+            checked={mode === 'redox'}
+            onChange={() => onModeChange('redox')}
+            className="form-radio text-teal-500"
+          />
+          <span className="ml-2 text-sm">Redox</span>
+        </label>
+
+        {/* Solution selector for redox mode */}
+        {mode === 'redox' && (
+          <div className="flex items-center gap-2 ml-4 pl-4 border-l border-slate-600">
+            <span className="text-sm text-gray-400">Solution:</span>
+            <select
+              value={solution || 'acidic'}
+              onChange={(e) => onSolutionChange?.(e.target.value)}
+              className="text-sm bg-slate-700 border border-slate-600 rounded px-2 py-1
+                         text-gray-200 focus:border-teal-500 focus:outline-none"
+            >
+              <option value="acidic">Acidic (H+)</option>
+              <option value="basic">Basic (OH-)</option>
+            </select>
+          </div>
+        )}
       </div>
 
       {/* Visual equation display */}
