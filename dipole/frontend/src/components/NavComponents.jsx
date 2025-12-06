@@ -203,7 +203,7 @@ export function OffCDropCalc () {
                 <ul>
                     <li>
                         <div  eventKey="ref-1" className="text-wrap pl-0 hvr-underline-from-left">
-                            <Link to="/calculators/GasLaws" className="pl-0 ml-0">
+                            <Link to="/calculators/gas-laws" className="pl-0 ml-0">
                                 Gas Laws (Ideal)
                             </Link>
                         </div>
@@ -235,7 +235,7 @@ export function OffCDropCalc () {
                 <ul>
                     <li>
                         <NavDropdown.Item eventKey="ref-1" className="text-wrap pl-0">
-                            <Link to="/calculators/GasLaws" className="pl-0 ml-0">
+                            <Link to="/calculators/gas-laws" className="pl-0 ml-0">
                                 Gas Laws (Ideal)
                             </Link>
                         </NavDropdown.Item>

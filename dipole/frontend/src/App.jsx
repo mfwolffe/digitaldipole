@@ -27,8 +27,8 @@ function App() {
       <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/tabulated" element={<Tabulated />} />
-          <Route path="/calculators/GasLaws" element={<CalcCard />} />
-          <Route path="/calculators/thermo" element={<Thermo />} />
+          <Route path="/calculators/gas-laws/:tab?" element={<CalcCard />} />
+          <Route path="/calculators/thermo/:tab?" element={<Thermo />} />
           <Route path="/memegenerator" element={<MemeGen />} />
       </Routes>
     </Router>
