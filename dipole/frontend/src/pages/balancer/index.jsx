@@ -274,7 +274,7 @@ export function BalancerPage() {
                 </Button>
 
                 {/* Quick insert common items */}
-                <div className="flex items-center gap-1 ml-auto">
+                <div className="flex items-center gap-1 ml-auto flex-wrap">
                   <span className="text-xs text-gray-500 mr-2">Quick add:</span>
                   {['H2O', 'O2', 'CO2', 'H2', 'N2'].map(formula => (
                     <button
@@ -286,18 +286,25 @@ export function BalancerPage() {
                       {formula}
                     </button>
                   ))}
-                  <button
-                    onClick={() => {
-                      if (!textInput.includes('->')) {
-                        setTextInput(prev => prev ? `${prev} -> ` : '-> ');
-                      }
-                    }}
-                    className="px-2 py-1 text-xs bg-slate-700 hover:bg-slate-600
-                               rounded transition-colors"
-                    title="Add reaction arrow"
-                  >
-                    →
-                  </button>
+                  <span className="text-gray-600 mx-1">|</span>
+                  {/* Syntax helpers */}
+                  {[
+                    { char: '+', title: 'Plus (separate compounds)' },
+                    { char: '->', title: 'Reaction arrow' },
+                    { char: '^', title: 'Charge (e.g., Fe^2+)' },
+                    { char: '(', title: 'Open parenthesis for groups' },
+                    { char: ')', title: 'Close parenthesis' },
+                  ].map(({ char, title }) => (
+                    <button
+                      key={char}
+                      onClick={() => setTextInput(prev => prev + char)}
+                      className="px-2 py-1 text-xs bg-slate-700 hover:bg-slate-600
+                                 rounded transition-colors font-mono"
+                      title={title}
+                    >
+                      {char}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
