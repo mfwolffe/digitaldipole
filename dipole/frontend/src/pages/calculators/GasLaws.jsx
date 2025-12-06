@@ -16,6 +16,9 @@ import {
   CharlesInfo,
   CombinedInfo,
   IdealInfo,
+  GasDensityInfo,
+  GrahamInfo,
+  DaltonInfo,
   GenInfo1,
   GenInfo2,
 } from "../../components/CalcInfo";
@@ -127,7 +130,7 @@ function InfoAccordion({ Info1, Info2, title1, title2 }) {
 }
 
 // Valid tab keys for this page
-const VALID_TABS = ['info', 'avogadro', 'amonton', 'boyle', 'charles', 'combined', 'ideal'];
+const VALID_TABS = ['info', 'avogadro', 'amonton', 'boyle', 'charles', 'combined', 'ideal', 'density', 'graham', 'dalton'];
 
 /**
  * Gas Laws Calculator Page
@@ -217,6 +220,27 @@ const GasLawsPage = () => {
               <CalculatorAccordion
                 InfoComponent={IdealInfo}
                 calculatorId="ideal"
+              />
+            </Tab>
+
+            <Tab eventKey="density" className="calc-tab" title="Gas Density">
+              <CalculatorAccordion
+                InfoComponent={GasDensityInfo}
+                calculatorId="density"
+              />
+            </Tab>
+
+            <Tab eventKey="graham" className="calc-tab" title="Graham's Law">
+              <CalculatorAccordion
+                InfoComponent={GrahamInfo}
+                calculatorId="graham"
+              />
+            </Tab>
+
+            <Tab eventKey="dalton" className="calc-tab" title="Dalton's Law">
+              <CalculatorAccordion
+                InfoComponent={DaltonInfo}
+                calculatorId="dalton"
               />
             </Tab>
           </Tabs>

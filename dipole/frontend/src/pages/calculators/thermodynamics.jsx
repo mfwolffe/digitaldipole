@@ -15,6 +15,10 @@ import {
   StateHeat,
   EntropyInfo,
   GibbsInfo,
+  EntropyChangeInfo,
+  WorkPVInfo,
+  FirstLawInfo,
+  MolarHeatCapacityInfo,
 } from "../../components/CalcInfo";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -124,7 +128,7 @@ function InfoAccordion({ Info1, Info2, title1, title2 }) {
 }
 
 // Valid tab keys for this page
-const VALID_TABS = ['info', 'enthalpy', 'heat', 'gibbs'];
+const VALID_TABS = ['info', 'enthalpy', 'heat', 'gibbs', 'entropyChange', 'work', 'firstLaw', 'molarHeat'];
 
 /**
  * Thermodynamics Calculator Page
@@ -193,6 +197,34 @@ const ThermodynamicsPage = () => {
               <CalculatorAccordion
                 InfoComponent={GibbsInfo}
                 calculatorId="gibbs"
+              />
+            </Tab>
+
+            <Tab eventKey="entropyChange" className="calc-tab" title="Entropy Change">
+              <CalculatorAccordion
+                InfoComponent={EntropyChangeInfo}
+                calculatorId="entropyChange"
+              />
+            </Tab>
+
+            <Tab eventKey="work" className="calc-tab" title="Work (PV)">
+              <CalculatorAccordion
+                InfoComponent={WorkPVInfo}
+                calculatorId="work"
+              />
+            </Tab>
+
+            <Tab eventKey="firstLaw" className="calc-tab" title="First Law">
+              <CalculatorAccordion
+                InfoComponent={FirstLawInfo}
+                calculatorId="firstLaw"
+              />
+            </Tab>
+
+            <Tab eventKey="molarHeat" className="calc-tab" title="Molar Heat Capacity">
+              <CalculatorAccordion
+                InfoComponent={MolarHeatCapacityInfo}
+                calculatorId="molarHeat"
               />
             </Tab>
           </Tabs>

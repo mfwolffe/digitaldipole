@@ -6,7 +6,11 @@ import {
   ThermInfo2,
   StateHeat,
   EntropyInfo,
-  GibbsInfo
+  GibbsInfo,
+  EntropyChangeInfo,
+  WorkPVInfo,
+  FirstLawInfo,
+  MolarHeatCapacityInfo
 } from '../../components/CalcInfo';
 
 export const thermodynamicsCalculators = [
@@ -140,6 +144,158 @@ export const thermodynamicsCalculators = [
       }
     ],
     InfoComponent: StateHeat
+  },
+
+  {
+    id: 'entropyChange',
+    name: 'Entropy Change',
+    category: 'THRM',
+    // ΔS = q_rev / T
+    equation: 'deltaS - qrev/T',
+    latexEquation: '\\Delta S = \\frac{q_{rev}}{T}',
+    variables: [
+      {
+        id: 'deltaS',
+        name: 'Entropy Change',
+        symbol: '\\Delta S',
+        htmlSymbol: 'ΔS',
+        unit: 'J/K',
+        description: 'Change in entropy'
+      },
+      {
+        id: 'qrev',
+        name: 'Reversible Heat',
+        symbol: 'q_{rev}',
+        htmlSymbol: 'q<sub>rev</sub>',
+        unit: 'J',
+        description: 'Heat transferred reversibly'
+      },
+      {
+        id: 'T',
+        name: 'Temperature',
+        symbol: 'T',
+        htmlSymbol: 'T',
+        unit: 'K',
+        description: 'Temperature (Kelvin)'
+      }
+    ],
+    InfoComponent: EntropyChangeInfo
+  },
+
+  {
+    id: 'work',
+    name: 'Work (PV)',
+    category: 'THRM',
+    // w = -PΔV
+    equation: 'w + P*deltaV',
+    latexEquation: 'w = -P \\Delta V',
+    variables: [
+      {
+        id: 'w',
+        name: 'Work',
+        symbol: 'w',
+        htmlSymbol: 'w',
+        unit: 'J',
+        description: 'Work done by/on the system'
+      },
+      {
+        id: 'P',
+        name: 'Pressure',
+        symbol: 'P',
+        htmlSymbol: 'P',
+        unit: 'Pa',
+        description: 'Pressure of the system'
+      },
+      {
+        id: 'deltaV',
+        name: 'Volume Change',
+        symbol: '\\Delta V',
+        htmlSymbol: 'ΔV',
+        unit: 'm³',
+        description: 'Change in volume'
+      }
+    ],
+    InfoComponent: WorkPVInfo
+  },
+
+  {
+    id: 'firstLaw',
+    name: 'First Law of Thermodynamics',
+    category: 'THRM',
+    // ΔU = q + w
+    equation: 'deltaU - q - w',
+    latexEquation: '\\Delta U = q + w',
+    variables: [
+      {
+        id: 'deltaU',
+        name: 'Internal Energy Change',
+        symbol: '\\Delta U',
+        htmlSymbol: 'ΔU',
+        unit: 'J',
+        description: 'Change in internal energy'
+      },
+      {
+        id: 'q',
+        name: 'Heat',
+        symbol: 'q',
+        htmlSymbol: 'q',
+        unit: 'J',
+        description: 'Heat transferred to the system'
+      },
+      {
+        id: 'w',
+        name: 'Work',
+        symbol: 'w',
+        htmlSymbol: 'w',
+        unit: 'J',
+        description: 'Work done on the system'
+      }
+    ],
+    InfoComponent: FirstLawInfo
+  },
+
+  {
+    id: 'molarHeat',
+    name: 'Molar Heat Capacity',
+    category: 'THRM',
+    // q = nCpΔT
+    equation: 'q - n*Cp*deltaT',
+    latexEquation: 'q = n C_p \\Delta T',
+    variables: [
+      {
+        id: 'q',
+        name: 'Heat',
+        symbol: 'q',
+        htmlSymbol: 'q',
+        unit: 'J',
+        description: 'Heat transferred'
+      },
+      {
+        id: 'n',
+        name: 'Moles',
+        symbol: 'n',
+        htmlSymbol: 'n',
+        unit: 'mol',
+        description: 'Amount of substance in moles'
+      },
+      {
+        id: 'Cp',
+        name: 'Molar Heat Capacity',
+        symbol: 'C_p',
+        htmlSymbol: 'C<sub>p</sub>',
+        unit: 'J/(mol·K)',
+        description: 'Molar heat capacity at constant pressure'
+      },
+      {
+        id: 'deltaT',
+        name: 'Temperature Change',
+        symbol: '\\Delta T',
+        htmlSymbol: 'ΔT',
+        unit: 'K',
+        description: 'Change in temperature'
+      }
+    ],
+    InfoComponent: MolarHeatCapacityInfo
   }
 ];
 

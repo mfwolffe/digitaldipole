@@ -9,7 +9,10 @@ import {
   IdealInfo,
   CombinedInfo,
   GenInfo1,
-  GenInfo2
+  GenInfo2,
+  GasDensityInfo,
+  GrahamInfo,
+  DaltonInfo
 } from '../../components/CalcInfo';
 
 export const gasLawCalculators = [
@@ -301,6 +304,141 @@ export const gasLawCalculators = [
       }
     ],
     InfoComponent: IdealInfo
+  },
+
+  {
+    id: 'density',
+    name: 'Gas Density',
+    category: 'GSLW',
+    // d = PM/RT  =>  d*R*T - P*M = 0
+    equation: 'd*R*T - P*M',
+    latexEquation: 'd = \\frac{PM}{RT}',
+    variables: [
+      {
+        id: 'd',
+        name: 'Density',
+        symbol: 'd',
+        htmlSymbol: 'd',
+        unit: 'g/L',
+        description: 'Density of the gas'
+      },
+      {
+        id: 'P',
+        name: 'Pressure',
+        symbol: 'P',
+        htmlSymbol: 'P',
+        unit: 'atm',
+        description: 'Pressure of the gas'
+      },
+      {
+        id: 'M',
+        name: 'Molar Mass',
+        symbol: 'M',
+        htmlSymbol: 'M',
+        unit: 'g/mol',
+        description: 'Molar mass of the gas'
+      },
+      {
+        id: 'R',
+        name: 'Gas Constant',
+        symbol: 'R',
+        htmlSymbol: 'R',
+        unit: 'L·atm/(mol·K)',
+        defaultValue: 0.0821,
+        isConstant: true,
+        description: 'Ideal gas constant (0.0821 L·atm/(mol·K))'
+      },
+      {
+        id: 'T',
+        name: 'Temperature',
+        symbol: 'T',
+        htmlSymbol: 'T',
+        unit: 'K',
+        description: 'Temperature (Kelvin)'
+      }
+    ],
+    InfoComponent: GasDensityInfo
+  },
+
+  {
+    id: 'graham',
+    name: "Graham's Law",
+    category: 'GSLW',
+    // r1/r2 = sqrt(M2/M1)  =>  r1^2 * M1 - r2^2 * M2 = 0
+    // Squaring both sides to avoid sqrt in nerdamer solve
+    equation: 'r1*r1*M1 - r2*r2*M2',
+    latexEquation: '\\frac{r_1}{r_2} = \\sqrt{\\frac{M_2}{M_1}}',
+    variables: [
+      {
+        id: 'r1',
+        name: 'Rate of Gas 1',
+        symbol: 'r_1',
+        htmlSymbol: 'r<sub>1</sub>',
+        unit: 'mol/s',
+        description: 'Effusion rate of gas 1'
+      },
+      {
+        id: 'r2',
+        name: 'Rate of Gas 2',
+        symbol: 'r_2',
+        htmlSymbol: 'r<sub>2</sub>',
+        unit: 'mol/s',
+        description: 'Effusion rate of gas 2'
+      },
+      {
+        id: 'M1',
+        name: 'Molar Mass of Gas 1',
+        symbol: 'M_1',
+        htmlSymbol: 'M<sub>1</sub>',
+        unit: 'g/mol',
+        description: 'Molar mass of gas 1'
+      },
+      {
+        id: 'M2',
+        name: 'Molar Mass of Gas 2',
+        symbol: 'M_2',
+        htmlSymbol: 'M<sub>2</sub>',
+        unit: 'g/mol',
+        description: 'Molar mass of gas 2'
+      }
+    ],
+    InfoComponent: GrahamInfo
+  },
+
+  {
+    id: 'dalton',
+    name: "Dalton's Law",
+    category: 'GSLW',
+    // Ptotal = P1 + P2
+    equation: 'Ptotal - P1 - P2',
+    latexEquation: 'P_{total} = P_1 + P_2',
+    variables: [
+      {
+        id: 'Ptotal',
+        name: 'Total Pressure',
+        symbol: 'P_{total}',
+        htmlSymbol: 'P<sub>total</sub>',
+        unit: 'atm',
+        description: 'Total pressure of the gas mixture'
+      },
+      {
+        id: 'P1',
+        name: 'Partial Pressure 1',
+        symbol: 'P_1',
+        htmlSymbol: 'P<sub>1</sub>',
+        unit: 'atm',
+        description: 'Partial pressure of gas 1'
+      },
+      {
+        id: 'P2',
+        name: 'Partial Pressure 2',
+        symbol: 'P_2',
+        htmlSymbol: 'P<sub>2</sub>',
+        unit: 'atm',
+        description: 'Partial pressure of gas 2'
+      }
+    ],
+    InfoComponent: DaltonInfo
   }
 ];
 

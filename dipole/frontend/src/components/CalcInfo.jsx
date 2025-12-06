@@ -319,16 +319,139 @@ export function GibbsInfo() {
     <>
       <p className="text-left">
         Gibbs Free Energy is a thermodynamic function that is proportional to the negative of
-        the change in entropy of the universe. It enables us to determine the spontaneity of a 
+        the change in entropy of the universe. It enables us to determine the spontaneity of a
         reaction. Below is the equation for the free energy under standard state:
       </p>
       <p className="text-center">{"$$ \\Delta G^\\circ \\; = \\; \\Delta H^\\circ - T\\Delta S^\\circ $$"}</p>
       <p className="text-left">
-        When {"\\(\\Delta G < 0\\)"}, a chemmical reaction is spontaneous. When {"\\(\\Delta G > 0\\)"}, 
+        When {"\\(\\Delta G < 0\\)"}, a chemmical reaction is spontaneous. When {"\\(\\Delta G > 0\\)"},
         the reaction is not spontaneous
       </p>
     </>
   )
+}
+
+// === New Gas Law Calculators ===
+
+export function GasDensityInfo() {
+  return (
+    <>
+      <p className="text-left mb-1">
+        The density of a gas can be derived from the ideal gas law. Starting with {"\\(PV = nRT\\)"} and
+        recognizing that {"\\(n = \\frac{m}{M}\\)"} (mass divided by molar mass), we can rearrange to
+        find the density {"\\(d = \\frac{m}{V}\\)"}:
+      </p>
+      <p className="text-center">{"$$d \\; = \\; \\frac{PM}{RT}$$"}</p>
+      <p className="text-left mt-2">
+        This shows that gas density is directly proportional to pressure and molar mass, and inversely
+        proportional to temperature. Unlike liquids and solids, gas density varies significantly with
+        conditions.
+      </p>
+    </>
+  );
+}
+
+export function GrahamInfo() {
+  return (
+    <>
+      <p className="text-left mb-1">
+        Graham's Law of Effusion states that the rate at which a gas escapes through a small hole
+        (effuses) is inversely proportional to the square root of its molar mass. For two gases:
+      </p>
+      <p className="text-center">{"$$\\frac{r_1}{r_2} \\; = \\; \\sqrt{\\frac{M_2}{M_1}}$$"}</p>
+      <p className="text-left mt-2">
+        This means lighter gases effuse faster than heavier gases. The same relationship applies to
+        diffusion rates. This principle is used in isotope separation and explains why helium balloons
+        deflate faster than air-filled ones.
+      </p>
+    </>
+  );
+}
+
+export function DaltonInfo() {
+  return (
+    <>
+      <p className="text-left mb-1">
+        Dalton's Law of Partial Pressures states that the total pressure exerted by a mixture of
+        non-reacting gases is equal to the sum of the partial pressures of the individual gases:
+      </p>
+      <p className="text-center">{"$$P_{total} \\; = \\; P_1 + P_2 + P_3 + \\ldots$$"}</p>
+      <p className="text-left mt-2">
+        Each gas in a mixture behaves independently and exerts pressure as if it alone occupied the
+        container. The partial pressure of a gas is proportional to its mole fraction in the mixture.
+      </p>
+    </>
+  );
+}
+
+// === New Thermodynamics Calculators ===
+
+export function EntropyChangeInfo() {
+  return (
+    <>
+      <p className="text-left mb-1">
+        For a reversible process at constant temperature, the change in entropy is defined as the
+        heat transferred divided by the absolute temperature:
+      </p>
+      <p className="text-center">{"$$\\Delta S \\; = \\; \\frac{q_{rev}}{T}$$"}</p>
+      <p className="text-left mt-2">
+        This relationship is fundamental to the second law of thermodynamics. For irreversible
+        processes, the entropy change of the universe is always positive. Units are typically
+        J/K or J/(mol·K).
+      </p>
+    </>
+  );
+}
+
+export function WorkPVInfo() {
+  return (
+    <>
+      <p className="text-left mb-1">
+        Pressure-volume work is the work done when a system expands or compresses against an
+        external pressure. For a process at constant external pressure:
+      </p>
+      <p className="text-center">{"$$w \\; = \\; -P\\Delta V$$"}</p>
+      <p className="text-left mt-2">
+        The negative sign indicates that when a system expands ({"\\(\\Delta V > 0\\)"}), it does
+        work on the surroundings (w is negative). When compressed, work is done on the system
+        (w is positive).
+      </p>
+    </>
+  );
+}
+
+export function FirstLawInfo() {
+  return (
+    <>
+      <p className="text-left mb-1">
+        The First Law of Thermodynamics is a statement of conservation of energy. The change in
+        internal energy of a system equals the heat added to the system plus the work done on it:
+      </p>
+      <p className="text-center">{"$$\\Delta U \\; = \\; q + w$$"}</p>
+      <p className="text-left mt-2">
+        Internal energy {"\\(U\\)"} is a state function—it depends only on the current state, not the
+        path taken. Heat {"\\(q\\)"} and work {"\\(w\\)"} are path-dependent. This law is the basis
+        for understanding energy transformations in chemical and physical processes.
+      </p>
+    </>
+  );
+}
+
+export function MolarHeatCapacityInfo() {
+  return (
+    <>
+      <p className="text-left mb-1">
+        Molar heat capacity describes the heat required to raise the temperature of one mole of a
+        substance by one degree. At constant pressure:
+      </p>
+      <p className="text-center">{"$$q \\; = \\; nC_p\\Delta T$$"}</p>
+      <p className="text-left mt-2">
+        Where {"\\(n\\)"} is the number of moles and {"\\(C_p\\)"} is the molar heat capacity at
+        constant pressure. This is related to specific heat capacity by {"\\(C_p = M \\cdot c\\)"}
+        where {"\\(M\\)"} is molar mass.
+      </p>
+    </>
+  );
 }
 
 
