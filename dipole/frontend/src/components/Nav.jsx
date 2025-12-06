@@ -27,7 +27,7 @@ const NavOffCanvas = () => {
                     variant="ghost"
                     size="icon"
                     onClick={toggleShow}
-                    className="sbar-btn p-2 shrink-0"
+                    className="sbar-btn p-2 shrink-0 border-0 bg-transparent"
                 >
                     <FontAwesomeIcon
                         icon="fa-duotone fa-atom"

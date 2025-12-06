@@ -86,7 +86,7 @@ export function SearchBar() {
             id="hdr-search"
           />
         </PopoverTrigger>
-        <Button variant="ghost" className="rounded-l-none border border-gray-300 border-l-0 hvr-grow-rotate">
+        <Button variant="ghost" className="rounded-l-none hvr-grow-rotate bg-transparent hover:bg-gray-700">
           <FontAwesomeIcon icon="fa-duotone fa-magnifying-glass" style={icoStyle} />
         </Button>
       </div>
@@ -176,33 +176,33 @@ export function OffCDropRef({ onNavigate }) {
         </svg>
       </button>
       <Collapse open={open}>
-        <ul id="ref-dropdown" className="ml-6 mt-2 space-y-1 border-l-2 border-primary-300 pl-4 py-2 bg-gray-50 rounded-r-lg">
+        <ul id="ref-dropdown" className="ml-6 mt-2 space-y-1 border-l-2 border-primary-400 pl-4 py-2 bg-gray-100 rounded-r-lg shadow-inner">
           <li>
             <Link
               to="/tabulated"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-800 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors"
+              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
             >
               Tabulated Data
             </Link>
           </li>
           <li>
-            <span className="block py-2 px-2 text-gray-800 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors cursor-pointer">
+            <span className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors cursor-pointer">
               Periodic Tables
             </span>
           </li>
           <li>
-            <span className="block py-2 px-2 text-gray-800 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors cursor-pointer">
+            <span className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors cursor-pointer">
               Conversion Factors
             </span>
           </li>
           <li>
-            <span className="block py-2 px-2 text-gray-800 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors cursor-pointer">
+            <span className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors cursor-pointer">
               Fundamental Constants
             </span>
           </li>
           <li>
-            <span className="block py-2 px-2 text-gray-800 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors cursor-pointer">
+            <span className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors cursor-pointer">
               Common Equations
             </span>
           </li>
@@ -238,12 +238,12 @@ export function OffCDropCalc({ onNavigate }) {
         </svg>
       </button>
       <Collapse open={open}>
-        <ul id="calc-dropdown" className="ml-6 mt-2 space-y-1 border-l-2 border-primary-300 pl-4 py-2 bg-gray-50 rounded-r-lg">
+        <ul id="calc-dropdown" className="ml-6 mt-2 space-y-1 border-l-2 border-primary-400 pl-4 py-2 bg-gray-100 rounded-r-lg shadow-inner">
           <li>
             <Link
               to="/calculators/gas-laws"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-800 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors"
+              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
             >
               Gas Laws (Ideal)
             </Link>
@@ -252,7 +252,7 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/thermo"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-800 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors"
+              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
             >
               Thermodynamics
             </Link>
@@ -261,7 +261,7 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/kinetics"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-800 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors"
+              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
             >
               Kinetics
             </Link>
@@ -270,7 +270,7 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/solutions"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-800 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors"
+              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
             >
               Solutions
             </Link>
@@ -279,7 +279,7 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/electrochemistry"
               onClick={handleClick}
-              className="block py-2 px-2 text-gray-800 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors"
+              className="block py-2 px-2 text-gray-900 font-medium hover:text-primary-600 hover:bg-white rounded transition-colors"
             >
               Electrochemistry
             </Link>

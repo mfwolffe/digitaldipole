@@ -103,11 +103,11 @@ export function TabButton({ eventKey, disabled = false, className = '', children
     }
   };
 
-  const baseClasses = 'px-4 py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 border';
+  const baseClasses = 'px-4 py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500';
 
   const stateClasses = isActive
-    ? 'bg-primary-600 text-white shadow-md border-primary-700'
-    : 'bg-surface-700 text-gray-300 hover:bg-surface-600 hover:text-white border-surface-600';
+    ? 'bg-primary-600 text-white shadow-lg'
+    : 'bg-gray-700 text-gray-200 hover:bg-gray-600 hover:text-white';
 
   const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer';
 
