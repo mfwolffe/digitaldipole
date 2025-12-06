@@ -107,7 +107,7 @@ export function TabButton({ eventKey, disabled = false, className = '', children
 
   const stateClasses = isActive
     ? 'bg-primary-600 text-white shadow-md'
-    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900';
+    : 'bg-gray-200/60 text-gray-500 hover:bg-gray-300/70 hover:text-gray-700';
 
   const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer';
 
