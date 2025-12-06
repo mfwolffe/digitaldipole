@@ -30,8 +30,13 @@ export function EquationEditor({
   solution,
   onSolutionChange,
   onStartPractice,
+  textValue,
+  onTextValueChange,
 }) {
-  const [textInput, setTextInput] = useState('');
+  // Use controlled value if provided, otherwise internal state
+  const [internalTextInput, setInternalTextInput] = useState('');
+  const textInput = textValue !== undefined ? textValue : internalTextInput;
+  const setTextInput = onTextValueChange || setInternalTextInput;
   const [hasEdited, setHasEdited] = useState(false);
 
   // Debounced parse

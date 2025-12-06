@@ -1,14 +1,16 @@
 /**
  * Equation Balancer Page
  *
- * Main page for the chemical equation balancer feature.
- * Provides text input, visual equation display, and auto-balancing.
+ * Unified input approach:
+ * - Text input is the single source of truth
+ * - Visual tools (Element Palette, Compound Builder) assist text entry
+ * - Visual preview shows parsed equation below input
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { Card } from '../../components/ui/Card.jsx';
 import { Modal, ModalHeader, ModalBody } from '../../components/ui/Modal.jsx';
-import { Tabs, TabList, TabButton, TabPanel } from '../../components/ui/Tabs.jsx';
+import { Button } from '../../components/ui/Button.jsx';
 import { EquationEditor } from '../../balancer/components/EquationEditor.jsx';
 import { BalanceResult } from '../../balancer/components/BalanceResult.jsx';
 import { ElementPalette } from '../../balancer/components/ElementPalette.jsx';
@@ -47,15 +49,79 @@ export function BalancerPage() {
     startPractice,
     exitPractice,
     setPracticeCoefficient,
+    equationString,
   } = useEquationBalancer();
 
-  // Visual builder state
+  // Text input state (controlled by EquationEditor but we need access for visual tools)
+  const [textInput, setTextInput] = useState('');
+
+  // Visual builder modal state
   const [showBuilder, setShowBuilder] = useState(false);
   const [builderSide, setBuilderSide] = useState('reactant');
   const [buildingElements, setBuildingElements] = useState([]);
-  const [inputMode, setInputMode] = useState('text'); // 'text' | 'visual'
 
-  // Handle element selection from palette
+  // Element palette visibility
+  const [showPalette, setShowPalette] = useState(false);
+
+  /**
+   * Insert text at cursor position or append to input
+   * Returns the new text value for immediate use
+   */
+  const insertIntoInput = useCallback((text) => {
+    let newValue = '';
+    setTextInput(prev => {
+      // If empty, just set
+      if (!prev.trim()) {
+        newValue = text;
+        return text;
+      }
+
+      // If we have an arrow, figure out which side to add to
+      const arrowMatch = prev.match(/(->|→|⇌|<->|=)/);
+      if (arrowMatch) {
+        const arrowIndex = prev.indexOf(arrowMatch[0]);
+        const beforeArrow = prev.slice(0, arrowIndex).trim();
+        const afterArrow = prev.slice(arrowIndex + arrowMatch[0].length).trim();
+
+        if (builderSide === 'reactant') {
+          // Add to reactants (before arrow)
+          const newBefore = beforeArrow ? `${beforeArrow} + ${text}` : text;
+          newValue = `${newBefore} ${arrowMatch[0]} ${afterArrow}`;
+        } else {
+          // Add to products (after arrow)
+          const newAfter = afterArrow ? `${afterArrow} + ${text}` : text;
+          newValue = `${beforeArrow} ${arrowMatch[0]} ${newAfter}`;
+        }
+        return newValue;
+      }
+
+      // No arrow yet - add based on side
+      if (builderSide === 'reactant') {
+        newValue = prev ? `${prev} + ${text}` : text;
+      } else {
+        // Need to add arrow first
+        newValue = prev ? `${prev} -> ${text}` : `-> ${text}`;
+      }
+      return newValue;
+    });
+
+    // Parse the new value after state update
+    setTimeout(() => parseText(newValue), 0);
+
+    return newValue;
+  }, [builderSide, parseText]);
+
+  /**
+   * Handle text input changes from EquationEditor
+   */
+  const handleTextChange = useCallback((text) => {
+    setTextInput(text);
+    parseText(text);
+  }, [parseText]);
+
+  /**
+   * Handle element click from palette - insert element symbol
+   */
   const handleElementSelect = useCallback((symbol) => {
     setBuildingElements(prev => {
       const existing = prev.find(e => e.symbol === symbol);
@@ -68,7 +134,9 @@ export function BalancerPage() {
     });
   }, []);
 
-  // Handle ion selection
+  /**
+   * Handle ion selection from palette
+   */
   const handleIonSelect = useCallback((ion) => {
     setBuildingElements(prev => {
       const newElements = [...prev];
@@ -84,24 +152,38 @@ export function BalancerPage() {
     });
   }, []);
 
-  // Handle compound completion from builder
+  /**
+   * Handle compound completion - insert formula into text
+   */
   const handleCompoundComplete = useCallback((compound) => {
-    // Build new equation text with the compound added
-    const currentText = equation
-      ? buildEquationText(equation, builderSide, compound)
-      : (builderSide === 'reactant' ? `${compound.formula} -> ` : ` -> ${compound.formula}`);
-
-    parseText(currentText);
+    insertIntoInput(compound.formula);
     setBuildingElements([]);
     setShowBuilder(false);
-  }, [equation, builderSide, parseText]);
+  }, [insertIntoInput]);
 
-  // Open builder for a specific side
+  /**
+   * Quick insert common elements/compounds
+   */
+  const handleQuickInsert = useCallback((formula) => {
+    insertIntoInput(formula);
+  }, [insertIntoInput]);
+
+  /**
+   * Open compound builder modal
+   */
   const openBuilder = useCallback((side) => {
     setBuilderSide(side);
     setBuildingElements([]);
     setShowBuilder(true);
   }, []);
+
+  /**
+   * Handle reset - clear text input too
+   */
+  const handleReset = useCallback(() => {
+    setTextInput('');
+    reset();
+  }, [reset]);
 
   return (
     <div className="balancer-page min-h-screen bg-slate-900 text-white">
@@ -113,91 +195,47 @@ export function BalancerPage() {
           </h1>
           <p className="text-gray-400">
             Enter a chemical equation to balance it automatically,
-            or edit coefficients manually for practice.
+            or use the visual tools to build compounds.
           </p>
         </header>
 
-        {/* Input mode tabs */}
-        <Tabs activeKey={inputMode} onSelect={setInputMode} className="mb-6">
-          <TabList className="flex gap-2 mb-4">
-            <TabButton
-              eventKey="text"
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                inputMode === 'text'
-                  ? 'bg-teal-600 text-white'
-                  : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
-              }`}
-            >
-              Text Input
-            </TabButton>
-            <TabButton
-              eventKey="visual"
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                inputMode === 'visual'
-                  ? 'bg-teal-600 text-white'
-                  : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
-              }`}
-            >
-              Visual Builder
-            </TabButton>
-          </TabList>
+        {/* Main Editor Card */}
+        <Card className="bg-slate-800/50 border-slate-700 mb-6">
+          <div className="p-6">
+            <EquationEditor
+              equation={equation}
+              coefficients={coefficients}
+              parseError={parseError}
+              isBalanced={isBalanced}
+              onParseText={handleTextChange}
+              onCoefficientChange={setCoefficient}
+              onBalance={balance}
+              onVerify={verify}
+              onReset={handleReset}
+              onArrowChange={setArrowType}
+              onReorder={reorderCompound}
+              onMove={moveCompound}
+              onRemoveCompound={removeCompound}
+              isLoading={isLoading}
+              mode={mode}
+              onModeChange={setMode}
+              solution={solution}
+              onSolutionChange={setSolution}
+              onStartPractice={startPractice}
+              textValue={textInput}
+              onTextValueChange={setTextInput}
+            />
 
-          {/* Text input mode */}
-          <TabPanel eventKey="text">
-            <Card className="bg-slate-800/50 border-slate-700 mb-6">
-              <div className="p-6">
-                <EquationEditor
-                  equation={equation}
-                  coefficients={coefficients}
-                  parseError={parseError}
-                  isBalanced={isBalanced}
-                  onParseText={parseText}
-                  onCoefficientChange={setCoefficient}
-                  onBalance={balance}
-                  onVerify={verify}
-                  onReset={reset}
-                  onArrowChange={setArrowType}
-                  onReorder={reorderCompound}
-                  onMove={moveCompound}
-                  onRemoveCompound={removeCompound}
-                  isLoading={isLoading}
-                  mode={mode}
-                  onModeChange={setMode}
-                  solution={solution}
-                  onSolutionChange={setSolution}
-                  onStartPractice={startPractice}
-                />
-              </div>
-            </Card>
-          </TabPanel>
-
-          {/* Visual builder mode */}
-          <TabPanel eventKey="visual">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-              {/* Element palette - takes 2 columns on large screens */}
-              <div className="lg:col-span-2">
-                <ElementPalette
-                  onElementSelect={handleElementSelect}
-                  onIonSelect={handleIonSelect}
-                  currentCompound={buildingElements}
-                  showFullTable={true}
-                />
-              </div>
-
-              {/* Compound builder - 1 column */}
-              <div>
-                <CompoundBuilder
-                  initialElements={buildingElements}
-                  side={builderSide}
-                  onCompoundComplete={handleCompoundComplete}
-                  onCancel={() => setBuildingElements([])}
-                />
+            {/* Visual Tools Bar */}
+            <div className="visual-tools mt-4 pt-4 border-t border-slate-700">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-sm text-gray-400">Build visually:</span>
 
                 {/* Side selector */}
-                <div className="mt-4 flex gap-2">
+                <div className="flex rounded-lg overflow-hidden border border-slate-600">
                   <button
                     onClick={() => setBuilderSide('reactant')}
-                    className={`flex-1 py-2 rounded-lg transition-colors ${
+                    className={`px-3 py-1.5 text-sm transition-colors ${
                       builderSide === 'reactant'
                         ? 'bg-blue-600 text-white'
                         : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
@@ -207,7 +245,7 @@ export function BalancerPage() {
                   </button>
                   <button
                     onClick={() => setBuilderSide('product')}
-                    className={`flex-1 py-2 rounded-lg transition-colors ${
+                    className={`px-3 py-1.5 text-sm transition-colors ${
                       builderSide === 'product'
                         ? 'bg-green-600 text-white'
                         : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
@@ -217,40 +255,143 @@ export function BalancerPage() {
                   </button>
                 </div>
 
-                {/* Current equation preview */}
-                {equation && (
-                  <div className="mt-4 p-3 bg-slate-800 rounded-lg">
-                    <p className="text-xs text-gray-500 mb-1">Current equation:</p>
-                    <p className="font-mono text-sm text-gray-300">
-                      {buildEquationText(equation)}
-                    </p>
-                  </div>
-                )}
+                {/* Open compound builder */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => openBuilder(builderSide)}
+                >
+                  Compound Builder
+                </Button>
+
+                {/* Toggle element palette */}
+                <Button
+                  variant={showPalette ? 'primary' : 'outline'}
+                  size="sm"
+                  onClick={() => setShowPalette(!showPalette)}
+                >
+                  {showPalette ? 'Hide' : 'Show'} Element Palette
+                </Button>
+
+                {/* Quick insert common items */}
+                <div className="flex items-center gap-1 ml-auto">
+                  <span className="text-xs text-gray-500 mr-2">Quick add:</span>
+                  {['H2O', 'O2', 'CO2', 'H2', 'N2'].map(formula => (
+                    <button
+                      key={formula}
+                      onClick={() => handleQuickInsert(formula)}
+                      className="px-2 py-1 text-xs bg-slate-700 hover:bg-slate-600
+                                 rounded transition-colors font-mono"
+                    >
+                      {formula}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => {
+                      if (!textInput.includes('->')) {
+                        setTextInput(prev => prev ? `${prev} -> ` : '-> ');
+                      }
+                    }}
+                    className="px-2 py-1 text-xs bg-slate-700 hover:bg-slate-600
+                               rounded transition-colors"
+                    title="Add reaction arrow"
+                  >
+                    →
+                  </button>
+                </div>
               </div>
             </div>
+          </div>
+        </Card>
 
-            {/* Balance button for visual mode */}
-            {equation && (
-              <div className="flex gap-3 mb-6">
-                <button
-                  onClick={balance}
-                  disabled={isLoading}
-                  className="px-6 py-2 bg-teal-600 hover:bg-teal-500 text-white
-                             rounded-lg transition-colors disabled:opacity-50"
-                >
-                  {isLoading ? 'Balancing...' : 'Balance Equation'}
-                </button>
-                <button
-                  onClick={reset}
-                  className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-gray-300
-                             rounded-lg transition-colors"
-                >
-                  Clear All
-                </button>
+        {/* Element Palette (collapsible) */}
+        {showPalette && (
+          <Card className="bg-slate-800/50 border-slate-700 mb-6">
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-medium text-gray-300">Element Palette</h3>
+                <p className="text-sm text-gray-500">
+                  Click elements to build a compound, then use Compound Builder to add it
+                </p>
               </div>
-            )}
-          </TabPanel>
-        </Tabs>
+              <ElementPalette
+                onElementSelect={handleElementSelect}
+                onIonSelect={handleIonSelect}
+                currentCompound={buildingElements}
+                showFullTable={true}
+              />
+
+              {/* Show what's being built */}
+              {buildingElements.length > 0 && (
+                <div className="mt-4 p-3 bg-slate-700 rounded-lg flex items-center justify-between">
+                  <div>
+                    <span className="text-sm text-gray-400 mr-2">Building:</span>
+                    <span className="font-mono text-lg">
+                      {buildingElements.map(e =>
+                        e.count > 1 ? `${e.symbol}${e.count}` : e.symbol
+                      ).join('')}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => {
+                        const formula = buildingElements.map(e =>
+                          e.count > 1 ? `${e.symbol}${e.count}` : e.symbol
+                        ).join('');
+                        insertIntoInput(formula);
+                        setBuildingElements([]);
+                      }}
+                    >
+                      Add to {builderSide === 'reactant' ? 'Reactants' : 'Products'}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setBuildingElements([])}
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </Card>
+        )}
+
+        {/* Compound Builder Modal */}
+        <Modal isOpen={showBuilder} onClose={() => setShowBuilder(false)}>
+          <ModalHeader onClose={() => setShowBuilder(false)}>
+            Build Compound ({builderSide === 'reactant' ? 'Reactant' : 'Product'})
+          </ModalHeader>
+          <ModalBody>
+            <div className="space-y-4">
+              {/* Mini element palette in modal */}
+              <ElementPalette
+                onElementSelect={handleElementSelect}
+                onIonSelect={handleIonSelect}
+                currentCompound={buildingElements}
+                showFullTable={false}
+              />
+
+              {/* Compound builder */}
+              <CompoundBuilder
+                initialElements={buildingElements}
+                side={builderSide}
+                onCompoundComplete={(compound) => {
+                  insertIntoInput(compound.formula);
+                  setBuildingElements([]);
+                  setShowBuilder(false);
+                }}
+                onCancel={() => {
+                  setBuildingElements([]);
+                  setShowBuilder(false);
+                }}
+              />
+            </div>
+          </ModalBody>
+        </Modal>
 
         {/* Practice Mode */}
         {practiceMode && equation && (
@@ -269,7 +410,7 @@ export function BalancerPage() {
           </Card>
         )}
 
-        {/* Balance result (shared between modes) - hide in practice mode */}
+        {/* Balance result - hide in practice mode */}
         {!practiceMode && (
           <BalanceResult
             equation={equation}
@@ -282,35 +423,13 @@ export function BalancerPage() {
         )}
 
         {/* Examples section */}
-        <ExamplesSection onSelectExample={parseText} />
+        <ExamplesSection onSelectExample={(eq) => {
+          setTextInput(eq);
+          parseText(eq);
+        }} />
       </div>
     </div>
   );
-}
-
-/**
- * Build equation text from equation object, optionally adding a new compound
- */
-function buildEquationText(equation, addToSide = null, newCompound = null) {
-  let reactants = equation.reactants.map(c => {
-    const coeff = c.coefficient > 1 ? c.coefficient : '';
-    return `${coeff}${c.formula}`;
-  });
-
-  let products = equation.products.map(c => {
-    const coeff = c.coefficient > 1 ? c.coefficient : '';
-    return `${coeff}${c.formula}`;
-  });
-
-  if (newCompound && addToSide === 'reactant') {
-    reactants.push(newCompound.formula);
-  }
-  if (newCompound && addToSide === 'product') {
-    products.push(newCompound.formula);
-  }
-
-  const arrow = equation.arrowType || '->';
-  return `${reactants.join(' + ')} ${arrow} ${products.join(' + ')}`;
 }
 
 /**
