@@ -60,7 +60,7 @@ export function Calculator({ calculatorId }) {
       {/* Original equation display with favorite button in header */}
       <div className="text-center mb-4 relative">
         <div className="absolute top-0 right-0">
-          <FavoriteButton equationName={calculatorId} size="lg" />
+          <FavoriteButton equationName={calculatorId} size="xl" />
         </div>
         <EquationDisplay latex={calculator.latexEquation} />
       </div>
@@ -124,7 +124,7 @@ export function Calculator({ calculatorId }) {
 
           {/* Action buttons - compact row below equation */}
           <div className="flex justify-center items-center gap-3 mt-4">
-            <FavoriteButton equationName={calculatorId} size="sm" className="mr-1" />
+            <FavoriteButton equationName={calculatorId} size="lg" className="mr-1" />
             <Button
               type="submit"
               variant="primary"
