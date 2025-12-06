@@ -45,7 +45,7 @@ export function BalanceResult({
   return (
     <div className="balance-result space-y-4 mt-6">
       {/* Balanced equation display */}
-      <Card className="bg-slate-800 border-slate-700 inline-block w-auto max-w-full">
+      <Card className="bg-slate-800 border-slate-700 max-w-4xl">
         <div className="p-4">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-semibold text-teal-400">
@@ -77,7 +77,7 @@ export function BalanceResult({
 
       {/* Half-reactions for redox equations */}
       {balanceResult.isRedox && balanceResult.halfReactions && (
-        <Card className="bg-slate-800 border-slate-700 inline-block w-auto max-w-full">
+        <Card className="bg-slate-800 border-slate-700 max-w-4xl">
           <div className="p-4">
             <h3 className="text-lg font-semibold text-teal-400 mb-4">
               Half-Reaction Method
