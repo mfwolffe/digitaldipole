@@ -6,12 +6,12 @@ import React from 'react';
 const variants = {
   primary: 'bg-teal-600 hover:bg-teal-700 text-white focus:ring-teal-500',
   secondary: 'bg-gray-600 hover:bg-gray-700 text-white focus:ring-gray-500',
-  outline: 'border-2 border-teal-600 text-teal-600 hover:bg-teal-50 focus:ring-teal-500',
-  'outline-secondary': 'border-2 border-gray-400 text-gray-600 hover:bg-gray-100 focus:ring-gray-400',
-  ghost: 'text-teal-600 hover:bg-teal-50 focus:ring-teal-500',
+  outline: 'border-2 border-teal-500 text-teal-400 hover:bg-teal-500/20 focus:ring-teal-500',
+  'outline-secondary': 'border-2 border-gray-500 text-gray-300 hover:bg-gray-500/20 focus:ring-gray-400',
+  ghost: 'text-teal-400 hover:bg-teal-500/20 focus:ring-teal-500',
   danger: 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500',
   success: 'bg-green-600 hover:bg-green-700 text-white focus:ring-green-500',
-  link: 'text-teal-600 hover:text-teal-700 underline-offset-4 hover:underline p-0',
+  link: 'text-teal-400 hover:text-teal-300 underline-offset-4 hover:underline p-0',
 };
 
 const sizes = {
