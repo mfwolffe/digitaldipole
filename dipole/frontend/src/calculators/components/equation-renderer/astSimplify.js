@@ -94,11 +94,21 @@ export function simplify(node) {
     case 'variable':
       return node;
 
-    case 'negate':
+    case 'negate': {
+      const child = simplify(node.child);
+      // Collapse double negation: -(-x) → x
+      if (child.type === 'negate') {
+        return child.child;
+      }
+      // Collapse negation of negative number: -(-5) → 5
+      if (child.type === 'number' && child.value.startsWith('-')) {
+        return { type: 'number', value: child.value.slice(1) };
+      }
       return {
         type: 'negate',
-        child: simplify(node.child)
+        child
       };
+    }
 
     case 'add':
       return {

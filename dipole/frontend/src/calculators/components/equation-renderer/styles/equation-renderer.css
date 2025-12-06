@@ -162,25 +162,33 @@
 
 /* exp() with complex exponents (fractions, products) - raised layout without shrinking */
 .eq-exp-raised {
-  display: inline-flex;
-  align-items: flex-start;
+  display: inline-block;
   position: relative;
+  vertical-align: baseline;
 }
 
 .eq-exp-raised .eq-exp-base {
   font-style: italic;
-  font-size: 1em;
-  align-self: flex-end;
-  padding-bottom: 0.3em;
+  font-size: 1.1em;
+  vertical-align: baseline;
 }
 
 .eq-exp-raised .eq-exp-exponent {
   display: inline-flex;
   align-items: center;
   font-size: 0.85em;
-  position: relative;
-  top: -0.2em;
-  margin-left: 0.1em;
+  position: absolute;
+  left: 100%;
+  bottom: 0.6em;
+  margin-left: 0.05em;
+  white-space: nowrap;
+}
+
+/* Parentheses around complex exponents */
+.eq-exp-raised .eq-exp-paren {
+  font-size: 1.1em;
+  font-weight: 400;
+  color: #333;
 }
 
 /* Ensure fractions inside raised exponents don't get double-shrunk */

@@ -18,25 +18,36 @@ const FUNCTION_DISPLAY = {
 };
 
 /**
- * Check if a React element tree contains complex structures (fractions, products)
- * that would render poorly as a tiny superscript
+ * Check if a React element tree contains complex structures (fractions, products, additions)
+ * that would render poorly as a tiny superscript.
+ *
+ * We recursively check the React element tree for className props that indicate complexity.
  */
 function isComplexArgument(element) {
   if (!element || typeof element !== 'object') return false;
 
-  // Check if this element has a className indicating complexity
-  const className = element.props?.className || '';
-  if (className.includes('eq-fraction') || className.includes('eq-product')) {
-    return true;
+  // Handle React elements
+  if (element.props) {
+    // Check this element's className
+    const className = element.props.className || '';
+    const complexClasses = ['eq-fraction', 'eq-product', 'eq-add', 'eq-subtract', 'eq-log-ratio', 'eq-var-input'];
+    if (complexClasses.some(cls => className.includes(cls))) {
+      return true;
+    }
+
+    // Recursively check children
+    const children = element.props.children;
+    if (Array.isArray(children)) {
+      return children.some(child => isComplexArgument(child));
+    }
+    if (children && typeof children === 'object') {
+      return isComplexArgument(children);
+    }
   }
 
-  // Recursively check children
-  const children = element.props?.children;
-  if (Array.isArray(children)) {
-    return children.some(child => isComplexArgument(child));
-  }
-  if (children && typeof children === 'object') {
-    return isComplexArgument(children);
+  // Handle arrays directly (from React.Fragment or map results)
+  if (Array.isArray(element)) {
+    return element.some(child => isComplexArgument(child));
   }
 
   return false;
@@ -47,19 +58,24 @@ export function FunctionCall({ name, argument, className = '' }) {
 
   // Special case for exp: render as e^(argument)
   if (name.toLowerCase() === 'exp') {
-    // For complex arguments (fractions), use raised block layout that doesn't shrink content
-    if (isComplexArgument(argument)) {
+    const hasComplexArg = isComplexArgument(argument);
+
+    // For complex arguments (fractions, additions, inputs), use raised layout with parentheses
+    // For chemistry/physics, this is almost always the case
+    if (hasComplexArg) {
       return (
         <span className={`eq-function eq-exp-raised ${className}`}>
           <span className="eq-exp-base">e</span>
           <span className="eq-exp-exponent">
+            <span className="eq-exp-paren">(</span>
             {argument}
+            <span className="eq-exp-paren">)</span>
           </span>
         </span>
       );
     }
 
-    // For simple arguments, render as e^x with traditional superscript
+    // For simple arguments (like e^x or e^2), render as e^x with traditional superscript
     return (
       <span className={`eq-function eq-exp ${className}`}>
         <span className="eq-exp-base">e</span>

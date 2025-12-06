@@ -7,7 +7,6 @@ import { rm } from 'node:fs/promises'
 const outDir = "../templates";
 const assetsDir = "static/assets";
 
-// TODO dynamic imports or manual chunks
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -15,7 +14,6 @@ export default defineConfig({
     {
       name: "Cleaning assets folder",
       async buildStart() {
-        // console.log(await readdir(resolve(__dirname, outDir, assetsDir), { recursive: true, force: true }));
         await rm(resolve(__dirname, outDir, assetsDir), { recursive: true, force: true });
       }
     },
@@ -24,8 +22,20 @@ export default defineConfig({
     outDir,
     assetsDir,
     emptyOutDir: false,
-    // during development, you may want the options set as below, of you would liek to optimize for production, you may wosh to comment them out
-    minify: false,
-    sourcemap: true,
+    // Enable minification for smaller bundles
+    minify: true,
+    // Disable sourcemaps in production for faster loads (enable for debugging)
+    sourcemap: false,
+    // Code splitting for better caching
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split vendor libraries into separate chunks
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-math': ['nerdamer', 'better-react-mathjax'],
+          'vendor-ui': ['@headlessui/react'],
+        }
+      }
+    }
   }
 })

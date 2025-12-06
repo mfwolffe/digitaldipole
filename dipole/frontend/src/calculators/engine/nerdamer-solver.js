@@ -213,15 +213,16 @@ export function solveSymbolicLogarithmic(equation, unknown, logConfig, symbolMap
     if (unknown === numerator) {
       // First solve for lnRatio symbolically
       const lnRatioSolution = nerdamer.solve(equation, 'lnRatio');
-      const lnRatioRaw = lnRatioSolution.text().replace(/^\[|\]$/g, '');
       const lnRatioLatex = lnRatioSolution.toTeX().replace(/^\[|\]$/g, '');
+
+      // Expand the raw expression to eliminate nested negations like -(-Ea*T2+Ea*T1)
+      const lnRatioExpanded = nerdamer(lnRatioSolution.text().replace(/^\[|\]$/g, '')).expand().text();
 
       // The solution is: numerator = denominator * e^(lnRatio expression)
       const latex = `${getSymbol(denominator)} \\cdot e^{${lnRatioLatex}}`;
 
-      // For the raw expression, use the actual solved lnRatio expression
-      // This gives us: k1*exp(-Ea/R*(1/T2-1/T1)) for Arrhenius
-      const raw = `${denominator}*exp(${lnRatioRaw})`;
+      // For the raw expression, use the expanded lnRatio expression
+      const raw = `${denominator}*exp(${lnRatioExpanded})`;
 
       return {
         success: true,
@@ -234,15 +235,19 @@ export function solveSymbolicLogarithmic(equation, unknown, logConfig, symbolMap
     if (unknown === denominator) {
       // First solve for lnRatio symbolically
       const lnRatioSolution = nerdamer.solve(equation, 'lnRatio');
-      const lnRatioRaw = lnRatioSolution.text().replace(/^\[|\]$/g, '');
       const lnRatioLatex = lnRatioSolution.toTeX().replace(/^\[|\]$/g, '');
+
+      // Expand the raw expression to eliminate nested negations
+      const lnRatioExpanded = nerdamer(lnRatioSolution.text().replace(/^\[|\]$/g, '')).expand().text();
 
       // The solution is: denominator = numerator / e^(lnRatio expression)
       const latex = `\\frac{${getSymbol(numerator)}}{e^{${lnRatioLatex}}}`;
 
-      // For the raw expression: numerator * exp(-lnRatioRaw)
+      // For the raw expression: numerator * exp(-lnRatioExpanded)
       // Since k1 = k2/e^x = k2*e^(-x)
-      const raw = `${numerator}*exp(-(${lnRatioRaw}))`;
+      // Expand the negation to get clean form
+      const negatedExpr = nerdamer(`-(${lnRatioExpanded})`).expand().text();
+      const raw = `${numerator}*exp(${negatedExpr})`;
 
       return {
         success: true,
