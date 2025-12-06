@@ -321,27 +321,7 @@ input[type=number] {
   border: none !important;
 }
 
-.offC {
-  background-color: #908E8E;
-  color: rgba(255, 255, 255, 0.96);
-  max-width: 18rem;
-}
-
-.offC ul {
-  padding-left: 3.25rem;
-}
-
-.offC li, a {
-  color: rgba(255, 255, 255, 0.82) !important;
-}
-
-.offC a:hover {
-  color:  rgba(255, 255, 255, 1) !important;
-}
-
-.offC a.dropdown-item:hover {
-  color:darkslategrey !important;
-}
+/* Offcanvas styling now handled by Tailwind in Offcanvas.jsx component */
 
 
 .offC hr {
