@@ -128,7 +128,7 @@ export function EquationEditor({
       {/* Mode selector */}
       <div className="mode-section flex flex-wrap items-center gap-4">
         <span className="text-sm text-gray-400">Mode:</span>
-        <label className="inline-flex items-center">
+        <label className="inline-flex items-center cursor-pointer">
           <input
             type="radio"
             name="mode"
@@ -137,9 +137,9 @@ export function EquationEditor({
             onChange={() => onModeChange('molecular')}
             className="form-radio text-teal-500"
           />
-          <span className="ml-2 text-sm">Molecular</span>
+          <span className="ml-2 text-sm text-gray-200">Molecular</span>
         </label>
-        <label className="inline-flex items-center">
+        <label className="inline-flex items-center cursor-pointer">
           <input
             type="radio"
             name="mode"
@@ -148,9 +148,9 @@ export function EquationEditor({
             onChange={() => onModeChange('ionic')}
             className="form-radio text-teal-500"
           />
-          <span className="ml-2 text-sm">Ionic</span>
+          <span className="ml-2 text-sm text-gray-200">Ionic</span>
         </label>
-        <label className="inline-flex items-center">
+        <label className="inline-flex items-center cursor-pointer">
           <input
             type="radio"
             name="mode"
@@ -159,7 +159,7 @@ export function EquationEditor({
             onChange={() => onModeChange('redox')}
             className="form-radio text-teal-500"
           />
-          <span className="ml-2 text-sm">Redox</span>
+          <span className="ml-2 text-sm text-gray-200">Redox</span>
         </label>
 
         {/* Solution selector for redox mode */}
@@ -235,7 +235,7 @@ export function EquationEditor({
 
         {equation && onStartPractice && (
           <Button
-            variant="outline-secondary"
+            variant="outline"
             onClick={onStartPractice}
             className="ml-auto"
           >
