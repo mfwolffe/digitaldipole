@@ -118,20 +118,22 @@ export function Calculator({ calculatorId }) {
             </div>
           )}
 
-          {/* Action buttons */}
-          <div className="flex justify-center gap-3 mt-4">
+          {/* Action buttons - compact row below equation */}
+          <div className="flex justify-center items-center gap-3 mt-4">
             <Button
               type="submit"
               variant="primary"
               disabled={isLoading || !unknownVariable}
               loading={isLoading}
+              className="px-5 py-2 text-sm flex-shrink-0"
             >
-              {isLoading ? 'Solving...' : 'Solve!'}
+              {isLoading ? 'Solving...' : 'Solve'}
             </Button>
             <Button
               type="button"
               variant="outline-secondary"
               onClick={reset}
+              className="px-5 py-2 text-sm flex-shrink-0"
             >
               Reset
             </Button>

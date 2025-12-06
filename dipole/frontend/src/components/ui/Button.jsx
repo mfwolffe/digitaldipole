@@ -4,14 +4,14 @@ import React from 'react';
  * Button variants and their corresponding Tailwind classes
  */
 const variants = {
-  primary: 'bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500',
+  primary: 'bg-teal-600 hover:bg-teal-700 text-white focus:ring-teal-500',
   secondary: 'bg-gray-600 hover:bg-gray-700 text-white focus:ring-gray-500',
-  outline: 'border-2 border-primary-600 text-primary-600 hover:bg-primary-50 focus:ring-primary-500',
+  outline: 'border-2 border-teal-600 text-teal-600 hover:bg-teal-50 focus:ring-teal-500',
   'outline-secondary': 'border-2 border-gray-400 text-gray-600 hover:bg-gray-100 focus:ring-gray-400',
-  ghost: 'text-primary-600 hover:bg-primary-50 focus:ring-primary-500',
-  danger: 'bg-error-600 hover:bg-error-700 text-white focus:ring-error-500',
-  success: 'bg-success-600 hover:bg-success-700 text-white focus:ring-success-500',
-  link: 'text-primary-600 hover:text-primary-700 underline-offset-4 hover:underline p-0',
+  ghost: 'text-teal-600 hover:bg-teal-50 focus:ring-teal-500',
+  danger: 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500',
+  success: 'bg-green-600 hover:bg-green-700 text-white focus:ring-green-500',
+  link: 'text-teal-600 hover:text-teal-700 underline-offset-4 hover:underline p-0',
 };
 
 const sizes = {

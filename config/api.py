@@ -108,87 +108,90 @@ def calcnumeric(request, payload: CalcNumericEndpoint):
 
 @api.get("/memegen/{queryString}")
 def memegen(request, queryString):
-    url = "https://chatgpt-42.p.rapidapi.com/conversationgpt4-2"
+    """
+    Generate an AI meme using imgflip's built-in OpenAI model.
 
-    payload = {
-      "messages": [
-        {
-          "role": "user",
-          "content": f"Make a single funny, short meme text from this input: {queryString}. Do not include hashtags, wrap it in double quotes, and it must be less than 64 characters",
-        }
-      ],
-      "system_prompt": "",
-      "temperature": 0.9,
-      "top_k": 8,
-      "top_p": 0.9,
-      "max_tokens": 256,
-      "web_access": False
-    }
-    headers = {
-      "content-type": "application/json",
-      "X-RapidAPI-Key": GPKEY,
-      "X-RapidAPI-Host": GPHOST
-    }
+    This simplified flow uses imgflip's ai_meme endpoint with model="openai",
+    eliminating the need for a separate ChatGPT API call.
 
-    response = requests.post(url, json=payload, headers=headers)
-    raw_meme = response.json()['result']
-    print(raw_meme)
+    Returns JSON with success status and either meme URL or error details.
+    """
+    print(f"[MemeGen] === Starting meme generation ===")
+    print(f"[MemeGen] Input prompt: {queryString}")
 
-    re_meme = re.findall(r'".*"', raw_meme)
-    match_meme = re_meme[0]
-    print(match_meme)
-    strip_meme = match_meme.replace('"', '')
-    print(strip_meme)
+    # Truncate prefix_text to 64 chars (imgflip limit)
+    prefix_text = queryString[:64] if len(queryString) > 64 else queryString
+    print(f"[MemeGen] Prefix text (truncated): {prefix_text}")
 
-    response = requests.post(
-        "https://api.imgflip.com/ai_meme",
-        data={
-            "username": IM_USER,
-            "password": IM_PASS,
-            "prefix_text": strip_meme,
-        },
-    )
-
-    count = 1
-    while not (response.json()['success']) and count <= 6:
-        payload['messages'][0]['content'] = f"Can you make this meme text funnier: {strip_meme}, but it must be less than 64 characters and wrap the text in double quotes"
-        response = requests.post(url, json=payload, headers=headers)
-
-        raw_meme = response.json()['result']
-        re_meme = re.findall(r'".*"', raw_meme)
-        match_meme = re_meme[0]
-        print(match_meme)
-        strip_meme = match_meme.replace('"', '')
-        print(strip_meme)
-
-        if (strip_meme.lower().find("char") != -1):
-            # nltk.download('punkt')
-            print("tokenizing...")
-            # tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-            strip_list = nltk.sent_tokenize(strip_meme)
-            print(strip_list)
-            strip_meme = strip_list[0]
+    # Try with imgflip's OpenAI model first
+    try:
+        print(f"[MemeGen] Calling imgflip ai_meme with model=openai...")
 
         response = requests.post(
-          "https://api.imgflip.com/ai_meme",
-          data={
-              "username": IM_USER,
-              "password": IM_PASS,
-              "prefix_text": strip_meme,
-          },
+            "https://api.imgflip.com/ai_meme",
+            data={
+                "username": IM_USER,
+                "password": IM_PASS,
+                "model": "openai",
+                "prefix_text": prefix_text,
+            },
+            timeout=45
         )
-        count += 1
 
-    print(f"{count} request(s) attempted")
+        result = response.json()
+        print(f"[MemeGen] imgflip response: {result}")
 
-    # response = requests.post(
-    #     "https://api.imgflip.com/automeme",
-    #     data={
-    #         "username": IM_USER,
-    #         "password": IM_PASS,
-    #         "text": "look at me I am so good",
-    #         "no_watermark": "true",
-    #     },
-    # )
+        if result.get('success'):
+            print(f"[MemeGen] Success! URL: {result.get('data', {}).get('url', 'N/A')}")
+            return result
 
-    return response.json()
+        # If OpenAI model fails, try classic model as fallback
+        error_msg = result.get('error_message', 'Unknown error')
+        print(f"[MemeGen] OpenAI model failed: {error_msg}")
+        print(f"[MemeGen] Trying classic model as fallback...")
+
+        response = requests.post(
+            "https://api.imgflip.com/ai_meme",
+            data={
+                "username": IM_USER,
+                "password": IM_PASS,
+                "model": "classic",
+                "prefix_text": prefix_text,
+            },
+            timeout=45
+        )
+
+        result = response.json()
+        print(f"[MemeGen] Classic model response: {result}")
+
+        if result.get('success'):
+            print(f"[MemeGen] Success with classic! URL: {result.get('data', {}).get('url', 'N/A')}")
+            return result
+
+        # Both models failed
+        error_msg = result.get('error_message', 'Both AI models failed')
+        print(f"[MemeGen] Both models failed: {error_msg}")
+        return {
+            "success": False,
+            "error_message": error_msg,
+            "prompt_used": prefix_text
+        }
+
+    except requests.exceptions.Timeout:
+        print("[MemeGen] Request timed out")
+        return {
+            "success": False,
+            "error_message": "imgflip API timed out (45s limit)"
+        }
+    except requests.exceptions.RequestException as e:
+        print(f"[MemeGen] Request error: {e}")
+        return {
+            "success": False,
+            "error_message": f"Network error: {str(e)}"
+        }
+    except Exception as e:
+        print(f"[MemeGen] Unexpected error: {e}")
+        return {
+            "success": False,
+            "error_message": f"Unexpected error: {str(e)}"
+        }

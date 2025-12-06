@@ -76,9 +76,16 @@ const MemeGen = () => {
 
     const BadRequest = (
       <>
-        <p className="text-lg text-center mb-2">Bad Request!</p>
+        <p className="text-lg text-center mb-2">Meme Generation Failed!</p>
         <div className="w-full flex justify-center">{ FailedRequest }</div>
-        <p className="text-lg text-center mt-2">Either the AI could not build a meme, or the request timed out!</p>
+        <p className="text-lg text-center mt-2">
+          {errorMsg || "Either the AI could not build a meme, or the request timed out!"}
+        </p>
+        {errorMsg && (
+          <p className="text-sm text-center mt-2 text-gray-400">
+            Check the browser console for more details.
+          </p>
+        )}
       </>
     )
 
@@ -107,20 +114,48 @@ const MemeGen = () => {
         setImgUrl('');
     }
 
+    const [errorMsg, setErrorMsg] = useState('');
+
     async function requestMeme(queryString) {
-      console.log(queryString);
+      console.log('[MemeGen Frontend] Requesting:', queryString);
+      setErrorMsg('');
 
       if (queryString.length === 0) {
           queryString = "digital dipole"
       }
 
-      const response = await fetch('/api/memegen/' + queryString);
-      const meme = await response.json();
+      try {
+        const response = await fetch('/api/memegen/' + encodeURIComponent(queryString));
 
-      if (meme.success == false)
+        if (!response.ok) {
+          console.error('[MemeGen Frontend] HTTP error:', response.status);
+          setErrorMsg(`Server error: ${response.status}`);
           setImgUrl("badurl");
+          return;
+        }
 
-      setImgUrl (meme.data.url);
+        const meme = await response.json();
+        console.log('[MemeGen Frontend] Response:', meme);
+
+        if (meme.success === false) {
+          console.error('[MemeGen Frontend] API error:', meme.error_message);
+          setErrorMsg(meme.error_message || 'Unknown error');
+          setImgUrl("badurl");
+          return;
+        }
+
+        if (meme.data && meme.data.url) {
+          setImgUrl(meme.data.url);
+        } else {
+          console.error('[MemeGen Frontend] No URL in response:', meme);
+          setErrorMsg('No meme URL in response');
+          setImgUrl("badurl");
+        }
+      } catch (err) {
+        console.error('[MemeGen Frontend] Fetch error:', err);
+        setErrorMsg(`Request failed: ${err.message}`);
+        setImgUrl("badurl");
+      }
     }
 
     const DownloadIcon = <FontAwesomeIcon icon="fa-duotone fa-download" size="xl" className="hvr-bounce-in mt-2 float-right cursor-pointer" onClick={downloadImage} />
