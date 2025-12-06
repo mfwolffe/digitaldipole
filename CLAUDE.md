@@ -26,9 +26,10 @@ pytest dipole/users/tests/test_views.py::TestName
 python manage.py makemigrations
 python manage.py migrate
 
-# Linting (Python)
+# Linting and formatting (Python)
 ruff check .
 ruff check --fix .
+ruff format .
 ```
 
 ### Frontend (React/Vite)
@@ -49,6 +50,9 @@ npm run autobuild
 
 # Lint
 npm run lint
+
+# Run equation renderer tests
+npm run test
 ```
 
 ## Architecture
@@ -58,6 +62,7 @@ npm run lint
   - `settings/base.py` - Shared settings
   - `settings/local.py` - Development settings (includes debug toolbar)
   - `settings/test.py` - Test settings
+  - `settings/production.py` - Production settings
   - `api.py` - Django Ninja API endpoints at `/api/`
 - `dipole/` - Main Django application directory
   - `users/` - Custom user model and authentication (allauth)
@@ -72,6 +77,7 @@ npm run lint
 - `src/calculators/` - Calculator-specific components and equation renderer
 - `src/components/` - Shared components
 - `src/components/ui/` - UI primitives (built with Headless UI)
+- `src/contexts/AuthContext.jsx` - User authentication state provider
 
 ### Key Integration Points
 - Vite builds to `dipole/templates/static/assets/` (configured in vite.config.js)
@@ -96,3 +102,4 @@ Required in `.env`:
 - Python: Ruff (88 char lines, Django plugin, isort single-line imports)
 - Templates: djLint with Django profile
 - Frontend: ESLint with React hooks plugin
+- ensure we commit often with terse messages

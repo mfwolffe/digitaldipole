@@ -200,7 +200,7 @@ export function BalancerPage() {
         </header>
 
         {/* Main Editor Card */}
-        <Card className="bg-slate-800/50 border-slate-700 mb-6 w-fit">
+        <Card className="border-slate-700 mb-6 w-fit">
           <div className="p-6">
             <EquationEditor
               equation={equation}
@@ -313,7 +313,7 @@ export function BalancerPage() {
 
         {/* Element Palette (collapsible) */}
         {showPalette && (
-          <Card className="bg-slate-800/50 border-slate-700 mb-6 w-fit">
+          <Card className="border-slate-700 mb-6 w-fit">
             <div className="p-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-medium text-gray-300">Element Palette</h3>
@@ -416,7 +416,7 @@ export function BalancerPage() {
 
         {/* Practice Mode */}
         {practiceMode && equation && (
-          <Card className="bg-slate-800/50 border-slate-700 mb-6 w-fit">
+          <Card className="border-slate-700 mb-6 w-fit">
             <div className="p-6">
               <PracticeMode
                 equation={equation}
