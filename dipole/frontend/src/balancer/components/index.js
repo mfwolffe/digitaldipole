@@ -11,3 +11,5 @@ export { ArrowSelector, ReactionArrow, ARROW_TYPES } from './ArrowSelector.jsx';
 export { VisualEquation, EquationText } from './VisualEquation.jsx';
 export { EquationEditor } from './EquationEditor.jsx';
 export { BalanceResult } from './BalanceResult.jsx';
+export { ElementPalette } from './ElementPalette.jsx';
+export { CompoundBuilder } from './CompoundBuilder.jsx';
