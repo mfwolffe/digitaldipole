@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { NavLink as Link } from "react-router-dom";
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { NavLink as Link, useNavigate } from "react-router-dom";
 
 import {
   Input,
@@ -17,6 +17,8 @@ import {
 } from './ui';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { fuzzySearch, highlightMatches } from '../utils/fuzzySearch';
+import { getSearchIndex } from '../utils/searchIndex';
 
 // the FA ico's with additional customization don't play well with SVG so png instead
 import userIcon from '../assets/png/user-astronaut-light.png';
@@ -69,44 +71,382 @@ const calcIcon = (
   </>
 );
 
-export function SearchBar() {
+// Icon component for search results
+function SearchResultIcon({ type }) {
+  const iconProps = {
+    calculator: {
+      icon: "fa-duotone fa-calculator",
+      style: { "--fa-primary-color": "#143671", "--fa-secondary-color": "#578be5" }
+    },
+    element: {
+      icon: "fa-duotone fa-atom",
+      style: { "--fa-primary-color": "#059669", "--fa-secondary-color": "#34d399" }
+    },
+    page: {
+      icon: "fa-duotone fa-file-lines",
+      style: { "--fa-primary-color": "#7c3aed", "--fa-secondary-color": "#a78bfa" }
+    },
+  };
+
+  const props = iconProps[type] || iconProps.page;
+
   return (
-    <Popover>
-      <PopoverTrigger>
+    <FontAwesomeIcon
+      icon={props.icon}
+      className="w-4 h-4 shrink-0"
+      style={props.style}
+    />
+  );
+}
+
+// Highlighted text component
+function HighlightedText({ query, text }) {
+  const segments = highlightMatches(query, text);
+  return (
+    <>
+      {segments.map((seg, i) =>
+        seg.highlight ? (
+          <mark key={i} className="bg-yellow-200 text-gray-900 rounded px-0.5">
+            {seg.text}
+          </mark>
+        ) : (
+          <span key={i}>{seg.text}</span>
+        )
+      )}
+    </>
+  );
+}
+
+export function SearchBar() {
+  const [query, setQuery] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [showHelp, setShowHelp] = useState(false);
+  const inputRef = useRef(null);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+
+  // Get search index once
+  const searchIndex = useMemo(() => getSearchIndex(), []);
+
+  // Perform fuzzy search
+  const results = useMemo(() => {
+    if (!query || query.length < 1) return [];
+    return fuzzySearch(query, searchIndex, {
+      keys: ['name', 'symbol', 'keywords', 'category'],
+      threshold: 15,
+      limit: 12,
+    });
+  }, [query, searchIndex]);
+
+  // Group results by type
+  const groupedResults = useMemo(() => {
+    const groups = {
+      calculator: [],
+      element: [],
+      page: [],
+    };
+    results.forEach(r => {
+      if (groups[r.item.type]) {
+        groups[r.item.type].push(r);
+      }
+    });
+    return groups;
+  }, [results]);
+
+  // Flat list for keyboard navigation
+  const flatResults = useMemo(() => results.map(r => r.item), [results]);
+
+  // Handle navigation to result
+  const navigateToResult = useCallback((item) => {
+    navigate(item.path);
+    setQuery('');
+    setIsOpen(false);
+    inputRef.current?.blur();
+  }, [navigate]);
+
+  // Handle keyboard navigation
+  const handleKeyDown = useCallback((e) => {
+    if (!isOpen || flatResults.length === 0) {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+        inputRef.current?.blur();
+      }
+      return;
+    }
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        setSelectedIndex(prev => (prev + 1) % flatResults.length);
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setSelectedIndex(prev => (prev - 1 + flatResults.length) % flatResults.length);
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (flatResults[selectedIndex]) {
+          navigateToResult(flatResults[selectedIndex]);
+        }
+        break;
+      case 'Escape':
+        e.preventDefault();
+        setIsOpen(false);
+        inputRef.current?.blur();
+        break;
+    }
+  }, [isOpen, flatResults, selectedIndex, navigateToResult]);
+
+  // Reset selected index when results change
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [results]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target) &&
+        inputRef.current &&
+        !inputRef.current.contains(e.target)
+      ) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Scroll selected item into view
+  useEffect(() => {
+    if (isOpen && dropdownRef.current) {
+      const selected = dropdownRef.current.querySelector('[data-selected="true"]');
+      if (selected) {
+        selected.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  }, [selectedIndex, isOpen]);
+
+  const hasResults = results.length > 0;
+  const showDropdown = isOpen && query.length >= 1;
+
+  return (
+    <div className="relative">
+      <div className="relative">
         <Input
+          ref={inputRef}
           type="text"
-          placeholder="Search"
+          placeholder="Search calculators, elements..."
           id="hdr-search"
-          className="w-72 sm:w-80 md:w-96"
+          className="w-72 sm:w-80 md:w-96 pr-8"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setIsOpen(true);
+          }}
+          onFocus={() => {
+            setIsOpen(true);
+            if (!query) setShowHelp(true);
+          }}
+          onBlur={() => {
+            // Delay to allow click on results
+            setTimeout(() => setShowHelp(false), 200);
+          }}
+          onKeyDown={handleKeyDown}
+          autoComplete="off"
+          aria-expanded={showDropdown}
+          aria-haspopup="listbox"
+          aria-controls="search-results"
         />
-      </PopoverTrigger>
-      <PopoverContent position="bottom" align="center" className="w-80">
-        <PopoverHeader className="flex items-center gap-2">
-          <FontAwesomeIcon
-            icon="fa-duotone fa-circle-info"
-            size="lg"
-            style={{
-              "--fa-primary-color": "#78c9f2",
-              "--fa-secondary-color": "#6d1aea",
+        {query && (
+          <button
+            type="button"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
+            onClick={() => {
+              setQuery('');
+              inputRef.current?.focus();
             }}
-          />
-          Not sure what to search?
-        </PopoverHeader>
-        <PopoverBody>
-          <ul className="space-y-2 text-sm">
+            aria-label="Clear search"
+          >
+            <FontAwesomeIcon icon="fa-solid fa-xmark" className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+
+      {/* Search Results Dropdown */}
+      {showDropdown && (
+        <div
+          ref={dropdownRef}
+          id="search-results"
+          role="listbox"
+          className="absolute z-50 w-full mt-1 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 max-h-96 overflow-y-auto"
+        >
+          {hasResults ? (
+            <div className="py-2">
+              {/* Calculators Section */}
+              {groupedResults.calculator.length > 0 && (
+                <div>
+                  <div className="px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50">
+                    Calculators
+                  </div>
+                  {groupedResults.calculator.map((result, idx) => {
+                    const globalIdx = flatResults.indexOf(result.item);
+                    return (
+                      <button
+                        key={result.item.id}
+                        role="option"
+                        aria-selected={selectedIndex === globalIdx}
+                        data-selected={selectedIndex === globalIdx}
+                        className={`w-full px-3 py-2 flex items-center gap-3 text-left transition-colors ${
+                          selectedIndex === globalIdx
+                            ? 'bg-primary-50 text-primary-900'
+                            : 'hover:bg-gray-50 text-gray-900'
+                        }`}
+                        onClick={() => navigateToResult(result.item)}
+                        onMouseEnter={() => setSelectedIndex(globalIdx)}
+                      >
+                        <SearchResultIcon type="calculator" />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium truncate">
+                            <HighlightedText query={query} text={result.item.name} />
+                          </div>
+                          <div className="text-xs text-gray-500 truncate">
+                            {result.item.subtitle}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Elements Section */}
+              {groupedResults.element.length > 0 && (
+                <div>
+                  <div className="px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50">
+                    Elements
+                  </div>
+                  {groupedResults.element.map((result) => {
+                    const globalIdx = flatResults.indexOf(result.item);
+                    return (
+                      <button
+                        key={result.item.id}
+                        role="option"
+                        aria-selected={selectedIndex === globalIdx}
+                        data-selected={selectedIndex === globalIdx}
+                        className={`w-full px-3 py-2 flex items-center gap-3 text-left transition-colors ${
+                          selectedIndex === globalIdx
+                            ? 'bg-primary-50 text-primary-900'
+                            : 'hover:bg-gray-50 text-gray-900'
+                        }`}
+                        onClick={() => navigateToResult(result.item)}
+                        onMouseEnter={() => setSelectedIndex(globalIdx)}
+                      >
+                        <SearchResultIcon type="element" />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium truncate">
+                            <HighlightedText query={query} text={result.item.name} />
+                            <span className="ml-2 text-sm text-gray-500">
+                              ({result.item.symbol})
+                            </span>
+                          </div>
+                          <div className="text-xs text-gray-500 truncate">
+                            Atomic #{result.item.atomicNumber}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Pages Section */}
+              {groupedResults.page.length > 0 && (
+                <div>
+                  <div className="px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50">
+                    Pages
+                  </div>
+                  {groupedResults.page.map((result) => {
+                    const globalIdx = flatResults.indexOf(result.item);
+                    return (
+                      <button
+                        key={result.item.id}
+                        role="option"
+                        aria-selected={selectedIndex === globalIdx}
+                        data-selected={selectedIndex === globalIdx}
+                        className={`w-full px-3 py-2 flex items-center gap-3 text-left transition-colors ${
+                          selectedIndex === globalIdx
+                            ? 'bg-primary-50 text-primary-900'
+                            : 'hover:bg-gray-50 text-gray-900'
+                        }`}
+                        onClick={() => navigateToResult(result.item)}
+                        onMouseEnter={() => setSelectedIndex(globalIdx)}
+                      >
+                        <SearchResultIcon type="page" />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium truncate">
+                            <HighlightedText query={query} text={result.item.name} />
+                          </div>
+                          <div className="text-xs text-gray-500 truncate">
+                            {result.item.subtitle}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Keyboard hint */}
+              <div className="px-3 py-2 text-xs text-gray-400 border-t border-gray-100 flex items-center gap-4">
+                <span><kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-gray-500">↑↓</kbd> navigate</span>
+                <span><kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-gray-500">↵</kbd> select</span>
+                <span><kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-gray-500">esc</kbd> close</span>
+              </div>
+            </div>
+          ) : query.length >= 1 ? (
+            <div className="px-4 py-8 text-center text-gray-500">
+              <FontAwesomeIcon
+                icon="fa-duotone fa-face-thinking"
+                size="2x"
+                className="mb-2 text-gray-300"
+              />
+              <p className="text-sm">No results for "<strong>{query}</strong>"</p>
+              <p className="text-xs mt-1">Try searching for an element name or calculator type</p>
+            </div>
+          ) : null}
+        </div>
+      )}
+
+      {/* Help popover when empty and focused */}
+      {showHelp && !query && isOpen && (
+        <div className="absolute z-50 w-full mt-1 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 p-4">
+          <div className="flex items-center gap-2 font-medium text-gray-900 mb-2">
+            <FontAwesomeIcon
+              icon="fa-duotone fa-circle-info"
+              style={{
+                "--fa-primary-color": "#78c9f2",
+                "--fa-secondary-color": "#6d1aea",
+              }}
+            />
+            Quick Search Tips
+          </div>
+          <ul className="space-y-1.5 text-sm text-gray-600">
             <li>
-              Try the name of an element or molecule, like{' '}
-              <strong><em>antimony</em></strong> or <strong><em>ammonia</em></strong>.
+              <strong>Elements:</strong> Try <em>hydrogen</em>, <em>Fe</em>, or <em>carbon</em>
             </li>
             <li>
-              or a class of calculators or references, like{' '}
-              <strong><em>entropy calculator</em></strong> or{' '}
-              <strong><em>acid/base ionization constant table</em></strong>.
+              <strong>Calculators:</strong> Try <em>ideal gas</em>, <em>entropy</em>, or <em>molarity</em>
+            </li>
+            <li>
+              <strong>Topics:</strong> Try <em>thermodynamics</em> or <em>kinetics</em>
             </li>
           </ul>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+        </div>
+      )}
+    </div>
   );
 }
 
