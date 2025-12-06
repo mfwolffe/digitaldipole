@@ -88,11 +88,19 @@ export function FavoriteButton({ equationName, size = 'lg', className = '' }) {
       aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
     >
       <FontAwesomeIcon
-        icon={isFavorite ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}
+        icon="fa-duotone fa-heart"
         size={size}
+        style={isFavorite ? {
+          '--fa-primary-color': '#ef4444',
+          '--fa-secondary-color': '#ef4444',
+          '--fa-secondary-opacity': '1',
+        } : {
+          '--fa-primary-color': '#475569',
+          '--fa-secondary-color': '#475569',
+          '--fa-secondary-opacity': '0.3',
+        }}
         className={`
           transition-all duration-200
-          ${isFavorite ? 'text-red-500' : 'text-slate-600 hover:text-red-400'}
           ${isAnimating ? 'animate-pulse' : ''}
         `}
       />
