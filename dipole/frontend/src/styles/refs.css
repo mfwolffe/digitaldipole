@@ -18,6 +18,11 @@
     padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
 }
 
+/* Calculator cards should be transparent */
+.calculator-container .card-body {
+    background-color: transparent;
+}
+
 .card-header:first-child {
     border-bottom: 1px solid white;
 }
