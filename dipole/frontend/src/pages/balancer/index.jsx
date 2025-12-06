@@ -187,9 +187,9 @@ export function BalancerPage() {
 
   return (
     <div className="balancer-page min-h-screen bg-slate-900 text-white">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <header className="mb-8">
+        <header className="mb-8 max-w-3xl">
           <h1 className="text-3xl font-bold text-teal-400 mb-2">
             Equation Balancer
           </h1>
@@ -199,8 +199,8 @@ export function BalancerPage() {
           </p>
         </header>
 
-        {/* Main Editor Card */}
-        <Card className="bg-slate-800/50 border-slate-700 mb-6">
+        {/* Main Editor Card - fits content, not full width */}
+        <Card className="bg-slate-800/50 border-slate-700 mb-6 inline-block w-auto max-w-full">
           <div className="p-6">
             <EquationEditor
               equation={equation}
@@ -395,7 +395,7 @@ export function BalancerPage() {
 
         {/* Practice Mode */}
         {practiceMode && equation && (
-          <Card className="bg-slate-800/50 border-slate-700 mb-6">
+          <Card className="bg-slate-800/50 border-slate-700 mb-6 inline-block w-auto max-w-full">
             <div className="p-6">
               <PracticeMode
                 equation={equation}
@@ -450,7 +450,7 @@ function ExamplesSection({ onSelectExample }) {
   ];
 
   return (
-    <div className="examples-section mt-8">
+    <div className="examples-section mt-8 max-w-3xl">
       <h3 className="text-lg font-medium text-gray-300 mb-3">
         Try an Example
       </h3>
