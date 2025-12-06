@@ -52,6 +52,7 @@ const MemeGen = () => {
     const [phrase, setPhrase] = useState('');
     const [active, setActive] = useState('0');
     const [subject, setSubject] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
 
 
     useEffect (() => {
@@ -113,8 +114,6 @@ const MemeGen = () => {
         setInputValue(event.target.value);
         setImgUrl('');
     }
-
-    const [errorMsg, setErrorMsg] = useState('');
 
     async function requestMeme(queryString) {
       console.log('[MemeGen Frontend] Requesting:', queryString);
