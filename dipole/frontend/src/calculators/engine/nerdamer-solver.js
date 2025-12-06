@@ -213,15 +213,20 @@ export function solveSymbolicLogarithmic(equation, unknown, logConfig, symbolMap
     if (unknown === numerator) {
       // First solve for lnRatio symbolically
       const lnRatioSolution = nerdamer.solve(equation, 'lnRatio');
+      const lnRatioRaw = lnRatioSolution.text().replace(/^\[|\]$/g, '');
       const lnRatioLatex = lnRatioSolution.toTeX().replace(/^\[|\]$/g, '');
 
       // The solution is: numerator = denominator * e^(lnRatio expression)
       const latex = `${getSymbol(denominator)} \\cdot e^{${lnRatioLatex}}`;
 
+      // For the raw expression, use the actual solved lnRatio expression
+      // This gives us: k1*exp(-Ea/R*(1/T2-1/T1)) for Arrhenius
+      const raw = `${denominator}*exp(${lnRatioRaw})`;
+
       return {
         success: true,
         latex,
-        raw: `${denominator}*exp(${lnRatioSolution.text().replace(/^\[|\]$/g, '')})`
+        raw
       };
     }
 
@@ -229,15 +234,20 @@ export function solveSymbolicLogarithmic(equation, unknown, logConfig, symbolMap
     if (unknown === denominator) {
       // First solve for lnRatio symbolically
       const lnRatioSolution = nerdamer.solve(equation, 'lnRatio');
+      const lnRatioRaw = lnRatioSolution.text().replace(/^\[|\]$/g, '');
       const lnRatioLatex = lnRatioSolution.toTeX().replace(/^\[|\]$/g, '');
 
       // The solution is: denominator = numerator / e^(lnRatio expression)
       const latex = `\\frac{${getSymbol(numerator)}}{e^{${lnRatioLatex}}}`;
 
+      // For the raw expression: numerator * exp(-lnRatioRaw)
+      // Since k1 = k2/e^x = k2*e^(-x)
+      const raw = `${numerator}*exp(-(${lnRatioRaw}))`;
+
       return {
         success: true,
         latex,
-        raw: `${numerator}/exp(${lnRatioSolution.text().replace(/^\[|\]$/g, '')})`
+        raw
       };
     }
 

@@ -6,10 +6,11 @@
  */
 import React from 'react';
 import { EquationRenderer } from './equation-renderer';
+import './InlineEquationInput.css';
 
 export function InlineEquationInput({
   symbolicRaw,
-  symbolicLatex,  // kept for API compatibility but not used
+  symbolicLatex,  // kept for API compatibility
   unknownVariable,
   knownVariables,
   inputValues,

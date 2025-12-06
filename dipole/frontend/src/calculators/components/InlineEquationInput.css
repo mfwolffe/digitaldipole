@@ -1,0 +1,38 @@
+/**
+ * InlineEquationInput Styles
+ *
+ * Styles for both inline equation rendering and complex expression fallback layout.
+ */
+
+/* Complex exponential expression layout */
+.inline-equation-complex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.complex-equation-display {
+  font-size: 1.1rem;
+}
+
+/* Grid layout for inputs when using complex fallback */
+.complex-inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .complex-inputs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inline-equation-complex {
+    gap: 1rem;
+  }
+}

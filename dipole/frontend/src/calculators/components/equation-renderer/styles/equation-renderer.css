@@ -146,7 +146,7 @@
   font-size: 1.1em;
 }
 
-/* exp() rendered as e^x */
+/* exp() rendered as e^x (simple arguments) */
 .eq-exp {
   display: inline-flex;
   align-items: flex-start;
@@ -158,6 +158,45 @@
 
 .eq-exp-power {
   font-size: 0.75em;
+}
+
+/* exp() with complex exponents (fractions, products) - raised layout without shrinking */
+.eq-exp-raised {
+  display: inline-flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.eq-exp-raised .eq-exp-base {
+  font-style: italic;
+  font-size: 1em;
+  align-self: flex-end;
+  padding-bottom: 0.3em;
+}
+
+.eq-exp-raised .eq-exp-exponent {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.85em;
+  position: relative;
+  top: -0.2em;
+  margin-left: 0.1em;
+}
+
+/* Ensure fractions inside raised exponents don't get double-shrunk */
+.eq-exp-raised .eq-fraction {
+  font-size: 1em;
+}
+
+/* Inputs inside raised exponents should be appropriately sized */
+.eq-exp-raised .eq-input-field {
+  width: 3.5rem;
+  height: 1.5rem;
+  font-size: 0.85rem;
+}
+
+.eq-exp-raised .eq-input-unit {
+  font-size: 0.7rem;
 }
 
 /* Logarithm ratio: ln(a/b) */
