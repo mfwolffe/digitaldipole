@@ -1,13 +1,17 @@
 import json
-from sympy import *
-from dipole.users import models
-from ninja import NinjaAPI, Schema
-from dipole.calculators.models import Equation
+from datetime import datetime
+
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-import requests
+from ninja import NinjaAPI, Schema
+from sympy import *
+
+from dipole.calculators.models import Calculator, Equation, FavoriteEquation
+from dipole.users import models
+
 import environ
-import re
 import nltk
+import requests
 
 nltk.download('punkt', "nltk/")
 env = environ.Env()
@@ -18,6 +22,123 @@ IM_USER = env('IM_USER')
 IM_PASS = env('IM_PASS')
 
 api = NinjaAPI()
+
+
+# ============================================
+# User/Account API Endpoints
+# ============================================
+
+@api.get("/user/me")
+def get_current_user(request):
+    """Get current authenticated user's profile information."""
+    if not request.user.is_authenticated:
+        return {"authenticated": False}
+
+    user = request.user
+    return {
+        "authenticated": True,
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "name": user.name,
+        "date_joined": user.date_joined.isoformat(),
+        "last_login": user.last_login.isoformat() if user.last_login else None,
+    }
+
+
+# ============================================
+# Favorites API Endpoints
+# ============================================
+
+@api.get("/favorites/")
+def get_favorites(request):
+    """Get all favorite equations for the current user."""
+    if not request.user.is_authenticated:
+        return {"authenticated": False, "favorites": []}
+
+    favorites = FavoriteEquation.objects.filter(user=request.user).select_related(
+        'equation'
+    )
+
+    favorite_list = []
+    for fav in favorites:
+        # Try to get the calculator category for this equation
+        try:
+            calc = Calculator.objects.get(equation=fav.equation)
+            category = calc.get_calc_category_display()
+            calc_category = calc.calc_category
+        except Calculator.DoesNotExist:
+            category = "Uncategorized"
+            calc_category = "MISC"
+
+        # Build the path to the calculator
+        category_paths = {
+            "GSLW": "/calculators/gas-laws",
+            "THRM": "/calculators/thermo",
+            "SOLN": "/calculators/solutions",
+            "ELCT": "/calculators/electrochemistry",
+            "MISC": "/calculators/gas-laws",
+        }
+        base_path = category_paths.get(calc_category, "/calculators/gas-laws")
+
+        favorite_list.append({
+            "id": fav.id,
+            "equation_id": fav.equation.id,
+            "name": fav.equation.name,
+            "equation": fav.equation.LaTeX_repr,
+            "category": category,
+            "path": f"{base_path}/{fav.equation.name}",
+            "created_at": fav.created_at.isoformat(),
+        })
+
+    return {"authenticated": True, "favorites": favorite_list}
+
+
+@api.post("/favorites/{equation_name}")
+def toggle_favorite(request, equation_name: str):
+    """Toggle favorite status for an equation. Returns new status."""
+    if not request.user.is_authenticated:
+        return {"success": False, "error": "Authentication required"}
+
+    equation = get_object_or_404(Equation, name=equation_name)
+
+    # Check if already favorited
+    existing = FavoriteEquation.objects.filter(
+        user=request.user,
+        equation=equation,
+    ).first()
+
+    if existing:
+        # Remove from favorites
+        existing.delete()
+        return {
+            "success": True,
+            "is_favorite": False,
+            "message": f"Removed '{equation_name}' from favorites",
+        }
+    else:
+        # Add to favorites
+        FavoriteEquation.objects.create(user=request.user, equation=equation)
+        return {
+            "success": True,
+            "is_favorite": True,
+            "message": f"Added '{equation_name}' to favorites",
+        }
+
+
+@api.get("/favorites/check/{equation_name}")
+def check_favorite(request, equation_name: str):
+    """Check if an equation is favorited by the current user."""
+    if not request.user.is_authenticated:
+        return {"authenticated": False, "is_favorite": False}
+
+    equation = get_object_or_404(Equation, name=equation_name)
+    is_favorite = FavoriteEquation.objects.filter(
+        user=request.user,
+        equation=equation,
+    ).exists()
+
+    return {"authenticated": True, "is_favorite": is_favorite}
 
 class VariableSchema(Schema):
     val:  str

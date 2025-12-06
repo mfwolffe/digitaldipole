@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 
 // Lazy load pages for code splitting
 const Home = lazy(() => import('./pages'));
@@ -14,6 +15,8 @@ const Thermo = lazy(() => import("./pages/calculators/thermodynamics"));
 const Kinetics = lazy(() => import("./pages/calculators/kinetics"));
 const Solutions = lazy(() => import("./pages/calculators/solutions"));
 const Electrochemistry = lazy(() => import("./pages/calculators/electrochemistry"));
+const Account = lazy(() => import("./pages/account"));
+const Favorites = lazy(() => import("./pages/favorites"));
 
 import NavOffCanvas from "./components/Nav";
 
@@ -30,27 +33,27 @@ function PageLoader() {
 import './styles/custom-variables.css';
 import './App.css'
 
-// function App({username}) {
 function App() {
-  console.log("username is ", username);
-  console.log(window);
-
   return (
-    <Router>
-      <NavOffCanvas />
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/tabulated" element={<Tabulated />} />
-            <Route path="/calculators/gas-laws/:tab?" element={<CalcCard />} />
-            <Route path="/calculators/thermo/:tab?" element={<Thermo />} />
-            <Route path="/calculators/kinetics/:tab?" element={<Kinetics />} />
-            <Route path="/calculators/solutions/:tab?" element={<Solutions />} />
-            <Route path="/calculators/electrochemistry/:tab?" element={<Electrochemistry />} />
-            <Route path="/memegenerator" element={<MemeGen />} />
-        </Routes>
-      </Suspense>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <NavOffCanvas />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route path="/tabulated" element={<Tabulated />} />
+              <Route path="/calculators/gas-laws/:tab?" element={<CalcCard />} />
+              <Route path="/calculators/thermo/:tab?" element={<Thermo />} />
+              <Route path="/calculators/kinetics/:tab?" element={<Kinetics />} />
+              <Route path="/calculators/solutions/:tab?" element={<Solutions />} />
+              <Route path="/calculators/electrochemistry/:tab?" element={<Electrochemistry />} />
+              <Route path="/memegenerator" element={<MemeGen />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/favorites" element={<Favorites />} />
+          </Routes>
+        </Suspense>
+      </Router>
+    </AuthProvider>
   );
 }
 
