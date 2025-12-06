@@ -15,6 +15,7 @@ const Thermo = lazy(() => import("./pages/calculators/thermodynamics"));
 const Kinetics = lazy(() => import("./pages/calculators/kinetics"));
 const Solutions = lazy(() => import("./pages/calculators/solutions"));
 const Electrochemistry = lazy(() => import("./pages/calculators/electrochemistry"));
+const Balancer = lazy(() => import("./pages/balancer"));
 const Account = lazy(() => import("./pages/account"));
 const Favorites = lazy(() => import("./pages/favorites"));
 
@@ -47,6 +48,7 @@ function App() {
               <Route path="/calculators/kinetics/:tab?" element={<Kinetics />} />
               <Route path="/calculators/solutions/:tab?" element={<Solutions />} />
               <Route path="/calculators/electrochemistry/:tab?" element={<Electrochemistry />} />
+              <Route path="/balancer" element={<Balancer />} />
               <Route path="/memegenerator" element={<MemeGen />} />
               <Route path="/account" element={<Account />} />
               <Route path="/favorites" element={<Favorites />} />
