@@ -143,6 +143,77 @@ export function useEquationBalancer() {
     }
   }, [equation]);
 
+  /**
+   * Reorder compounds within the same side (reactants or products)
+   */
+  const reorderCompound = useCallback((side, fromIndex, toIndex) => {
+    if (!equation) return;
+
+    setEquation(prev => {
+      const key = side === 'reactant' ? 'reactants' : 'products';
+      const items = [...prev[key]];
+      const [moved] = items.splice(fromIndex, 1);
+      items.splice(toIndex, 0, moved);
+      return { ...prev, [key]: items };
+    });
+  }, [equation]);
+
+  /**
+   * Move compound between sides (reactant <-> product)
+   */
+  const moveCompound = useCallback((compoundId, fromSide, toSide, toIndex) => {
+    if (!equation) return;
+
+    setEquation(prev => {
+      const fromKey = fromSide === 'reactant' ? 'reactants' : 'products';
+      const toKey = toSide === 'reactant' ? 'reactants' : 'products';
+
+      const fromItems = [...prev[fromKey]];
+      const toItems = fromKey === toKey ? fromItems : [...prev[toKey]];
+
+      const compoundIndex = fromItems.findIndex(c => c.id === compoundId);
+      if (compoundIndex === -1) return prev;
+
+      const [moved] = fromItems.splice(compoundIndex, 1);
+
+      // Insert at target position (-1 means append)
+      if (toIndex === -1 || toIndex >= toItems.length) {
+        toItems.push(moved);
+      } else {
+        toItems.splice(toIndex, 0, moved);
+      }
+
+      return {
+        ...prev,
+        [fromKey]: fromItems,
+        [toKey]: toItems,
+      };
+    });
+
+    // Clear balance result when structure changes
+    setBalanceResult(null);
+  }, [equation]);
+
+  /**
+   * Remove a compound from the equation
+   */
+  const removeCompound = useCallback((compoundId) => {
+    if (!equation) return;
+
+    setEquation(prev => ({
+      ...prev,
+      reactants: prev.reactants.filter(c => c.id !== compoundId),
+      products: prev.products.filter(c => c.id !== compoundId),
+    }));
+
+    setCoefficients(prev => {
+      const { [compoundId]: removed, ...rest } = prev;
+      return rest;
+    });
+
+    setBalanceResult(null);
+  }, [equation]);
+
   // Computed: equation with current coefficients applied
   const equationWithCoefficients = useMemo(() => {
     if (!equation) return null;
@@ -209,6 +280,9 @@ export function useEquationBalancer() {
     reset,
     setMode,
     setArrowType,
+    reorderCompound,
+    moveCompound,
+    removeCompound,
   };
 }
 

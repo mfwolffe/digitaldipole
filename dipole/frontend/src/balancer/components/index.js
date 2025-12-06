@@ -13,3 +13,5 @@ export { EquationEditor } from './EquationEditor.jsx';
 export { BalanceResult } from './BalanceResult.jsx';
 export { ElementPalette } from './ElementPalette.jsx';
 export { CompoundBuilder } from './CompoundBuilder.jsx';
+export { DraggableCompound, DropZone } from './DraggableCompound.jsx';
+export { DraggableEquation } from './DraggableEquation.jsx';

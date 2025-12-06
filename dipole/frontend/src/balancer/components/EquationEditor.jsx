@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { VisualEquation } from './VisualEquation.jsx';
+import { DraggableEquation } from './DraggableEquation.jsx';
 import { Input, Label, ErrorMessage } from '../../components/ui/Form.jsx';
 import { Button } from '../../components/ui/Button.jsx';
 
@@ -21,6 +21,9 @@ export function EquationEditor({
   onVerify,
   onReset,
   onArrowChange,
+  onReorder,
+  onMove,
+  onRemoveCompound,
   isLoading,
   mode,
   onModeChange,
@@ -155,12 +158,15 @@ export function EquationEditor({
               </span>
             )}
           </div>
-          <VisualEquation
+          <DraggableEquation
             equation={equation}
             coefficients={coefficients}
             editable={true}
             onCoefficientChange={onCoefficientChange}
             onArrowChange={onArrowChange}
+            onReorder={onReorder}
+            onMove={onMove}
+            onRemoveCompound={onRemoveCompound}
           />
         </div>
       )}

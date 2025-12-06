@@ -36,6 +36,9 @@ export function BalancerPage() {
     reset,
     setMode,
     setArrowType,
+    reorderCompound,
+    moveCompound,
+    removeCompound,
   } = useEquationBalancer();
 
   // Visual builder state
@@ -146,6 +149,9 @@ export function BalancerPage() {
                   onVerify={verify}
                   onReset={reset}
                   onArrowChange={setArrowType}
+                  onReorder={reorderCompound}
+                  onMove={moveCompound}
+                  onRemoveCompound={removeCompound}
                   isLoading={isLoading}
                   mode={mode}
                   onModeChange={setMode}
