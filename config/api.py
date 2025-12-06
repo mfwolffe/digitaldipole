@@ -149,6 +149,160 @@ class CalcNumericEndpoint(Schema):
     unknown:  str
     listVars: list[VariableSchema]
 
+
+# ============================================
+# Equation Balancer API Endpoints
+# ============================================
+
+class ElementSchema(Schema):
+    symbol: str
+    count: int
+
+
+class CompoundSchema(Schema):
+    formula: str
+    elements: list[ElementSchema]
+    charge: int = 0
+    coefficient: int = 1
+
+
+class BalanceRequestSchema(Schema):
+    reactants: list[CompoundSchema]
+    products: list[CompoundSchema]
+    mode: str = "molecular"
+
+
+@api.post("/balance")
+def balance_equation(request, payload: BalanceRequestSchema):
+    """
+    Balance a chemical equation using SymPy's matrix solver.
+    Used as fallback when frontend balancer fails.
+    """
+    try:
+        from sympy import Matrix, Rational
+        from math import gcd
+        from functools import reduce
+
+        all_compounds = payload.reactants + payload.products
+        num_reactants = len(payload.reactants)
+
+        # Get all unique elements
+        elements = set()
+        for compound in all_compounds:
+            for elem in compound.elements:
+                elements.add(elem.symbol)
+        elements = sorted(list(elements))
+
+        if not elements:
+            return {"success": False, "error": "No elements found"}
+
+        # Build coefficient matrix
+        matrix_data = []
+        for element in elements:
+            row = []
+            for i, compound in enumerate(all_compounds):
+                count = 0
+                for elem in compound.elements:
+                    if elem.symbol == element:
+                        count = elem.count
+                        break
+                # Products get negative sign
+                sign = -1 if i >= num_reactants else 1
+                row.append(sign * count)
+            matrix_data.append(row)
+
+        # Add charge row for ionic mode
+        if payload.mode in ["ionic", "net-ionic"]:
+            charge_row = []
+            for i, compound in enumerate(all_compounds):
+                sign = -1 if i >= num_reactants else 1
+                charge_row.append(sign * compound.charge)
+            if any(c != 0 for c in charge_row):
+                matrix_data.append(charge_row)
+
+        # Solve using SymPy
+        M = Matrix(matrix_data)
+        null_space = M.nullspace()
+
+        if not null_space:
+            return {"success": False, "error": "Equation cannot be balanced"}
+
+        # Get solution and convert to integers
+        solution = null_space[0]
+
+        # Convert to positive rationals
+        coefficients = [abs(Rational(x).limit_denominator(1000)) for x in solution]
+
+        # Find LCM of denominators
+        denoms = [c.q for c in coefficients]
+        lcm_val = denoms[0]
+        for d in denoms[1:]:
+            lcm_val = lcm_val * d // gcd(lcm_val, d)
+
+        # Multiply to get integers
+        int_coeffs = [int(c * lcm_val) for c in coefficients]
+
+        # Divide by GCD
+        coeff_gcd = reduce(gcd, int_coeffs)
+        if coeff_gcd > 1:
+            int_coeffs = [c // coeff_gcd for c in int_coeffs]
+
+        # Build result map
+        coeff_map = {}
+        for i, compound in enumerate(all_compounds):
+            coeff_map[compound.formula] = max(1, int_coeffs[i])
+
+        # Build balanced equation string
+        def format_side(compounds, start_idx):
+            parts = []
+            for i, c in enumerate(compounds):
+                coeff = coeff_map.get(c.formula, 1)
+                coeff_str = str(coeff) if coeff > 1 else ""
+                parts.append(f"{coeff_str}{c.formula}")
+            return " + ".join(parts)
+
+        reactant_str = format_side(payload.reactants, 0)
+        product_str = format_side(payload.products, num_reactants)
+        balanced_str = f"{reactant_str} -> {product_str}"
+
+        return {
+            "success": True,
+            "coefficients": coeff_map,
+            "balanced_equation": balanced_str,
+            "steps": [
+                {"description": "Built element matrix", "detail": f"{len(elements)} elements, {len(all_compounds)} compounds"},
+                {"description": "Found null space solution", "detail": "Using Gaussian elimination"},
+                {"description": "Converted to integers", "detail": f"Coefficients: {int_coeffs}"},
+            ],
+        }
+
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@api.get("/polyatomic-ions")
+def get_polyatomic_ions(request):
+    """Return list of common polyatomic ions for autocomplete."""
+    return {
+        "ions": [
+            {"formula": "SO4", "charge": -2, "name": "Sulfate"},
+            {"formula": "NO3", "charge": -1, "name": "Nitrate"},
+            {"formula": "NH4", "charge": 1, "name": "Ammonium"},
+            {"formula": "OH", "charge": -1, "name": "Hydroxide"},
+            {"formula": "CO3", "charge": -2, "name": "Carbonate"},
+            {"formula": "PO4", "charge": -3, "name": "Phosphate"},
+            {"formula": "HCO3", "charge": -1, "name": "Bicarbonate"},
+            {"formula": "ClO3", "charge": -1, "name": "Chlorate"},
+            {"formula": "ClO4", "charge": -1, "name": "Perchlorate"},
+            {"formula": "MnO4", "charge": -1, "name": "Permanganate"},
+            {"formula": "CrO4", "charge": -2, "name": "Chromate"},
+            {"formula": "Cr2O7", "charge": -2, "name": "Dichromate"},
+            {"formula": "C2H3O2", "charge": -1, "name": "Acetate"},
+            {"formula": "CN", "charge": -1, "name": "Cyanide"},
+            {"formula": "SCN", "charge": -1, "name": "Thiocyanate"},
+        ]
+    }
+
 # DONE these API requests are really just to
 #       verify that the cursed process for
 #       SymPy CAS is working as "intended"
