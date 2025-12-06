@@ -92,7 +92,7 @@ export function FavoriteButton({ equationName, size = 'lg', className = '' }) {
         size={size}
         className={`
           transition-all duration-200
-          ${isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-300'}
+          ${isFavorite ? 'text-red-500' : 'text-slate-600 hover:text-red-400'}
           ${isAnimating ? 'animate-pulse' : ''}
         `}
       />
