@@ -200,7 +200,7 @@ export function BalancerPage() {
         </header>
 
         {/* Main Editor Card */}
-        <Card className="border-slate-700 mb-6 w-fit">
+        <Card className="border-slate-700 mb-6 w-fit mx-auto">
           <div className="p-6">
             <EquationEditor
               equation={equation}
