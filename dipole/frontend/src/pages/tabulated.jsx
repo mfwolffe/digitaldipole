@@ -124,7 +124,7 @@ function AtomCard({ atom }) {
         </div>
 
         {/* Properties table */}
-        <div style={{ maxHeight: '16rem', overflowY: 'auto' }}>
+        <div style={{ maxHeight: '22rem', overflowY: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <tbody>
               {displayProps.map(([key, val], idx) => (
@@ -223,30 +223,32 @@ const Tabulated = () => {
                     </TabList>
 
                     <TabPanel eventKey="AtomCarousel" className="p-4">
-                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-                        <p className="text-lg font-medium text-gray-200">Atom Carousel</p>
-                        <form onSubmit={jumpTo} className="flex gap-2">
+                      <div className="flex justify-end mb-4">
+                        <form onSubmit={jumpTo} className="flex gap-2 items-center">
                           <Popover>
-                            <PopoverTrigger className="flex-1">
-                              <Input
-                                type="text"
-                                placeholder="Jump-to"
-                                value={searchValue}
-                                onChange={(e) => setSearchValue(e.target.value)}
-                                className="w-32"
-                              />
+                            <PopoverTrigger>
+                              <button type="button" className="text-gray-400 hover:text-gray-200 p-1">
+                                <FontAwesomeIcon icon="fa-duotone fa-circle-info" />
+                              </button>
                             </PopoverTrigger>
-                            <PopoverContent position="bottom" align="end" className="w-64">
+                            <PopoverContent position="top" align="end" className="w-64">
                               <PopoverBody>
                                 <p className="text-base font-medium mb-2">Jump to an element by entering:</p>
                                 <ul className="list-disc list-inside space-y-1 text-sm">
-                                  <li>Its atomic number</li>
+                                  <li>Its atomic number (1-118)</li>
                                   <li>Its name (US English)</li>
-                                  <li>Or its element symbol</li>
+                                  <li>Or its element symbol (e.g., Fe)</li>
                                 </ul>
                               </PopoverBody>
                             </PopoverContent>
                           </Popover>
+                          <Input
+                            type="text"
+                            placeholder="Jump-to"
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            className="w-32"
+                          />
                           <Button type="submit" variant="ghost" className="hvr-grow-rotate">
                             <FontAwesomeIcon icon="fa-duotone fa-magnifying-glass" fontSize={"1.4rem"}/>
                           </Button>
