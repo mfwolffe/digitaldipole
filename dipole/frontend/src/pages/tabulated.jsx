@@ -7,11 +7,8 @@ import {
   TabButton,
   TabPanel,
   Card,
-  CardBody,
   Button,
   Input,
-  InputGroup,
-  InputAddon,
   Modal,
   ModalHeader,
   ModalBody,
@@ -63,64 +60,59 @@ function buildAtomJSON() {
   return atomData;
 }
 
-function AtomSlide(atomData) {
-  return (
-    <CarouselItem id={atomData['Name']}>
-      { AtomTable(atomData) }
-    </CarouselItem>
-  )
-}
+function AtomCard({ atom }) {
+  const bgColor = colorTable[atom['GroupBlock']] || '#548687';
 
-function AtomTable(atomData) {
-  function RowBuilder (atom) {
-    const rows = []
-    let idx = 0;
-    for (const [key, val] of Object.entries(atom)) {
-      rows.push((
-        <tr key={idx} className={idx % 2 === 0 ? 'bg-white/10' : 'bg-white/5'}>
-          <td className="text-left pl-6 py-3 text-white/90 font-medium">{ key }</td>
-          <td className="text-right pr-6 py-3 text-white">{ val }</td>
-        </tr>
-      ))
-      idx++;
-    }
-    return rows;
-  }
-
-  const bgColor = colorTable[atomData['GroupBlock']] || '#548687';
+  // Filter out some properties for cleaner display
+  const displayProps = [
+    ['Atomic Number', atom['AtomicNumber']],
+    ['Symbol', atom['Symbol']],
+    ['Atomic Mass', atom['AtomicMass'] + ' u'],
+    ['Electron Configuration', atom['ElectronConfiguration']],
+    ['Electronegativity', atom['Electronegativity'] || 'N/A'],
+    ['Atomic Radius', atom['AtomicRadius'] ? atom['AtomicRadius'] + ' pm' : 'N/A'],
+    ['Ionization Energy', atom['IonizationEnergy'] ? atom['IonizationEnergy'] + ' eV' : 'N/A'],
+    ['Oxidation States', atom['OxidationStates'] || 'N/A'],
+    ['Standard State', atom['StandardState']],
+    ['Melting Point', atom['MeltingPoint'] ? atom['MeltingPoint'] + ' K' : 'N/A'],
+    ['Boiling Point', atom['BoilingPoint'] ? atom['BoilingPoint'] + ' K' : 'N/A'],
+    ['Density', atom['Density'] ? atom['Density'] + ' g/cm³' : 'N/A'],
+    ['Year Discovered', atom['YearDiscovered']],
+  ];
 
   return (
-    <div className="max-w-md mx-auto my-4">
+    <div className="max-w-lg mx-auto">
       <div
-        className="rounded-xl overflow-hidden shadow-2xl"
+        className="rounded-2xl overflow-hidden shadow-2xl"
         style={{ backgroundColor: bgColor }}
       >
         {/* Element header with symbol and number */}
-        <div className="px-6 py-4 text-center border-b border-white/20">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-white/70 text-sm">{atomData['AtomicNumber']}</span>
-            <span className="text-white/70 text-sm">{atomData['GroupBlock']}</span>
+        <div className="px-8 py-6 text-center border-b border-white/20">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-white/80 text-lg font-medium">{atom['AtomicNumber']}</span>
+            <span className="text-white/80 text-sm px-3 py-1 bg-white/20 rounded-full">{atom['GroupBlock']}</span>
           </div>
-          <div className="text-5xl font-bold text-white mb-1">{atomData['Symbol']}</div>
-          <div className="text-2xl font-semibold text-white">{atomData['Name']}</div>
-          <div className="text-white/80 text-sm mt-1">{atomData['AtomicMass']} u</div>
+          <div className="text-7xl font-bold text-white mb-2">{atom['Symbol']}</div>
+          <div className="text-3xl font-semibold text-white">{atom['Name']}</div>
+          <div className="text-white/80 text-lg mt-2">{atom['AtomicMass']} u</div>
         </div>
 
         {/* Properties table */}
-        <Table className="w-full">
-          <thead>
-            <tr className="bg-black/20">
-              <th className="text-left pl-6 py-3 text-white font-semibold">Property</th>
-              <th className="text-right pr-6 py-3 text-white font-semibold">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            { RowBuilder(atomData) }
-          </tbody>
-        </Table>
+        <div className="max-h-64 overflow-y-auto">
+          <table className="w-full">
+            <tbody>
+              {displayProps.map(([key, val], idx) => (
+                <tr key={idx} className={idx % 2 === 0 ? 'bg-black/10' : 'bg-black/5'}>
+                  <td className="text-left pl-6 py-2 text-white/90 font-medium text-sm">{key}</td>
+                  <td className="text-right pr-6 py-2 text-white text-sm">{val}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
 const Tabulated = () => {
@@ -141,11 +133,6 @@ const Tabulated = () => {
     const handleSelect = (selectedIndex) => {
         setIndex(selectedIndex);
     };
-
-    const slides = []
-    atoms.forEach((atom) => {
-      slides.push(AtomSlide(atom));
-    })
 
     function jumpTo (e) {
       e.preventDefault();
@@ -226,11 +213,14 @@ const Tabulated = () => {
                       <Carousel
                         activeIndex={index}
                         onSelect={handleSelect}
-                        fade
                         interval={null}
                         className="w-full"
                       >
-                        { slides }
+                        {atoms.map((atom, i) => (
+                          <CarouselItem key={atom['AtomicNumber']} id={atom['Name']}>
+                            <AtomCard atom={atom} />
+                          </CarouselItem>
+                        ))}
                       </Carousel>
                     </TabPanel>
                   </Tabs>
