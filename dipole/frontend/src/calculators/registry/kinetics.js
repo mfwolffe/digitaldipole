@@ -2,7 +2,10 @@
  * Kinetics Calculator Definitions
  */
 import {
-  ArrheniusInfo
+  ArrheniusInfo,
+  HalfLifeInfo,
+  SecondOrderInfo,
+  FirstOrderInfo
 } from '../../components/CalcInfo';
 
 export const kineticsCalculators = [
@@ -98,7 +101,7 @@ export const kineticsCalculators = [
         description: 'First-order rate constant'
       }
     ],
-    InfoComponent: ArrheniusInfo  // Reusing for now; can create HalfLifeInfo later
+    InfoComponent: HalfLifeInfo
   },
 
   {
@@ -143,7 +146,56 @@ export const kineticsCalculators = [
         description: 'Elapsed time'
       }
     ],
-    InfoComponent: ArrheniusInfo  // Reusing for now
+    InfoComponent: SecondOrderInfo
+  },
+
+  {
+    id: 'firstOrder',
+    name: 'First Order Rate Law',
+    category: 'KNTC',
+    // ln[A] = ln[A]₀ - kt
+    // Rearranged: lnRatio + k*t = 0, where lnRatio = ln(A/A0)
+    equation: 'lnRatio + k*t',
+    latexEquation: '\\ln[A] = \\ln[A]_0 - kt',
+    logarithmic: {
+      numerator: 'A',
+      denominator: 'A0'
+    },
+    variables: [
+      {
+        id: 'A',
+        name: 'Final Concentration',
+        symbol: '[A]',
+        htmlSymbol: '[A]',
+        unit: 'M',
+        description: 'Concentration at time t'
+      },
+      {
+        id: 'A0',
+        name: 'Initial Concentration',
+        symbol: '[A]_0',
+        htmlSymbol: '[A]<sub>0</sub>',
+        unit: 'M',
+        description: 'Initial concentration'
+      },
+      {
+        id: 'k',
+        name: 'Rate Constant',
+        symbol: 'k',
+        htmlSymbol: 'k',
+        unit: 's⁻¹',
+        description: 'First-order rate constant'
+      },
+      {
+        id: 't',
+        name: 'Time',
+        symbol: 't',
+        htmlSymbol: 't',
+        unit: 's',
+        description: 'Elapsed time'
+      }
+    ],
+    InfoComponent: FirstOrderInfo
   }
 ];
 

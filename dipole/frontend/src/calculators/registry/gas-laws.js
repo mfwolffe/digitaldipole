@@ -12,7 +12,8 @@ import {
   GenInfo2,
   GasDensityInfo,
   GrahamInfo,
-  DaltonInfo
+  DaltonInfo,
+  VanDerWaalsInfo
 } from '../../components/CalcInfo';
 
 export const gasLawCalculators = [
@@ -439,6 +440,78 @@ export const gasLawCalculators = [
       }
     ],
     InfoComponent: DaltonInfo
+  },
+
+  {
+    id: 'vanDerWaals',
+    name: 'Van der Waals Equation',
+    category: 'GSLW',
+    // (P + a(n/V)^2)(V - nb) = nRT
+    // Expanded: P*V - P*n*b + a*n^2/V - a*n^3*b/V^2 = nRT
+    // Rearranged to polynomial form for solving
+    equation: '(P + a*(n/V)^2)*(V - n*b) - n*R*T',
+    latexEquation: '\\left(P + \\frac{an^2}{V^2}\\right)(V - nb) = nRT',
+    variables: [
+      {
+        id: 'P',
+        name: 'Pressure',
+        symbol: 'P',
+        htmlSymbol: 'P',
+        unit: 'atm',
+        description: 'Pressure of the gas'
+      },
+      {
+        id: 'V',
+        name: 'Volume',
+        symbol: 'V',
+        htmlSymbol: 'V',
+        unit: 'L',
+        description: 'Volume of the gas'
+      },
+      {
+        id: 'n',
+        name: 'Amount (moles)',
+        symbol: 'n',
+        htmlSymbol: 'n',
+        unit: 'mol',
+        description: 'Amount of gas in moles'
+      },
+      {
+        id: 'R',
+        name: 'Gas Constant',
+        symbol: 'R',
+        htmlSymbol: 'R',
+        unit: 'L·atm/(mol·K)',
+        defaultValue: 0.0821,
+        isConstant: true,
+        description: 'Ideal gas constant (0.0821 L·atm/(mol·K))'
+      },
+      {
+        id: 'T',
+        name: 'Temperature',
+        symbol: 'T',
+        htmlSymbol: 'T',
+        unit: 'K',
+        description: 'Temperature (Kelvin)'
+      },
+      {
+        id: 'a',
+        name: 'Attraction Constant',
+        symbol: 'a',
+        htmlSymbol: 'a',
+        unit: 'L²·atm/mol²',
+        description: 'Van der Waals constant for intermolecular attraction'
+      },
+      {
+        id: 'b',
+        name: 'Volume Constant',
+        symbol: 'b',
+        htmlSymbol: 'b',
+        unit: 'L/mol',
+        description: 'Van der Waals constant for molecular volume'
+      }
+    ],
+    InfoComponent: VanDerWaalsInfo
   }
 ];
 

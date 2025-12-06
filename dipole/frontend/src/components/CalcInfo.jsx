@@ -497,19 +497,280 @@ export function IsothermalWorkInfo() {
 export function ArrheniusInfo() {
   return (
     <>
-      <p className="text-left mb-1">
-        The Arrhenius equation describes how reaction rate constants depend on temperature,
-        providing insight into activation energies and reaction mechanisms:
+      <p className="text-start mb-1">
+        The Arrhenius equation describes the observation that reaction rate constants
+        increase exponentially with temperature. This relationship provides insight
+        into the energy barrier (activation energy) that must be overcome for a
+        reaction to proceed.
       </p>
+      <p className="mt-0">Expressed symbolically,</p>
       <p className="text-center">{"$$k = Ae^{-E_a/RT}$$"}</p>
-      <p className="text-left mt-2">
-        Where {"\\(k\\)"} is the rate constant, {"\\(A\\)"} is the pre-exponential factor (frequency factor),
-        {"\\(E_a\\)"} is the activation energy, {"\\(R\\)"} is the gas constant, and {"\\(T\\)"} is temperature in Kelvin.
+      <p className="mt-2 text-center">
+        Where {"\\(A\\)"} is the pre-exponential factor and {"\\(E_a\\)"} is the activation energy.
       </p>
-      <p className="text-left mt-2">
-        The two-point form is often more practical for calculations:
+      <p className="text-start mb-0 mt-3">
+        For comparing rate constants at two different temperatures, the two-point
+        form proves more practical:
       </p>
       <p className="text-center">{"$$\\ln\\left(\\frac{k_2}{k_1}\\right) = -\\frac{E_a}{R}\\left(\\frac{1}{T_2} - \\frac{1}{T_1}\\right)$$"}</p>
+    </>
+  );
+}
+
+export function HalfLifeInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        The half-life of a reaction describes the time required for the concentration
+        of a reactant to decrease to half of its initial value. For first-order
+        reactions, the half-life is notably independent of the initial concentration.
+      </p>
+      <p className="mt-0">Expressed symbolically,</p>
+      <p className="text-center">{"$$t_{1/2} = \\frac{\\ln(2)}{k}$$"}</p>
+      <p className="mt-2 text-center">
+        Where {"\\(k\\)"} is the first-order rate constant.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        This constant half-life is characteristic of first-order processes and is
+        widely applied in radioactive decay, pharmacokinetics, and chemical kinetics.
+      </p>
+    </>
+  );
+}
+
+export function SecondOrderInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        For a second-order reaction with a single reactant, the rate of reaction
+        is proportional to the square of the reactant concentration. The integrated
+        rate law takes a characteristic reciprocal form.
+      </p>
+      <p className="mt-0">Expressed symbolically,</p>
+      <p className="text-center">{"$$\\frac{1}{[A]} = \\frac{1}{[A]_0} + kt$$"}</p>
+      <p className="mt-2 text-center">
+        Where {"\\([A]_0\\)"} is the initial concentration and {"\\(k\\)"} is the second-order rate constant.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        A plot of {"\\(1/[A]\\)"} versus time yields a straight line with slope {"\\(k\\)"},
+        providing a method to determine the rate constant experimentally.
+      </p>
+    </>
+  );
+}
+
+export function FirstOrderInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        For a first-order reaction, the rate of reaction is directly proportional
+        to the concentration of the reactant. The integrated rate law takes a
+        logarithmic form relating concentration to time.
+      </p>
+      <p className="mt-0">Expressed symbolically,</p>
+      <p className="text-center">{"$$\\ln[A] = \\ln[A]_0 - kt$$"}</p>
+      <p className="mt-2 text-center">
+        Which may also be written as {"\\([A] = [A]_0 e^{-kt}\\)"}.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        A plot of {"\\(\\ln[A]\\)"} versus time yields a straight line with slope {"\\(-k\\)"},
+        providing a method to determine the rate constant and confirm first-order behavior.
+      </p>
+    </>
+  );
+}
+
+// ===== SOLUTIONS INFO COMPONENTS =====
+
+export function MolarityInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        Molarity describes the concentration of a solution as the number of moles
+        of solute dissolved per liter of solution. It is one of the most commonly
+        used concentration units in chemistry.
+      </p>
+      <p className="mt-0">Expressed symbolically,</p>
+      <p className="text-center">{"$$M = \\frac{n}{V}$$"}</p>
+      <p className="mt-2 text-center">
+        Where {"\\(n\\)"} is moles of solute and {"\\(V\\)"} is volume of solution in liters.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        Molarity is temperature-dependent since solution volume changes with
+        temperature, unlike molality which is based on mass of solvent.
+      </p>
+    </>
+  );
+}
+
+export function DilutionInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        The dilution equation describes the relationship between the concentration
+        and volume of a solution before and after dilution. The total amount of
+        solute remains constant during dilution.
+      </p>
+      <p className="mt-0">Expressed symbolically,</p>
+      <p className="text-center">{"$$M_1 V_1 = M_2 V_2$$"}</p>
+      <p className="mt-2 text-center">
+        Where subscript 1 refers to the concentrated solution and subscript 2 to the diluted solution.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        This relationship follows directly from the conservation of moles: since
+        {"\\(n = MV\\)"}, and no solute is added or removed, the product {"\\(MV\\)"} must remain constant.
+      </p>
+    </>
+  );
+}
+
+export function OsmoticPressureInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        Osmotic pressure is a colligative property describing the pressure required
+        to prevent the flow of solvent across a semipermeable membrane from a region
+        of lower solute concentration to higher concentration.
+      </p>
+      <p className="mt-0">Expressed symbolically by the van't Hoff equation,</p>
+      <p className="text-center">{"$$\\Pi = MRT$$"}</p>
+      <p className="mt-2 text-center">
+        Where {"\\(\\Pi\\)"} is osmotic pressure, {"\\(M\\)"} is molarity, {"\\(R\\)"} is the gas constant, and {"\\(T\\)"} is temperature.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        This equation bears striking similarity to the ideal gas law and is used
+        extensively in biology and medicine to understand cellular processes.
+      </p>
+    </>
+  );
+}
+
+export function RaoultInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        Raoult's Law describes the vapor pressure of an ideal solution as
+        proportional to the mole fraction of solvent. The presence of a nonvolatile
+        solute lowers the vapor pressure of the solvent.
+      </p>
+      <p className="mt-0">Expressed symbolically,</p>
+      <p className="text-center">{"$$P = \\chi \\cdot P^\\circ$$"}</p>
+      <p className="mt-2 text-center">
+        Where {"\\(P\\)"} is the vapor pressure, {"\\(\\chi\\)"} is the mole fraction, and {"\\(P^\\circ\\)"} is the pure solvent vapor pressure.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        Deviations from Raoult's Law indicate non-ideal behavior due to
+        solute-solvent interactions differing from solvent-solvent interactions.
+      </p>
+    </>
+  );
+}
+
+export function BoilingPointElevationInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        Boiling point elevation is a colligative property whereby the boiling point
+        of a solution is higher than that of the pure solvent. The elevation depends
+        only on the number of solute particles, not their identity.
+      </p>
+      <p className="mt-0">Expressed symbolically,</p>
+      <p className="text-center">{"$$\\Delta T_b = K_b \\cdot m \\cdot i$$"}</p>
+      <p className="mt-2 text-center">
+        Where {"\\(K_b\\)"} is the ebullioscopic constant, {"\\(m\\)"} is molality, and {"\\(i\\)"} is the van't Hoff factor.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        The van't Hoff factor {"\\(i\\)"} accounts for electrolyte dissociation: for
+        non-electrolytes {"\\(i = 1\\)"}, while for NaCl {"\\(i \\approx 2\\)"}.
+      </p>
+    </>
+  );
+}
+
+export function FreezingPointDepressionInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        Freezing point depression is a colligative property whereby the freezing
+        point of a solution is lower than that of the pure solvent. This principle
+        underlies the use of salt on icy roads and antifreeze in engines.
+      </p>
+      <p className="mt-0">Expressed symbolically,</p>
+      <p className="text-center">{"$$\\Delta T_f = K_f \\cdot m \\cdot i$$"}</p>
+      <p className="mt-2 text-center">
+        Where {"\\(K_f\\)"} is the cryoscopic constant, {"\\(m\\)"} is molality, and {"\\(i\\)"} is the van't Hoff factor.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        Like boiling point elevation, the magnitude of depression depends on the
+        number of solute particles rather than their chemical nature.
+      </p>
+    </>
+  );
+}
+
+// ===== ELECTROCHEMISTRY INFO COMPONENTS =====
+
+export function FaradayInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        Faraday's Law of Electrolysis describes the quantitative relationship
+        between the amount of substance deposited at an electrode and the quantity
+        of electric charge passed through the electrolyte.
+      </p>
+      <p className="mt-0">Expressed symbolically,</p>
+      <p className="text-center">{"$$m = \\frac{M \\cdot I \\cdot t}{n \\cdot F}$$"}</p>
+      <p className="mt-2 text-center">
+        Where {"\\(M\\)"} is molar mass, {"\\(I\\)"} is current, {"\\(t\\)"} is time, {"\\(n\\)"} is electrons transferred, and {"\\(F\\)"} is Faraday's constant.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        One faraday ({"\\(F = 96485\\)"} C/mol) represents the charge carried by one
+        mole of electrons, linking electrical and chemical quantities.
+      </p>
+    </>
+  );
+}
+
+export function NernstInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        The Nernst equation describes how the cell potential of an electrochemical
+        cell varies with the concentrations (activities) of the species involved.
+        It extends standard potentials to non-standard conditions.
+      </p>
+      <p className="mt-0">Expressed symbolically,</p>
+      <p className="text-center">{"$$E = E^\\circ - \\frac{RT}{nF}\\ln Q$$"}</p>
+      <p className="mt-2 text-center">
+        Where {"\\(E^\\circ\\)"} is the standard potential, {"\\(n\\)"} is electrons transferred, and {"\\(Q\\)"} is the reaction quotient.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        At 25°C, this simplifies to {"\\(E = E^\\circ - \\frac{0.0592}{n}\\log Q\\)"} when
+        using base-10 logarithms and expressing potential in volts.
+      </p>
+    </>
+  );
+}
+
+export function VanDerWaalsInfo() {
+  return (
+    <>
+      <p className="text-start mb-1">
+        The van der Waals equation modifies the ideal gas law to account for the
+        finite size of gas molecules and the attractive forces between them. It
+        provides a more accurate description of real gas behavior, especially at
+        high pressures and low temperatures.
+      </p>
+      <p className="mt-0">Expressed symbolically,</p>
+      <p className="text-center">{"$$\\left(P + \\frac{an^2}{V^2}\\right)(V - nb) = nRT$$"}</p>
+      <p className="mt-2 text-center">
+        Where {"\\(a\\)"} corrects for intermolecular attraction and {"\\(b\\)"} corrects for molecular volume.
+      </p>
+      <p className="text-start mb-0 mt-3">
+        The constants {"\\(a\\)"} and {"\\(b\\)"} are specific to each gas and are determined
+        experimentally. Larger {"\\(a\\)"} values indicate stronger intermolecular forces,
+        while larger {"\\(b\\)"} values indicate larger molecular size.
+      </p>
     </>
   );
 }

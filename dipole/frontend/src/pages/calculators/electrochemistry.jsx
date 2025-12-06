@@ -7,21 +7,11 @@ import Tabs from "react-bootstrap/Tabs";
 import Accordion from "react-bootstrap/Accordion";
 
 import { Calculator } from "../../calculators";
-import { gasLawsInfo } from "../../calculators/registry";
+import { electrochemistryInfo } from "../../calculators/registry";
 
 import {
-  AvoInfo,
-  AmontonInfo,
-  BoyleInfo,
-  CharlesInfo,
-  CombinedInfo,
-  IdealInfo,
-  GasDensityInfo,
-  GrahamInfo,
-  DaltonInfo,
-  VanDerWaalsInfo,
-  GenInfo1,
-  GenInfo2,
+  FaradayInfo,
+  NernstInfo,
 } from "../../components/CalcInfo";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -48,13 +38,13 @@ const RootIco = (
   />
 );
 
-const IdealGas = (
+const ElectrochemIcon = (
   <FontAwesomeIcon
-    icon="fa-duotone fa-wind"
+    icon="fa-duotone fa-bolt"
     size="lg"
     style={{
-      "--fa-secondary-color": "#ffffff",
-      "--fa-primary-color": "#fc6601",
+      "--fa-secondary-color": "#fc6601",
+      "--fa-primary-color": "#ffffff",
       "--fa-secondary-opacity": "1",
     }}
     className="pr-2 hvr-pulse-grow"
@@ -119,7 +109,7 @@ function InfoAccordion({ Info1, Info2, title1, title2 }) {
       </Accordion.Item>
       <Accordion.Item eventKey="1">
         <Accordion.Header>
-          {IdealGas}
+          {ElectrochemIcon}
           {title2}
         </Accordion.Header>
         <Accordion.Body>
@@ -130,16 +120,68 @@ function InfoAccordion({ Info1, Info2, title1, title2 }) {
   );
 }
 
-// Valid tab keys for this page
-const VALID_TABS = ['info', 'avogadro', 'amonton', 'boyle', 'charles', 'combined', 'ideal', 'vanDerWaals', 'density', 'graham', 'dalton'];
+/**
+ * Electrochemistry overview for info tab
+ */
+function ElectrochemistryOverview() {
+  return (
+    <>
+      <p className="text-start mb-2">
+        <strong>Electrochemistry</strong> studies the relationship between electrical
+        energy and chemical change. It encompasses both the generation of electricity
+        from chemical reactions (galvanic cells) and the use of electricity to drive
+        non-spontaneous reactions (electrolysis).
+      </p>
+      <p className="text-start mb-2">
+        Key concepts include:
+      </p>
+      <ul className="text-start">
+        <li><strong>Cell Potential</strong>: The driving force for electron flow</li>
+        <li><strong>Standard Potentials</strong>: Reference values under standard conditions</li>
+        <li><strong>Electrolysis</strong>: Using electricity to drive reactions</li>
+      </ul>
+      <p className="text-center mt-3">
+        {"$$E^\\circ_{cell} = E^\\circ_{cathode} - E^\\circ_{anode}$$"}
+      </p>
+    </>
+  );
+}
 
 /**
- * Gas Laws Calculator Page
+ * Electrochemical cells overview
+ */
+function CellsOverview() {
+  return (
+    <>
+      <p className="text-start mb-2">
+        Electrochemical cells convert between chemical and electrical energy through
+        redox reactions occurring at separate electrodes connected by an external circuit.
+      </p>
+      <p className="text-start mb-2">
+        The two main types are:
+      </p>
+      <ul className="text-start">
+        <li><strong>Galvanic (Voltaic) Cells</strong>: Spontaneous reactions generate electricity</li>
+        <li><strong>Electrolytic Cells</strong>: External electricity drives non-spontaneous reactions</li>
+      </ul>
+      <p className="text-start mt-3">
+        The Nernst equation relates cell potential to concentration, while Faraday's
+        laws quantify the relationship between charge passed and mass deposited.
+      </p>
+    </>
+  );
+}
+
+// Valid tab keys for this page
+const VALID_TABS = ['info', 'faraday', 'nernst'];
+
+/**
+ * Electrochemistry Calculator Page
  *
  * Uses the new client-side calculator system with Nerdamer.js
- * URL structure: /calculators/gas-laws/:tab?
+ * URL structure: /calculators/electrochemistry/:tab?
  */
-const GasLawsPage = () => {
+const ElectrochemistryPage = () => {
   const { tab } = useParams();
   const navigate = useNavigate();
 
@@ -149,9 +191,9 @@ const GasLawsPage = () => {
   // Handle tab selection - update URL
   const handleTabSelect = (selectedTab) => {
     if (selectedTab === 'info') {
-      navigate('/calculators/gas-laws');
+      navigate('/calculators/electrochemistry');
     } else {
-      navigate(`/calculators/gas-laws/${selectedTab}`);
+      navigate(`/calculators/electrochemistry/${selectedTab}`);
     }
   };
 
@@ -170,85 +212,29 @@ const GasLawsPage = () => {
           <Tabs
             activeKey={activeTab}
             onSelect={handleTabSelect}
-            id="gas-laws-tabs"
+            id="electrochemistry-tabs"
             className="mb-3 mt-1 calc-tabs"
           >
             <Tab eventKey="info" className="calc-tab" title="Info">
               <InfoAccordion
-                Info1={GenInfo1}
-                Info2={GenInfo2}
-                title1="Gas Laws"
-                title2="Ideal Gases"
+                Info1={ElectrochemistryOverview}
+                Info2={CellsOverview}
+                title1="Electrochemistry"
+                title2="Electrochemical Cells"
               />
             </Tab>
 
-            <Tab eventKey="avogadro" className="calc-tab" title="Avogadro's Law">
+            <Tab eventKey="faraday" className="calc-tab" title="Faraday's Law">
               <CalculatorAccordion
-                InfoComponent={AvoInfo}
-                calculatorId="avogadro"
+                InfoComponent={FaradayInfo}
+                calculatorId="faraday"
               />
             </Tab>
 
-            <Tab eventKey="amonton" className="calc-tab" title="Amonton's Law">
+            <Tab eventKey="nernst" className="calc-tab" title="Nernst Equation">
               <CalculatorAccordion
-                InfoComponent={AmontonInfo}
-                calculatorId="amonton"
-              />
-            </Tab>
-
-            <Tab eventKey="boyle" className="calc-tab" title="Boyle's Law">
-              <CalculatorAccordion
-                InfoComponent={BoyleInfo}
-                calculatorId="boyle"
-              />
-            </Tab>
-
-            <Tab eventKey="charles" className="calc-tab" title="Charles' Law">
-              <CalculatorAccordion
-                InfoComponent={CharlesInfo}
-                calculatorId="charles"
-              />
-            </Tab>
-
-            <Tab eventKey="combined" className="calc-tab" title="Combined Gas Law">
-              <CalculatorAccordion
-                InfoComponent={CombinedInfo}
-                calculatorId="combined"
-              />
-            </Tab>
-
-            <Tab eventKey="ideal" className="calc-tab" title="Ideal Gas Law">
-              <CalculatorAccordion
-                InfoComponent={IdealInfo}
-                calculatorId="ideal"
-              />
-            </Tab>
-
-            <Tab eventKey="density" className="calc-tab" title="Gas Density">
-              <CalculatorAccordion
-                InfoComponent={GasDensityInfo}
-                calculatorId="density"
-              />
-            </Tab>
-
-            <Tab eventKey="graham" className="calc-tab" title="Graham's Law">
-              <CalculatorAccordion
-                InfoComponent={GrahamInfo}
-                calculatorId="graham"
-              />
-            </Tab>
-
-            <Tab eventKey="dalton" className="calc-tab" title="Dalton's Law">
-              <CalculatorAccordion
-                InfoComponent={DaltonInfo}
-                calculatorId="dalton"
-              />
-            </Tab>
-
-            <Tab eventKey="vanDerWaals" className="calc-tab" title="Van der Waals">
-              <CalculatorAccordion
-                InfoComponent={VanDerWaalsInfo}
-                calculatorId="vanDerWaals"
+                InfoComponent={NernstInfo}
+                calculatorId="nernst"
               />
             </Tab>
           </Tabs>
@@ -258,4 +244,4 @@ const GasLawsPage = () => {
   );
 };
 
-export default GasLawsPage;
+export default ElectrochemistryPage;

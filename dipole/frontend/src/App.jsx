@@ -10,6 +10,8 @@ import MemeGen from "./pages/memegenerator"
 import CalcCard from "./pages/calculators/GasLaws"
 import Thermo from "./pages/calculators/thermodynamics";
 import Kinetics from "./pages/calculators/kinetics";
+import Solutions from "./pages/calculators/solutions";
+import Electrochemistry from "./pages/calculators/electrochemistry";
 
 import NavOffCanvas from "./components/Nav";
 
@@ -31,6 +33,8 @@ function App() {
           <Route path="/calculators/gas-laws/:tab?" element={<CalcCard />} />
           <Route path="/calculators/thermo/:tab?" element={<Thermo />} />
           <Route path="/calculators/kinetics/:tab?" element={<Kinetics />} />
+          <Route path="/calculators/solutions/:tab?" element={<Solutions />} />
+          <Route path="/calculators/electrochemistry/:tab?" element={<Electrochemistry />} />
           <Route path="/memegenerator" element={<MemeGen />} />
       </Routes>
     </Router>

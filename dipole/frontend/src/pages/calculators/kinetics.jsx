@@ -11,6 +11,9 @@ import { kineticsInfo } from "../../calculators/registry";
 
 import {
   ArrheniusInfo,
+  HalfLifeInfo,
+  SecondOrderInfo,
+  FirstOrderInfo,
 } from "../../components/CalcInfo";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -141,7 +144,7 @@ function KineticsOverview() {
 }
 
 // Valid tab keys for this page
-const VALID_TABS = ['info', 'arrhenius', 'halfLife', 'secondOrder'];
+const VALID_TABS = ['info', 'arrhenius', 'halfLife', 'firstOrder', 'secondOrder'];
 
 /**
  * Kinetics Calculator Page
@@ -199,14 +202,21 @@ const KineticsPage = () => {
 
             <Tab eventKey="halfLife" className="calc-tab" title="Half-Life">
               <CalculatorAccordion
-                InfoComponent={ArrheniusInfo}
+                InfoComponent={HalfLifeInfo}
                 calculatorId="halfLife"
+              />
+            </Tab>
+
+            <Tab eventKey="firstOrder" className="calc-tab" title="First Order">
+              <CalculatorAccordion
+                InfoComponent={FirstOrderInfo}
+                calculatorId="firstOrder"
               />
             </Tab>
 
             <Tab eventKey="secondOrder" className="calc-tab" title="Second Order">
               <CalculatorAccordion
-                InfoComponent={ArrheniusInfo}
+                InfoComponent={SecondOrderInfo}
                 calculatorId="secondOrder"
               />
             </Tab>
