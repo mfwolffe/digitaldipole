@@ -68,7 +68,7 @@ export function Modal({
                 className={`
                   w-full ${sizeClasses[size] || sizeClasses.md}
                   transform overflow-hidden rounded-xl
-                  bg-surface-800 text-white
+                  bg-slate-800 text-white
                   shadow-2xl transition-all
                   ${className}
                 `}
@@ -88,7 +88,7 @@ export function Modal({
  */
 export function ModalHeader({ onClose, className = '', children }) {
   return (
-    <div className={`flex items-center justify-between px-6 py-4 border-b border-surface-700 ${className}`}>
+    <div className={`flex items-center justify-between px-6 py-4 border-b border-slate-700 ${className}`}>
       <DialogTitle as="h3" className="text-lg font-semibold">
         {children}
       </DialogTitle>
@@ -96,7 +96,7 @@ export function ModalHeader({ onClose, className = '', children }) {
         <button
           type="button"
           onClick={onClose}
-          className="rounded-lg p-1.5 text-gray-400 hover:text-gray-200 hover:bg-surface-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="rounded-lg p-1.5 text-gray-400 hover:text-gray-200 hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500"
         >
           <span className="sr-only">Close</span>
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -124,7 +124,7 @@ export function ModalBody({ className = '', children }) {
  */
 export function ModalFooter({ className = '', children }) {
   return (
-    <div className={`flex items-center justify-end gap-3 px-6 py-4 border-t border-surface-700 ${className}`}>
+    <div className={`flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-700 ${className}`}>
       {children}
     </div>
   );
