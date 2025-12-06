@@ -85,7 +85,7 @@ export function EquationRenderer({
 
   return (
     <div className={`equation-renderer ${className}`}>
-      <div className="equation-display">
+      <div className="eq-display">
         {/* Unknown variable on the left */}
         <VariableSymbol variable={unknownVariable} className="eq-unknown-var" />
         <span className="eq-equals">=</span>
