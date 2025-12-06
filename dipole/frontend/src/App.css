@@ -271,17 +271,7 @@ input[type=number] {
   background-color: transparent !important;
 }
 
-.calc-tabs button.active {
-  color: rgba(255, 255, 255, 1) !important;
-}
-
-.calc-tabs button {
-  color: rgba(255, 255, 255, 0.84) !important;
-}
-
-.calc-tabs button:hover {
-  color: rgba(255, 255, 255, 1) !important;
-}
+/* Tab styling now handled by Tailwind in Tabs.jsx component */
 
 .b-shadow {
   box-shadow: 0.1rem 0.1rem 8px 3px #888;
@@ -315,10 +305,11 @@ input[type=number] {
   min-height: 100vh;
 }
 
-.offC-nav, .nav-top {
+.offC-nav {
   background-color: transparent !important;
-  width: 100vw;
 }
+
+/* .nav-top styling now handled by Tailwind classes in Nav.jsx */
 
 #nav-ref {
   padding-bottom: 0;

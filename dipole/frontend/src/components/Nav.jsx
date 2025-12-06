@@ -21,12 +21,13 @@ const NavOffCanvas = () => {
 
     return (
         <>
-            <nav className="nav-top w-[85%] mx-auto p-0 flex items-center justify-between">
+            <nav className="nav-top w-[85%] mx-auto py-3 flex flex-row items-center justify-between gap-4">
+                {/* Left: Atom icon */}
                 <Button
                     variant="ghost"
                     size="icon"
                     onClick={toggleShow}
-                    className="sbar-btn p-2"
+                    className="sbar-btn p-2 shrink-0"
                 >
                     <FontAwesomeIcon
                         icon="fa-duotone fa-atom"
@@ -41,9 +42,15 @@ const NavOffCanvas = () => {
                     />
                 </Button>
 
-                <SearchBar />
+                {/* Center: Search bar */}
+                <div className="flex-1 flex justify-center">
+                    <SearchBar />
+                </div>
 
-                <UserDrop />
+                {/* Right: User dropdown */}
+                <div className="shrink-0">
+                    <UserDrop />
+                </div>
             </nav>
 
             <Offcanvas
@@ -55,7 +62,7 @@ const NavOffCanvas = () => {
             >
                 <nav className="space-y-1">
                     {/* Home link */}
-                    <div className="flex items-center gap-2 py-2">
+                    <div className="flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-gray-100 transition-colors">
                         <FontAwesomeIcon
                             icon="fa-duotone fa-atom"
                             size="xl"
@@ -63,12 +70,12 @@ const NavOffCanvas = () => {
                                 "--fa-primary-color": "#578be5",
                                 "--fa-secondary-color": "#143671",
                             }}
-                            className="w-5"
+                            className="w-6"
                         />
                         <Link
                             to="/"
                             onClick={handleClose}
-                            className="text-gray-700 hover:text-primary-600 hvr-underline-from-left"
+                            className="text-gray-900 font-medium hover:text-primary-600"
                         >
                             Home
                         </Link>
@@ -79,20 +86,20 @@ const NavOffCanvas = () => {
                     <OffCDropCalc onNavigate={handleClose} />
 
                     {/* AI Meme Generator */}
-                    <div className="flex items-center gap-2 py-2">
+                    <div className="flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-gray-100 transition-colors">
                         <FontAwesomeIcon
                             icon="fa-duotone fa-robot"
                             size="xl"
                             style={{
-                                "--fa-primary-color": "#143671",
-                                "--fa-secondary-color": "#143671",
+                                "--fa-primary-color": "#6366f1",
+                                "--fa-secondary-color": "#818cf8",
                             }}
-                            className="w-5"
+                            className="w-6"
                         />
                         <Link
                             to="/memegenerator"
                             onClick={handleClose}
-                            className="text-gray-700 hover:text-primary-600 hvr-underline-from-left"
+                            className="text-gray-900 font-medium hover:text-primary-600"
                         >
                             AI Meme Generator
                         </Link>

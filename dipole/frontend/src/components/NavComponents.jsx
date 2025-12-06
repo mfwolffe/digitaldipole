@@ -53,9 +53,9 @@ const refIcon = (
         "--fa-secondary-color": "#578be5",
         "--fa-primary-color": "#143671",
       }}
-      className="w-5"
+      className="w-6 shrink-0"
     />
-    <span className="hvr-underline-from-left">References</span>
+    <span className="text-gray-900 font-medium">References</span>
   </>
 );
 
@@ -68,16 +68,16 @@ const calcIcon = (
         "--fa-secondary-color": "#578be5",
         "--fa-primary-color": "#143671",
       }}
-      className="w-5"
+      className="w-6 shrink-0"
     />
-    <span className="hvr-underline-from-left">Calculators</span>
+    <span className="text-gray-900 font-medium">Calculators</span>
   </>
 );
 
 export function SearchBar() {
   return (
     <Popover>
-      <div className="flex items-stretch">
+      <div className="flex items-stretch w-64 sm:w-80 md:w-96">
         <PopoverTrigger className="flex-1">
           <Input
             type="text"
@@ -163,7 +163,7 @@ export function OffCDropRef({ onNavigate }) {
         onClick={() => setOpen(!open)}
         aria-controls="ref-dropdown"
         aria-expanded={open}
-        className="flex items-center gap-2 w-full text-left py-2 text-gray-700 hover:text-primary-600"
+        className="flex items-center gap-3 w-full text-left py-3 px-2 rounded-lg text-gray-900 font-medium hover:bg-gray-100 transition-colors"
       >
         {refIcon}
         <svg
@@ -176,33 +176,33 @@ export function OffCDropRef({ onNavigate }) {
         </svg>
       </button>
       <Collapse open={open}>
-        <ul id="ref-dropdown" className="ml-7 mt-1 space-y-1">
+        <ul id="ref-dropdown" className="ml-9 mt-1 space-y-1 border-l-2 border-gray-200 pl-3">
           <li>
             <Link
               to="/tabulated"
               onClick={handleClick}
-              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+              className="block py-2 text-gray-700 hover:text-primary-600 transition-colors"
             >
               Tabulated Data
             </Link>
           </li>
           <li>
-            <span className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left cursor-pointer">
+            <span className="block py-2 text-gray-700 hover:text-primary-600 transition-colors cursor-pointer">
               Periodic Tables
             </span>
           </li>
           <li>
-            <span className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left cursor-pointer">
+            <span className="block py-2 text-gray-700 hover:text-primary-600 transition-colors cursor-pointer">
               Conversion Factors
             </span>
           </li>
           <li>
-            <span className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left cursor-pointer">
+            <span className="block py-2 text-gray-700 hover:text-primary-600 transition-colors cursor-pointer">
               Fundamental Constants
             </span>
           </li>
           <li>
-            <span className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left cursor-pointer">
+            <span className="block py-2 text-gray-700 hover:text-primary-600 transition-colors cursor-pointer">
               Common Equations
             </span>
           </li>
@@ -225,7 +225,7 @@ export function OffCDropCalc({ onNavigate }) {
         onClick={() => setOpen(!open)}
         aria-controls="calc-dropdown"
         aria-expanded={open}
-        className="flex items-center gap-2 w-full text-left py-2 text-gray-700 hover:text-primary-600"
+        className="flex items-center gap-3 w-full text-left py-3 px-2 rounded-lg text-gray-900 font-medium hover:bg-gray-100 transition-colors"
       >
         {calcIcon}
         <svg
@@ -238,12 +238,12 @@ export function OffCDropCalc({ onNavigate }) {
         </svg>
       </button>
       <Collapse open={open}>
-        <ul id="calc-dropdown" className="ml-7 mt-1 space-y-1">
+        <ul id="calc-dropdown" className="ml-9 mt-1 space-y-1 border-l-2 border-gray-200 pl-3">
           <li>
             <Link
               to="/calculators/gas-laws"
               onClick={handleClick}
-              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+              className="block py-2 text-gray-700 hover:text-primary-600 transition-colors"
             >
               Gas Laws (Ideal)
             </Link>
@@ -252,7 +252,7 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/thermo"
               onClick={handleClick}
-              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+              className="block py-2 text-gray-700 hover:text-primary-600 transition-colors"
             >
               Thermodynamics
             </Link>
@@ -261,7 +261,7 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/kinetics"
               onClick={handleClick}
-              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+              className="block py-2 text-gray-700 hover:text-primary-600 transition-colors"
             >
               Kinetics
             </Link>
@@ -270,7 +270,7 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/solutions"
               onClick={handleClick}
-              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+              className="block py-2 text-gray-700 hover:text-primary-600 transition-colors"
             >
               Solutions
             </Link>
@@ -279,7 +279,7 @@ export function OffCDropCalc({ onNavigate }) {
             <Link
               to="/calculators/electrochemistry"
               onClick={handleClick}
-              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+              className="block py-2 text-gray-700 hover:text-primary-600 transition-colors"
             >
               Electrochemistry
             </Link>

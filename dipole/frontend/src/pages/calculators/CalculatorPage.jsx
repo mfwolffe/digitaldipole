@@ -153,7 +153,7 @@ export function CalculatorPage({
   return (
     <div className="landing-container mt-6 px-4">
       <div className="landing mt-0">
-        <Card className="mt-8 mx-auto max-w-5xl">
+        <Card className="mt-8 mx-auto max-w-6xl">
           <Tabs
             activeKey={activeTab}
             onSelect={handleTabSelect}
