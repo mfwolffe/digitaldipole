@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from 'react';
 import { NavLink as Link } from "react-router-dom";
 
-import { Button, Offcanvas } from './ui';
+import { Offcanvas } from './ui';
 import { all } from '@awesome.me/kit-a655910996/icons';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,19 +21,18 @@ const NavOffCanvas = () => {
 
     return (
         <>
-            <div className="w-[85%] mx-auto py-3 relative flex items-center" style={{ display: 'flex', flexDirection: 'row' }}>
+            <div className="w-[85%] mx-auto py-3 relative flex items-center justify-between">
                 {/* Left: Atom icon */}
-                <Button
-                    variant="ghost"
-                    size="icon"
+                <button
+                    type="button"
                     onClick={toggleShow}
-                    className="sbar-btn p-2 border-none bg-transparent focus:ring-0 focus:ring-offset-0 outline-none"
-                    style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
+                    className="p-1 bg-transparent hover:opacity-80 transition-opacity"
+                    style={{ border: 'none', outline: 'none', background: 'transparent' }}
                 >
                     <FontAwesomeIcon
                         icon="fa-duotone fa-atom"
                         size="2xl"
-                        className="sbar-ico hvr-rotate"
+                        className="hvr-rotate"
                         style={{
                             "--fa-primary-color": "#ff4400",
                             "--fa-secondary-color": "coral",
@@ -41,17 +40,15 @@ const NavOffCanvas = () => {
                             "--fa-primary-opacity": "1"
                         }}
                     />
-                </Button>
+                </button>
 
                 {/* Center: Search bar - absolutely positioned for true center */}
-                <div className="absolute left-1/2 transform -translate-x-1/2">
+                <div className="absolute left-1/2 -translate-x-1/2">
                     <SearchBar />
                 </div>
 
                 {/* Right: User dropdown */}
-                <div className="ml-auto">
-                    <UserDrop />
-                </div>
+                <UserDrop />
             </div>
 
             <Offcanvas
