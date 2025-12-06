@@ -361,7 +361,7 @@ export function BalancerPage() {
         )}
 
         {/* Compound Builder Modal */}
-        <Modal isOpen={showBuilder} onClose={() => setShowBuilder(false)}>
+        <Modal show={showBuilder} onClose={() => setShowBuilder(false)}>
           <ModalHeader onClose={() => setShowBuilder(false)}>
             Build Compound ({builderSide === 'reactant' ? 'Reactant' : 'Product'})
           </ModalHeader>
