@@ -1,3 +1,9 @@
+/**
+ * CalculatorPage - Shared calculator page layout
+ *
+ * This component provides a consistent structure for all calculator category pages.
+ * It handles URL-based tab navigation and MathJax re-rendering.
+ */
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -14,33 +20,14 @@ import {
 } from "../../components/ui";
 
 import { Calculator } from "../../calculators";
-import { gasLawsInfo } from "../../calculators/registry";
 
-import {
-  AvoInfo,
-  AmontonInfo,
-  BoyleInfo,
-  CharlesInfo,
-  CombinedInfo,
-  IdealInfo,
-  GasDensityInfo,
-  GrahamInfo,
-  DaltonInfo,
-  VanDerWaalsInfo,
-  GenInfo1,
-  GenInfo2,
-} from "../../components/CalcInfo";
-
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { all } from '@awesome.me/kit-a655910996/icons'
 
 import "../../App.css";
 import "../../styles/refs.css";
 
-library.add(...all);
-
-const RootIco = (
+// Shared icons
+export const RootIco = (
   <FontAwesomeIcon
     icon="fa-duotone fa-square-root-variable"
     size="lg"
@@ -53,20 +40,7 @@ const RootIco = (
   />
 );
 
-const IdealGas = (
-  <FontAwesomeIcon
-    icon="fa-duotone fa-wind"
-    size="lg"
-    style={{
-      "--fa-secondary-color": "#ffffff",
-      "--fa-primary-color": "#fc6601",
-      "--fa-secondary-opacity": "1",
-    }}
-    className="pr-2 hvr-pulse-grow"
-  />
-);
-
-const InfoIcon = (
+export const InfoIcon = (
   <FontAwesomeIcon
     icon="fa-duotone fa-circle-info"
     size="lg"
@@ -82,7 +56,7 @@ const InfoIcon = (
 /**
  * Accordion wrapper for info + calculator
  */
-function CalculatorAccordion({ InfoComponent, calculatorId }) {
+export function CalculatorAccordion({ InfoComponent, calculatorId }) {
   return (
     <Accordion defaultActiveKey="0" className="mb-4">
       <AccordionItem eventKey="0">
@@ -110,7 +84,7 @@ function CalculatorAccordion({ InfoComponent, calculatorId }) {
 /**
  * Info-only accordion (for the main info tab)
  */
-function InfoAccordion({ Info1, Info2, title1, title2 }) {
+export function InfoAccordion({ Info1, Info2, title1, title2, icon2 }) {
   return (
     <Accordion defaultActiveKey="0" className="mb-4">
       <AccordionItem eventKey="0">
@@ -124,7 +98,7 @@ function InfoAccordion({ Info1, Info2, title1, title2 }) {
       </AccordionItem>
       <AccordionItem eventKey="1">
         <AccordionHeader>
-          {IdealGas}
+          {icon2 || InfoIcon}
           {title2}
         </AccordionHeader>
         <AccordionBody>
@@ -135,56 +109,36 @@ function InfoAccordion({ Info1, Info2, title1, title2 }) {
   );
 }
 
-// Valid tab keys for this page
-const VALID_TABS = ['info', 'avogadro', 'amonton', 'boyle', 'charles', 'combined', 'ideal', 'vanDerWaals', 'density', 'graham', 'dalton'];
-
-// Tab configuration for cleaner JSX
-const TAB_CONFIG = [
-  { key: 'info', title: 'Info' },
-  { key: 'avogadro', title: "Avogadro's Law" },
-  { key: 'amonton', title: "Amonton's Law" },
-  { key: 'boyle', title: "Boyle's Law" },
-  { key: 'charles', title: "Charles' Law" },
-  { key: 'combined', title: 'Combined Gas Law' },
-  { key: 'ideal', title: 'Ideal Gas Law' },
-  { key: 'density', title: 'Gas Density' },
-  { key: 'graham', title: "Graham's Law" },
-  { key: 'dalton', title: "Dalton's Law" },
-  { key: 'vanDerWaals', title: 'Van der Waals' },
-];
-
-const CALCULATOR_MAP = {
-  avogadro: { Info: AvoInfo, id: 'avogadro' },
-  amonton: { Info: AmontonInfo, id: 'amonton' },
-  boyle: { Info: BoyleInfo, id: 'boyle' },
-  charles: { Info: CharlesInfo, id: 'charles' },
-  combined: { Info: CombinedInfo, id: 'combined' },
-  ideal: { Info: IdealInfo, id: 'ideal' },
-  density: { Info: GasDensityInfo, id: 'density' },
-  graham: { Info: GrahamInfo, id: 'graham' },
-  dalton: { Info: DaltonInfo, id: 'dalton' },
-  vanDerWaals: { Info: VanDerWaalsInfo, id: 'vanDerWaals' },
-};
-
 /**
- * Gas Laws Calculator Page
+ * CalculatorPage - main component
  *
- * Uses the new client-side calculator system with Nerdamer.js
- * URL structure: /calculators/gas-laws/:tab?
+ * @param {Object} props
+ * @param {string} props.basePath - Base URL path (e.g., '/calculators/gas-laws')
+ * @param {Array} props.tabs - Array of tab configurations
+ * @param {Object} props.infoTab - Configuration for the info tab
+ * @param {Object} props.calculators - Map of calculator configurations
  */
-const GasLawsPage = () => {
+export function CalculatorPage({
+  basePath,
+  tabs,
+  infoTab,
+  calculators,
+}) {
   const { tab } = useParams();
   const navigate = useNavigate();
 
+  // Get valid tab keys from configuration
+  const validTabs = tabs.map(t => t.key);
+
   // Determine active tab from URL param, default to 'info'
-  const activeTab = VALID_TABS.includes(tab) ? tab : 'info';
+  const activeTab = validTabs.includes(tab) ? tab : 'info';
 
   // Handle tab selection - update URL
   const handleTabSelect = (selectedTab) => {
     if (selectedTab === 'info') {
-      navigate('/calculators/gas-laws');
+      navigate(basePath);
     } else {
-      navigate(`/calculators/gas-laws/${selectedTab}`);
+      navigate(`${basePath}/${selectedTab}`);
     }
   };
 
@@ -199,7 +153,7 @@ const GasLawsPage = () => {
   return (
     <div className="landing-container mt-6 px-4">
       <div className="landing mt-0">
-        <Card className="mt-8 mx-auto max-w-5xl" id="ref-default">
+        <Card className="mt-8 mx-auto max-w-5xl">
           <Tabs
             activeKey={activeTab}
             onSelect={handleTabSelect}
@@ -207,7 +161,7 @@ const GasLawsPage = () => {
           >
             {/* Tab buttons with horizontal scroll for many tabs */}
             <TabList className="flex overflow-x-auto border-b border-gray-200 px-2 pt-2 gap-1 scrollbar-thin">
-              {TAB_CONFIG.map(({ key, title }) => (
+              {tabs.map(({ key, title }) => (
                 <TabButton
                   key={key}
                   eventKey={key}
@@ -219,17 +173,20 @@ const GasLawsPage = () => {
             </TabList>
 
             {/* Info tab panel */}
-            <TabPanel eventKey="info" className="p-4">
-              <InfoAccordion
-                Info1={GenInfo1}
-                Info2={GenInfo2}
-                title1="Gas Laws"
-                title2="Ideal Gases"
-              />
-            </TabPanel>
+            {infoTab && (
+              <TabPanel eventKey="info" className="p-4">
+                <InfoAccordion
+                  Info1={infoTab.Info1}
+                  Info2={infoTab.Info2}
+                  title1={infoTab.title1}
+                  title2={infoTab.title2}
+                  icon2={infoTab.icon2}
+                />
+              </TabPanel>
+            )}
 
             {/* Calculator tab panels */}
-            {Object.entries(CALCULATOR_MAP).map(([key, { Info, id }]) => (
+            {Object.entries(calculators).map(([key, { Info, id }]) => (
               <TabPanel key={key} eventKey={key} className="p-4">
                 <CalculatorAccordion
                   InfoComponent={Info}
@@ -242,6 +199,6 @@ const GasLawsPage = () => {
       </div>
     </div>
   );
-};
+}
 
-export default GasLawsPage;
+export default CalculatorPage;

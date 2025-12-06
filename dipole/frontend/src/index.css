@@ -1,3 +1,6 @@
+/* Tailwind CSS base imports */
+@import "tailwindcss";
+
 /* Most of these settings have been relocated to the custom bootstrap-min in styles/ */
 
 /* √ */

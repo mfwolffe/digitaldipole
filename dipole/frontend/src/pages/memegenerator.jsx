@@ -2,21 +2,25 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import { NavLink as Link } from "react-router-dom";
 
-import Tab from "react-bootstrap/Tab";
-import Form from 'react-bootstrap/Form';
-import Card from "react-bootstrap/Card";
-import Tabs from "react-bootstrap/Tabs";
-import Modal from 'react-bootstrap/Modal';
-import Button from "react-bootstrap/esm/Button";
-import Accordion from "react-bootstrap/Accordion";
-import CardBody from "react-bootstrap/esm/CardBody";
-import { CardTitle, FormSelect } from "react-bootstrap";
+import {
+  Tabs,
+  TabList,
+  TabButton,
+  TabPanel,
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionBody,
+  Card,
+  CardBody,
+  Button,
+  Select,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "../components/ui";
 
-// import Dropdown from 'react-bootstrap/Dropdown';
-// import DropdownButton from 'react-bootstrap/DropdownButton';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/bootstrap.min-dipole.css';
 import '../App.css'
 
 import data from './terms.json';
@@ -26,10 +30,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const RadiateIcon = <FontAwesomeIcon fontSize={"5.5rem"} icon="fa-thin fa-radiation" className="m-auto" spin />
 const BellAlert = <FontAwesomeIcon icon="fa-duotone fa-bell-ring" fontSize={"4rem"} className="m-auto" shake />
-const Spinner = <FontAwesomeIcon icon="fa-duotone fa-loader" fontSize={"5.5rem"} className="m-auto" spinPulse />
-const AIBotIcon  = <FontAwesomeIcon fontSize={"7rem"} icon="fa-duotone fa-message-bot" className="m-auto" bounce />
 const SpinnerThird = <FontAwesomeIcon icon="fa-duotone fa-spinner-third" fontSize={"5.5rem"} className="m-auto" spin />
-// const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" bounce />
+const AIBotIcon  = <FontAwesomeIcon fontSize={"7rem"} icon="fa-duotone fa-message-bot" className="m-auto" bounce />
 const FailedRequest = <FontAwesomeIcon icon="fa-duotone fa-skull-cow" fontSize={"5.5rem"} className="m-auto" flip style={{"--fa-animation-duration": "3s",}} />
 const AIChipIcon = <FontAwesomeIcon fontSize={"6rem"} icon="fa-duotone fa-microchip-ai" className="m-auto pb-3" shake style={{"--fa-animation-duration": "2s",}}/>
 
@@ -38,7 +40,7 @@ const MemeGen = () => {
     const [lock, setLock]     = useState(true);
     const [show, setShow]     = useState(false);
     const [shown, setShown]   = useState(false);
-    
+
     const [imgurl, setImgUrl] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [respModal, setRespModal] = useState(false);
@@ -66,17 +68,17 @@ const MemeGen = () => {
 
     const MemeLoading = (
       <>
-        <p className="lead text-center mb-1">Your prompt:</p>
+        <p className="text-lg text-center mb-1">Your prompt:</p>
         <p className="text-center">{inputValue}</p>
-        <div className="w-100 d-flex">{SpinnerThird}</div>
+        <div className="w-full flex justify-center">{SpinnerThird}</div>
       </>
     )
 
     const BadRequest = (
       <>
-        <p className="lead text-center mb-2">Bad Request!</p>
-        <div className="w-100 d-flex">{ FailedRequest }</div>
-        <p className="lead text-center mt-2">Either the AI could not build a meme, or the request timed out!</p>
+        <p className="text-lg text-center mb-2">Bad Request!</p>
+        <div className="w-full flex justify-center">{ FailedRequest }</div>
+        <p className="text-lg text-center mt-2">Either the AI could not build a meme, or the request timed out!</p>
       </>
     )
 
@@ -111,7 +113,7 @@ const MemeGen = () => {
       if (queryString.length === 0) {
           queryString = "digital dipole"
       }
-  
+
       const response = await fetch('/api/memegen/' + queryString);
       const meme = await response.json();
 
@@ -121,7 +123,7 @@ const MemeGen = () => {
       setImgUrl (meme.data.url);
     }
 
-    const DownloadIcon = <FontAwesomeIcon icon="fa-duotone fa-download" size="xl" className="hvr-bounce-in mt-2 float-right as-btn" onClick={downloadImage} />
+    const DownloadIcon = <FontAwesomeIcon icon="fa-duotone fa-download" size="xl" className="hvr-bounce-in mt-2 float-right cursor-pointer" onClick={downloadImage} />
 
     // TODO less rudimentary approach to unlock
     useEffect(() => {
@@ -138,7 +140,7 @@ const MemeGen = () => {
     const loadWords = (word_class) => {
       const word_list = data.terms[word_class];
       const optList = [];
-      
+
       word_list.forEach((word) => {
         optList.push(
           <option key={word} value={word}>{ word }</option>
@@ -154,285 +156,280 @@ const MemeGen = () => {
 
     function MLAccordion() {
       return (
-        <Accordion defaultActiveKey={active} className="w-55 ml-auto mr-auto mb-4 mt-5 shadow-lg">
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>Subject</Accordion.Header>
-            <Accordion.Body className="d-flex justify-content-center align-items-center">
-              <Form>
-                <FormSelect value={subject} aria-label="subject" className="madlib-dd mb-2 mt-2 ml-auto mr-auto w-35" onChange={(e) => {
+        <Accordion defaultActiveKey={active} className="max-w-lg mx-auto mb-4 mt-5 shadow-lg">
+          <AccordionItem eventKey="0">
+            <AccordionHeader>Subject</AccordionHeader>
+            <AccordionBody className="flex justify-center items-center">
+              <Select
+                value={subject}
+                aria-label="subject"
+                className="max-w-xs my-2 mx-auto"
+                onChange={(e) => {
                   setActive('0')
                   setSubject(e.target.value)
-                  }}>
-                    <option value='' default>Select a subject</option>
-                    { loadWords("subject") }
-                </FormSelect>
-              </Form>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="1">
-            <Accordion.Header>Verb</Accordion.Header>
-              <Accordion.Body className="d-flex justify-content-center align-items-center">
-              <Form>
-                <FormSelect value={verb} aria-label="verb" className="madlib-dd mb-2 mt-2 ml-auto mr-auto w-35" onChange={(e) => {
+                }}
+              >
+                <option value='' default>Select a subject</option>
+                { loadWords("subject") }
+              </Select>
+            </AccordionBody>
+          </AccordionItem>
+          <AccordionItem eventKey="1">
+            <AccordionHeader>Verb</AccordionHeader>
+            <AccordionBody className="flex justify-center items-center">
+              <Select
+                value={verb}
+                aria-label="verb"
+                className="max-w-xs my-2 mx-auto"
+                onChange={(e) => {
                   setActive('1')
                   setVerb(e.target.value)
-                  }}>
-                    <option value='' default>Select a verb</option>
-                    { loadWords("verb") }
-                </FormSelect>
-              </Form>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="2">
-            <Accordion.Header>Object</Accordion.Header>
-              <Accordion.Body className="d-flex justify-content-center align-items-center">
-              <Form>
-                <FormSelect value={object} aria-label="object" className="madlib-dd mb-2 mt-2 ml-auto mr-auto w-35" onChange={(e) => {
+                }}
+              >
+                <option value='' default>Select a verb</option>
+                { loadWords("verb") }
+              </Select>
+            </AccordionBody>
+          </AccordionItem>
+          <AccordionItem eventKey="2">
+            <AccordionHeader>Object</AccordionHeader>
+            <AccordionBody className="flex justify-center items-center">
+              <Select
+                value={object}
+                aria-label="object"
+                className="max-w-xs my-2 mx-auto"
+                onChange={(e) => {
                   setActive('2')
                   setObject(e.target.value)
-                  }}>
-                    <option value='' default>Select an object</option>
-                    { loadWords("object") }
-                </FormSelect>
-              </Form>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="3">
-            <Accordion.Header>Preposition</Accordion.Header>
-              <Accordion.Body className="d-flex justify-content-center align-items-center">
-              <Form>
-                <FormSelect value={prep} aria-label="preposition" className="madlib-dd mb-2 mt-2 ml-auto mr-auto w-35" onChange={(e) => {
+                }}
+              >
+                <option value='' default>Select an object</option>
+                { loadWords("object") }
+              </Select>
+            </AccordionBody>
+          </AccordionItem>
+          <AccordionItem eventKey="3">
+            <AccordionHeader>Preposition</AccordionHeader>
+            <AccordionBody className="flex justify-center items-center">
+              <Select
+                value={prep}
+                aria-label="preposition"
+                className="max-w-xs my-2 mx-auto"
+                onChange={(e) => {
                   setActive('3')
                   setPrep(e.target.value)
-                  }}>
-                    <option value='' default>Select a preposition</option>
-                    { loadWords("preposition") }
-                </FormSelect>
-              </Form>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="4">
-            <Accordion.Header>Phrase</Accordion.Header>
-              <Accordion.Body className="d-flex justify-content-center align-items-center">
-              <Form>
-                <FormSelect value={phrase} aria-label="phrase" className="madlib-dd mb-2 mt-2 ml-auto mr-auto w-35" onChange={(e) => {
+                }}
+              >
+                <option value='' default>Select a preposition</option>
+                { loadWords("preposition") }
+              </Select>
+            </AccordionBody>
+          </AccordionItem>
+          <AccordionItem eventKey="4">
+            <AccordionHeader>Phrase</AccordionHeader>
+            <AccordionBody className="flex justify-center items-center">
+              <Select
+                value={phrase}
+                aria-label="phrase"
+                className="max-w-xs my-2 mx-auto"
+                onChange={(e) => {
                   setActive('4')
                   setPhrase(e.target.value)
-                  }}>
-                    <option value='' default>Select a phrase</option>
-                    { loadWords("phrase") }
-                </FormSelect>
-              </Form>
-            </Accordion.Body>
-          </Accordion.Item>
+                }}
+              >
+                <option value='' default>Select a phrase</option>
+                { loadWords("phrase") }
+              </Select>
+            </AccordionBody>
+          </AccordionItem>
         </Accordion>
       );
     }
 
     return (
       <>
-        <div className="landing-container mt-3">
+        <div className="landing-container mt-6 px-4">
           <div className="landing mt-0">
-            <Card className="mt-5 m-auto meme-card" id="ref-default">
+            <Card className="mt-8 mx-auto max-w-4xl">
               <Tabs
-                defaultActiveKey="MemeGen"
-                id="uncontrolled-tab-example"
-                className="mb-3 mt-1 calc-tabs dsb-tabs"
                 activeKey={activeTab}
-                onSelect={(e) => tabSwitch(e)}
+                onSelect={tabSwitch}
+                className="calc-tabs"
               >
-                <Tab
-                  eventKey="MemeGen"
-                  className="calc-tab"
-                  title="Instructions"
-                >
-                  <Card className="bg-transparent brdr-none m-auto w-45">
-                    <CardBody className="bg-transparent brdr-none m-auto w-90">
-                      <Card className="w-100 m-auto b-shadow">
-                        <CardTitle className="mt-4 off-white">
+                <TabList className="flex overflow-x-auto border-b border-gray-200 px-2 pt-2 gap-1">
+                  <TabButton eventKey="MemeGen">Instructions</TabButton>
+                  <TabButton eventKey="raw" disabled={lock}>Natural Language</TabButton>
+                  <TabButton eventKey="madlib" disabled={lock}>Mad Libs Input</TabButton>
+                </TabList>
+
+                <TabPanel eventKey="MemeGen" className="p-4">
+                  <div className="max-w-md mx-auto">
+                    <Card className="shadow-xl bg-surface-800 text-white">
+                      <CardBody className="text-center">
+                        <h3 className="text-xl font-semibold mt-2 text-gray-200">
                           AI Meme Generator
-                        </CardTitle>
+                        </h3>
                         {AIChipIcon}
-                        <p className="text-center off-white mb-2">
+                        <p className="text-center text-gray-300 mb-2">
                           Powered by GPT-4 and{" "}
                           <a
                             href="https://imgflip.com"
                             target="_blank"
-                            className="hvr-underline-from-center api"
+                            className="text-primary-400 hover:text-primary-300 hvr-underline-from-center"
                           >
                             <em>ImgFlip</em>
                           </a>
                         </p>
                         <Button
-                          className="ml-auto mr-auto mt-2 mb-4 dp-button"
+                          className="mx-auto mt-2 mb-4"
                           onClick={handleShow}
                         >
                           Start!
                         </Button>
-                        <Modal
-                          show={show}
-                          onHide={handleClose}
-                          backdrop="static"
-                          keyboard={false}
-                        >
-                          <Modal.Header closeButton className="modal-bg">
-                            <Modal.Title>Warning!</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body className="modal-bg">
-                            <div className="d-flex">{RadiateIcon}</div>
+                      </CardBody>
+                    </Card>
+                  </div>
+                </TabPanel>
 
-                            <p>
-                              <em>Per the imgflip API:</em>
-                            </p>
-
-                            <div className="code-warn p-1">
-                              <code>
-                                The AI is trained on all public user-generated
-                                content, so it is NOT censored or curated in
-                                anyway, and therefore may contain vulgarities or
-                                other potentially unsuitable content. If this
-                                doesn't fit your use case, you may want to
-                                filter the output based on language.
-                              </code>
-                            </div>
-                          </Modal.Body>
-                          <Modal.Footer className="modal-bg d-flex flex-row justify-content-end align-items-start">
-                            <Link to="/">
-                              <Button
-                                className="mb-3 dp-button"
-                                onClick={handleClose}
-                              >
-                                Return Home
-                              </Button>
-                            </Link>
-                            <Button
-                              className="mb-3 dp-button"
-                              onClick={handleClose}
-                            >
-                              Proceed
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
-                      </Card>
-                    </CardBody>
-                  </Card>
-                </Tab>
-
-                <Tab
-                  eventKey="raw"
-                  className="calc-tab"
-                  title="Natural Language"
-                  disabled={lock}
-                >
-                  <Card className="bg-transparent brdr-none w-100">
-                    <CardBody className="bg-transparent brdr-none m-auto w-85">
-                      <div className="d-flex justify-content-around">
-                        <div className="w-55">
-                          <p className="text-left lead mt-1 mb-0">
-                            Instructions
-                          </p>
-                          <ol>
-                            <li className="text-left">
-                              Enter a brief prompt to feed to the AI (
-                              <em>128 characters max</em>)
-                            </li>
-                            <li className="text-left">Hit Generate!</li>
-                            <li className="text-left">
-                              Wait for your meme to be served (
-                              <em>can sometimes take longer than one minute</em>)
-                            </li>
-                            <li className="text-left">Profit!</li>
-                          </ol>
-                        </div>
-                        <div className="w-40">
-                          <p className="lead text-center"><em>Note</em></p>
-                          { BellAlert }
-                          <p className="text-center lead smallish">Natural language input tends to go way off topic and dives into absurdity far more often than the madlib version!</p>
-                        </div>
+                <TabPanel eventKey="raw" className="p-4">
+                  <div className="max-w-3xl mx-auto">
+                    <div className="flex flex-col md:flex-row justify-around gap-6">
+                      <div className="flex-1">
+                        <p className="text-left text-lg font-medium mb-2">
+                          Instructions
+                        </p>
+                        <ol className="list-decimal list-inside space-y-2 text-left text-gray-300">
+                          <li>
+                            Enter a brief prompt to feed to the AI (
+                            <em>128 characters max</em>)
+                          </li>
+                          <li>Hit Generate!</li>
+                          <li>
+                            Wait for your meme to be served (
+                            <em>can sometimes take longer than one minute</em>)
+                          </li>
+                          <li>Profit!</li>
+                        </ol>
                       </div>
-                      <Form.Floating className="m-auto">
-                        <Form.Control
-                          type="text"
-                          maxLength={128}
-                          placeholder=""
-                          required
-                          onChange={handleInputChange}
-                          className="no-brd-rd"
-                          id="nat-lang"
-                        />
-                        <label className="calc-float-label">Prompt</label>
-                      </Form.Floating>
-                      <Button
-                        as="input"
-                        type="submit"
-                        value="Generate!"
-                        onClick={handleSubmit}
-                        className="mt-3 dp-button"
-                      />{" "}
-                    </CardBody>
-                  </Card>
-                </Tab>
-                <Tab
-                  eventKey="madlib"
-                  className="calc-tab"
-                  title="Mad Libs Input"
-                  disabled={lock}
-                >
+                      <div className="flex-1 text-center">
+                        <p className="text-lg font-medium"><em>Note</em></p>
+                        <div className="flex justify-center my-2">{ BellAlert }</div>
+                        <p className="text-sm text-gray-300">Natural language input tends to go way off topic and dives into absurdity far more often than the madlib version!</p>
+                      </div>
+                    </div>
+                    <div className="mt-6">
+                      <label htmlFor="nat-lang" className="block text-sm font-medium text-gray-400 mb-1">Prompt</label>
+                      <input
+                        type="text"
+                        maxLength={128}
+                        placeholder="Enter your meme prompt..."
+                        required
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 bg-surface-700 border border-surface-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        id="nat-lang"
+                      />
+                    </div>
+                    <div className="mt-4 text-center">
+                      <Button onClick={handleSubmit}>
+                        Generate!
+                      </Button>
+                    </div>
+                  </div>
+                </TabPanel>
+
+                <TabPanel eventKey="madlib" className="p-4">
                   <MLAccordion />
 
-                  <div className="w-100">
-                    <p className="lead text-center mb-0 text-underline">Your Prompt:</p>
-                    {<p className="lead text-center mt-1">{inputValue == "" ? "Choose some words!" : inputValue}</p>}
+                  <div className="text-center">
+                    <p className="text-lg font-medium mb-1 underline">Your Prompt:</p>
+                    <p className="text-lg mt-1">{inputValue.trim() === "" ? "Choose some words!" : inputValue}</p>
 
                     <Button
-                      as="input"
-                      type="submit"
-                      value="Generate!"
                       onClick={handleSubmit}
-                      className="mt-3 dp-button"
-                    />
+                      className="mt-4"
+                    >
+                      Generate!
+                    </Button>
                   </div>
-                </Tab>
+                </TabPanel>
               </Tabs>
-
-              <Modal
-                show={respModal}
-                onHide={handleRespClose}
-                backdrop="static"
-                keyboard={false}
-              >
-                <Modal.Header closeButton className="modal-bg">
-                  <Modal.Title>Did Someone Order a Meme?</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="modal-bg w-100">
-                  <div className="m-auto w-100">
-                    {imgurl != "" ? imgurl == "badurl" ? BadRequest : (
-                      <>
-                        {" "}
-                        <img
-                          id="memecanvas"
-                          src={imgurl}
-                          className="m-auto w-100"
-                        ></img>{" "}
-                        {DownloadIcon}{" "}
-                      </>
-                    ) : (
-                      MemeLoading
-                    )}
-                  </div>
-                </Modal.Body>
-                <Modal.Footer className="modal-bg d-flex flex-row justify-content-end align-items-start">
-                  <Button
-                    className="mb-2 mt-2 dp-button"
-                    onClick={handleRespClose}
-                  >
-                    Back
-                  </Button>
-                </Modal.Footer>
-              </Modal>
             </Card>
           </div>
         </div>
+
+        {/* Warning Modal */}
+        <Modal
+          show={show}
+          onClose={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <ModalHeader onClose={handleClose}>Warning!</ModalHeader>
+          <ModalBody>
+            <div className="flex justify-center mb-4">{RadiateIcon}</div>
+
+            <p className="italic mb-2">Per the imgflip API:</p>
+
+            <div className="bg-surface-900 rounded-lg p-3 border border-surface-600">
+              <code className="text-sm text-gray-300">
+                The AI is trained on all public user-generated
+                content, so it is NOT censored or curated in
+                anyway, and therefore may contain vulgarities or
+                other potentially unsuitable content. If this
+                doesn't fit your use case, you may want to
+                filter the output based on language.
+              </code>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Link to="/">
+              <Button
+                variant="outline-secondary"
+                onClick={handleClose}
+              >
+                Return Home
+              </Button>
+            </Link>
+            <Button onClick={handleClose}>
+              Proceed
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        {/* Response Modal */}
+        <Modal
+          show={respModal}
+          onClose={handleRespClose}
+          backdrop="static"
+          keyboard={false}
+          size="lg"
+        >
+          <ModalHeader onClose={handleRespClose}>Did Someone Order a Meme?</ModalHeader>
+          <ModalBody>
+            <div className="mx-auto w-full">
+              {imgurl !== "" ? imgurl === "badurl" ? BadRequest : (
+                <>
+                  <img
+                    id="memecanvas"
+                    src={imgurl}
+                    className="mx-auto w-full rounded-lg"
+                    alt="Generated meme"
+                  />
+                  <div className="text-right mt-2">
+                    {DownloadIcon}
+                  </div>
+                </>
+              ) : (
+                MemeLoading
+              )}
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={handleRespClose}>
+              Back
+            </Button>
+          </ModalFooter>
+        </Modal>
       </>
     );
 }

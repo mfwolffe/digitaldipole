@@ -1,17 +1,21 @@
-import React from "react";
-
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup';
-import { useState } from 'react';
-import Collapse from 'react-bootstrap/Collapse';
-
-import NavItem from "react-bootstrap/esm/NavItem";
+import React, { useState } from "react";
 import { NavLink as Link } from "react-router-dom";
-import NavDropdown from 'react-bootstrap/NavDropdown';
 
-import Popover from 'react-bootstrap/Popover';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import {
+  Button,
+  Input,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  DropdownHeader,
+  Collapse,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+} from './ui';
 
 import { all } from '@awesome.me/kit-a655910996/icons'
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -23,255 +27,265 @@ import userGear from '../assets/png/light-user-astronaut-gear.png';
 import userLock from '../assets/png/light-user-astronaut-lock.png';
 import userShield from '../assets/png/light-user-astronaut-shield.png';
 
-
 import '../App.css'
 import '../styles/hover.css'
-import '../styles/bootstrap.min-dipole.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-// TODO get FA hover animations up and running ?
-// import 'https://cdn.jsdelivr.net/npm/font-awesome-animation@1.1.1/css/font-awesome-animation.min.css';
 
 library.add(...all)
 
-// TODO see documentation:
-// https://react-bootstrap.netlify.app/docs/components/overlays#popovers
-// to implement close on click outside + more granular styling across 
-// bs prefixed classes
-
-const usrIcon = <FontAwesomeIcon icon="fa-duotone fa-user-astronaut" size="2xl" className="usr-ico usr-coral" />;
+const usrIcon = (
+  <FontAwesomeIcon
+    icon="fa-duotone fa-user-astronaut"
+    size="2xl"
+    className="usr-ico text-accent-500"
+  />
+);
 
 const icoStyle = {
-    fontSize: "1.7rem"
+  fontSize: "1.7rem"
 };
 
-// TODO: give the two components below better names
 const refIcon = (
-    <>
-        <FontAwesomeIcon icon="fa-duotone fa-book-bookmark" size="xl" style={{ "--fa-secondary-color": "#578be5", "--fa-primary-color": "#143671", "width": "1.4rem" }} className="pr-2" />
-        <span class=".text-white" className=".text-white hvr-underline-from-left">References</span>
-    </>
+  <>
+    <FontAwesomeIcon
+      icon="fa-duotone fa-book-bookmark"
+      size="xl"
+      style={{
+        "--fa-secondary-color": "#578be5",
+        "--fa-primary-color": "#143671",
+      }}
+      className="w-5"
+    />
+    <span className="hvr-underline-from-left">References</span>
+  </>
 );
 
 const calcIcon = (
-    <>
-        <FontAwesomeIcon icon="fa-duotone fa-calculator" size="xl" style={{ "--fa-secondary-color": "#578be5", "--fa-primary-color": "#143671", "width": "1.4rem" }} className="pr-2" />
-        <span className="hvr-underline-from-left">Calculators</span>
-    </>
-)
-
-// TODO see documentation:
-// https://react-bootstrap.netlify.app/docs/components/overlays#popovers
-// to implement close on click outside + more granular styling across 
-// bs prefixed classes
-const SearchTip = (
-    <Popover id="search-tip">
-        <Popover.Header as="h3"><FontAwesomeIcon icon="fa-duotone fa-circle-info" size="lg" style={{"--fa-primary-color": "#78c9f2", "--fa-secondary-color": "#6d1aea",}} className="pr-2" />
-            Not sure what to search?
-        </Popover.Header>
-        <Popover.Body>
-            <ul className="pb-0 mb-0">
-                <li>Try the name of an element or molecule, like <strong><em>antimony</em></strong> or <strong><em>ammonia</em></strong>.</li>
-                <li>or a class of calculators or references, like <strong><em>entropy calculator</em></strong> or <strong><em>acid/base ionization constant table</em></strong>.</li>
-            </ul>
-        </Popover.Body>
-    </Popover>
+  <>
+    <FontAwesomeIcon
+      icon="fa-duotone fa-calculator"
+      size="xl"
+      style={{
+        "--fa-secondary-color": "#578be5",
+        "--fa-primary-color": "#143671",
+      }}
+      className="w-5"
+    />
+    <span className="hvr-underline-from-left">Calculators</span>
+  </>
 );
 
-export function SearchBar () {
-    return (
-        <Form inline>
-            <InputGroup>
-                <OverlayTrigger trigger="focus" placement="bottom" overlay={SearchTip} delay="2000">
-                    <Form.Control type="text" placeholder="Search" id="hdr-search"/>
-                </OverlayTrigger>
-                <Button className="sbar-btn hvr-grow-rotate">
-                    <FontAwesomeIcon icon="fa-duotone fa-magnifying-glass" style={icoStyle} />
-                </Button>
-            </InputGroup>
-        </Form>
-    );
+export function SearchBar() {
+  return (
+    <Popover>
+      <div className="flex items-stretch">
+        <PopoverTrigger className="flex-1">
+          <Input
+            type="text"
+            placeholder="Search"
+            className="rounded-r-none border-r-0"
+            id="hdr-search"
+          />
+        </PopoverTrigger>
+        <Button variant="ghost" className="rounded-l-none border border-gray-300 border-l-0 hvr-grow-rotate">
+          <FontAwesomeIcon icon="fa-duotone fa-magnifying-glass" style={icoStyle} />
+        </Button>
+      </div>
+      <PopoverContent position="bottom" align="center" className="w-80">
+        <PopoverHeader className="flex items-center gap-2">
+          <FontAwesomeIcon
+            icon="fa-duotone fa-circle-info"
+            size="lg"
+            style={{
+              "--fa-primary-color": "#78c9f2",
+              "--fa-secondary-color": "#6d1aea",
+            }}
+          />
+          Not sure what to search?
+        </PopoverHeader>
+        <PopoverBody>
+          <ul className="space-y-2 text-sm">
+            <li>
+              Try the name of an element or molecule, like{' '}
+              <strong><em>antimony</em></strong> or <strong><em>ammonia</em></strong>.
+            </li>
+            <li>
+              or a class of calculators or references, like{' '}
+              <strong><em>entropy calculator</em></strong> or{' '}
+              <strong><em>acid/base ionization constant table</em></strong>.
+            </li>
+          </ul>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
 }
 
-export function UserDrop () {
-    return (
-        <NavDropdown title={usrIcon} id="basic-nav-dropdown" drop="down" className="usr-drp">
-            <NavDropdown.Header>
-                <img src={userIcon} width="24px" className="pr-2" /> <b>{username}</b>
-            </NavDropdown.Header>
-            <NavDropdown.Item className="hvr-underline-from-left">
-                <img src={userGear} width="24px" className="pr-2" />
-                Settings
-            </NavDropdown.Item>
-            <NavDropdown.Item className="hvr-underline-from-left">
-                <img src={userShield} width="24px" className="pr-2" />
-                Privacy
-            </NavDropdown.Item>
-            <NavDropdown.Item className="hvr-underline-from-left">
-                <img src={userLock} width="24px" className="pr-2" />
-                Signout
-            </NavDropdown.Item>
-        </NavDropdown>
-    );
+export function UserDrop() {
+  return (
+    <Dropdown>
+      <DropdownTrigger className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+        {usrIcon}
+      </DropdownTrigger>
+      <DropdownMenu align="end">
+        <DropdownHeader>
+          <div className="flex items-center gap-2">
+            <img src={userIcon} width="24" alt="" />
+            <strong>{typeof username !== 'undefined' ? username : 'Guest'}</strong>
+          </div>
+        </DropdownHeader>
+        <DropdownItem className="hvr-underline-from-left">
+          <img src={userGear} width="24" alt="" />
+          Settings
+        </DropdownItem>
+        <DropdownItem className="hvr-underline-from-left">
+          <img src={userShield} width="24" alt="" />
+          Privacy
+        </DropdownItem>
+        <DropdownItem className="hvr-underline-from-left">
+          <img src={userLock} width="24" alt="" />
+          Sign out
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+  );
 }
 
-export function OffCDropRef () {
+export function OffCDropRef({ onNavigate }) {
+  const [open, setOpen] = useState(false);
 
-    const [open, setOpen] = useState(false);
+  const handleClick = () => {
+    if (onNavigate) onNavigate();
+  };
 
-    return (
-        <NavItem>
-            <Button onClick={() => setOpen(!open)} aria-controls="dropdown" aria-expanded={open} id="nav-ref"  className="pl-0" variant="link">
-                {refIcon}
-            </Button>
-            <Collapse in={open}>
-                <div id="dropdown">
-                    <ul>
-                        <li>
-                            <div eventKey="ref-1" className="text-wrap pl-0 hvr-underline-from-left">
-                                <Link to="/tabulated" className="pl-0 ml-0 text-w">
-                                    Tabulated Data
-                                </Link>
-                            </div>
-                        </li>
-                        <li>
-                            <div eventKey="ref-2" className="text-wrap pl-0 hvr-underline-from-left">
-                                Periodic Tables
-                            </div>
-                        </li>
-                        <li>
-                            <div eventKey="ref-3" className="text-wrap pl-0 hvr-underline-from-left">
-                                Conversion Factors
-                            </div>
-                        </li>
-                        <li>
-                            <div eventKey="ref-3" className="text-wrap pl-0 hvr-underline-from-left">
-                                Fundamental Constants
-                            </div>
-                        </li>
-                        <li>
-                            <div eventKey="ref-4" className="text-wrap pl-0 hvr-underline-from-left">
-                                Common Equations
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </Collapse>
-
-            {/*old version of the side bar dropdowns. replaced so that all items move down when buttons are pressed */}
-            {/* <NavDropdown title={refIcon} id="nav-ref" className="pl-0">
-                <ul>
-                    <li>
-                        <NavDropdown.Item eventKey="ref-1" className="text-wrap pl-0">
-                            <Link to="/tabulated" className="pl-0 ml-0">
-                                Tabulated Data
-                            </Link>
-                        </NavDropdown.Item>
-                    </li>
-                    <li>
-                        <NavDropdown.Item eventKey="ref-2" className="text-wrap pl-0 hvr-underline-from-left">
-                            Periodic Tables
-                        </NavDropdown.Item>
-                    </li>
-                    <li>
-                        <NavDropdown.Item eventKey="ref-3" className="text-wrap pl-0 hvr-underline-from-left">
-                            Conversion Factors And Fundamental Constants
-                        </NavDropdown.Item>
-                    </li>
-                    <li>
-                        <NavDropdown.Item eventKey="ref-4" className="text-wrap pl-0 hvr-underline-from-left">
-                            Common Equations
-                        </NavDropdown.Item>
-                    </li>
-                </ul>
-    </NavDropdown> */}
-        </NavItem>
-    );
+  return (
+    <div className="py-1">
+      <button
+        onClick={() => setOpen(!open)}
+        aria-controls="ref-dropdown"
+        aria-expanded={open}
+        className="flex items-center gap-2 w-full text-left py-2 text-gray-700 hover:text-primary-600"
+      >
+        {refIcon}
+        <svg
+          className={`h-4 w-4 ml-auto transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      <Collapse open={open}>
+        <ul id="ref-dropdown" className="ml-7 mt-1 space-y-1">
+          <li>
+            <Link
+              to="/tabulated"
+              onClick={handleClick}
+              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+            >
+              Tabulated Data
+            </Link>
+          </li>
+          <li>
+            <span className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left cursor-pointer">
+              Periodic Tables
+            </span>
+          </li>
+          <li>
+            <span className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left cursor-pointer">
+              Conversion Factors
+            </span>
+          </li>
+          <li>
+            <span className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left cursor-pointer">
+              Fundamental Constants
+            </span>
+          </li>
+          <li>
+            <span className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left cursor-pointer">
+              Common Equations
+            </span>
+          </li>
+        </ul>
+      </Collapse>
+    </div>
+  );
 }
 
-export function OffCDropCalc () {
+export function OffCDropCalc({ onNavigate }) {
+  const [open, setOpen] = useState(false);
 
-    const [open, setOpen] = useState(false);
+  const handleClick = () => {
+    if (onNavigate) onNavigate();
+  };
 
-    return (
-        <NavItem>
-
-            <Button onClick={() => setOpen(!open)} aria-controls="dropdown" aria-expanded={open} id="nav-ref" className="pl-0 pb-2" variant = "link">
-                {calcIcon}
-            </Button>
-            <Collapse in={open}>
-                <div id="dropdown">
-                <ul>
-                    <li>
-                        <div  eventKey="ref-1" className="text-wrap pl-0 hvr-underline-from-left">
-                            <Link to="/calculators/gas-laws" className="pl-0 ml-0">
-                                Gas Laws (Ideal)
-                            </Link>
-                        </div>
-                    </li>
-                    <li>
-                        <div eventKey="ref-2" className="text-wrap pl-0 hvr-underline-from-left">
-                            <Link to="/calculators/thermo" className="pl-0 ml-0">
-                                Thermodynamics
-                            </Link>
-                        </div>
-                    </li>
-                    <li>
-                        <div eventKey="ref-3" className="text-wrap pl-0 hvr-underline-from-left">
-                            <Link to="/calculators/kinetics" className="pl-0 ml-0">
-                                Kinetics
-                            </Link>
-                        </div>
-                    </li>
-                    <li>
-                        <div eventKey="ref-4" className="text-wrap pl-0 hvr-underline-from-left">
-                            <Link to="/calculators/solutions" className="pl-0 ml-0">
-                                Solutions
-                            </Link>
-                        </div>
-                    </li>
-                    <li>
-                        <div eventKey="ref-5" className="text-wrap pl-0 hvr-underline-from-left">
-                            <Link to="/calculators/electrochemistry" className="pl-0 ml-0">
-                                Electrochemistry
-                            </Link>
-                        </div>
-                    </li>
-                </ul>
-                </div>
-            </Collapse>
-
-            {/*old version of the side bar dropdowns. replaced so that all items move down when buttons are pressed */}
-            {/*<NavDropdown title={calcIcon} id="nav-ref" className="pl-0 pb-2">
-                <ul>
-                    <li>
-                        <NavDropdown.Item eventKey="ref-1" className="text-wrap pl-0">
-                            <Link to="/calculators/gas-laws" className="pl-0 ml-0">
-                                Gas Laws (Ideal)
-                            </Link>
-                        </NavDropdown.Item>
-                    </li>
-                    <li>
-                        <NavDropdown.Item eventKey="ref-2" className="text-wrap pl-0 hvr-underline-from-left">
-                            <Link to="/calculators/thermo" className="pl-0 ml-0">
-                              Thermodynamics
-                            </Link>
-                        </NavDropdown.Item>
-                    </li>
-                    <li>
-                        <NavDropdown.Item eventKey="ref-3" className="text-wrap pl-0 hvr-underline-from-left">
-                            Unit Conversions
-                        </NavDropdown.Item>
-                    </li>
-                    <li>
-                        <NavDropdown.Item eventKey="ref-4" className="text-wrap pl-0 hvr-underline-from-left">
-                            Solutions & Titrations
-                        </NavDropdown.Item>
-                    </li>
-                </ul>
-        </NavDropdown> */}
-        </NavItem>
-    );
-
-
-
+  return (
+    <div className="py-1">
+      <button
+        onClick={() => setOpen(!open)}
+        aria-controls="calc-dropdown"
+        aria-expanded={open}
+        className="flex items-center gap-2 w-full text-left py-2 text-gray-700 hover:text-primary-600"
+      >
+        {calcIcon}
+        <svg
+          className={`h-4 w-4 ml-auto transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      <Collapse open={open}>
+        <ul id="calc-dropdown" className="ml-7 mt-1 space-y-1">
+          <li>
+            <Link
+              to="/calculators/gas-laws"
+              onClick={handleClick}
+              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+            >
+              Gas Laws (Ideal)
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/calculators/thermo"
+              onClick={handleClick}
+              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+            >
+              Thermodynamics
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/calculators/kinetics"
+              onClick={handleClick}
+              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+            >
+              Kinetics
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/calculators/solutions"
+              onClick={handleClick}
+              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+            >
+              Solutions
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/calculators/electrochemistry"
+              onClick={handleClick}
+              className="block py-1 text-gray-600 hover:text-primary-600 hvr-underline-from-left"
+            >
+              Electrochemistry
+            </Link>
+          </li>
+        </ul>
+      </Collapse>
+    </div>
+  );
 }

@@ -5,7 +5,7 @@
  * Features inline equation inputs where variables appear within the rendered equation.
  */
 import React, { useEffect, useRef } from 'react';
-import { Card, Form, Button, FormSelect, Alert, Spinner } from 'react-bootstrap';
+import { Button, Select, Alert, Spinner } from '../../components/ui';
 import { useCalculator } from '../hooks/useCalculator';
 import { EquationDisplay } from './EquationDisplay';
 import { SolutionSteps } from './SolutionSteps';
@@ -57,17 +57,16 @@ export function Calculator({ calculatorId }) {
   return (
     <div className="calculator-container" ref={containerRef}>
       {/* Original equation display */}
-      <div className="text-center mb-3">
+      <div className="text-center mb-4">
         <EquationDisplay latex={calculator.latexEquation} />
       </div>
 
       {/* Unknown variable selector */}
-      <div className="d-flex justify-content-center mb-3">
-        <FormSelect
+      <div className="flex justify-center mb-4">
+        <Select
           value={unknownVariable || ''}
           onChange={(e) => setUnknownVariable(e.target.value)}
-          className="calc-unknown-select"
-          style={{ maxWidth: '280px' }}
+          className="max-w-xs"
           aria-label="Select unknown variable"
         >
           <option value="">Select variable to solve for...</option>
@@ -79,22 +78,22 @@ export function Calculator({ calculatorId }) {
               </option>
             ))
           }
-        </FormSelect>
+        </Select>
       </div>
 
       {/* Show the inline equation form when an unknown is selected */}
       {unknownVariable && symbolicRaw && (
-        <Form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           {/* Constants display */}
           {calculator.variables
             .filter(v => v.isConstant && v.defaultValue !== undefined)
             .map(v => (
               <div key={v.id} className="text-center mb-2">
-                <small className="text-muted">
+                <span className="text-sm text-gray-500">
                   <span dangerouslySetInnerHTML={{ __html: v.htmlSymbol }} />
                   {` = ${v.defaultValue} ${v.unit}`}
-                  <span className="ms-2">({v.description})</span>
-                </small>
+                  <span className="ml-2">({v.description})</span>
+                </span>
               </div>
             ))
           }
@@ -112,26 +111,22 @@ export function Calculator({ calculatorId }) {
 
           {/* Error display */}
           {error && (
-            <Alert variant="danger" className="mt-2 py-2 mx-auto" style={{ maxWidth: '400px' }}>
-              {error}
-            </Alert>
+            <div className="mt-3 max-w-md mx-auto">
+              <Alert variant="danger">
+                {error}
+              </Alert>
+            </div>
           )}
 
           {/* Action buttons */}
-          <div className="d-flex justify-content-center gap-2 mt-3">
+          <div className="flex justify-center gap-3 mt-4">
             <Button
               type="submit"
               variant="primary"
               disabled={isLoading || !unknownVariable}
+              loading={isLoading}
             >
-              {isLoading ? (
-                <>
-                  <Spinner size="sm" className="me-1" />
-                  Solving...
-                </>
-              ) : (
-                'Solve!'
-              )}
+              {isLoading ? 'Solving...' : 'Solve!'}
             </Button>
             <Button
               type="button"
@@ -144,29 +139,31 @@ export function Calculator({ calculatorId }) {
 
           {/* Result display */}
           {result?.success && (
-            <Alert variant="success" className="mt-3 mx-auto" style={{ maxWidth: '400px' }}>
-              <strong>Answer:</strong>
-              <div className="mt-1 fs-5">
-                <span dangerouslySetInnerHTML={{ __html: unknownVar?.htmlSymbol || unknownVariable }} />
-                {' = '}
-                <strong>{result.numericValue.toPrecision(6)}</strong>
-                {unknownVar?.unit && ` ${unknownVar.unit}`}
-              </div>
-            </Alert>
+            <div className="mt-4 max-w-md mx-auto">
+              <Alert variant="success">
+                <strong>Answer:</strong>
+                <div className="mt-1 text-lg">
+                  <span dangerouslySetInnerHTML={{ __html: unknownVar?.htmlSymbol || unknownVariable }} />
+                  {' = '}
+                  <strong>{result.numericValue.toPrecision(6)}</strong>
+                  {unknownVar?.unit && ` ${unknownVar.unit}`}
+                </div>
+              </Alert>
+            </div>
           )}
-        </Form>
+        </form>
       )}
 
       {/* Prompt when no unknown selected */}
       {!unknownVariable && (
-        <p className="text-center text-muted mt-3">
+        <p className="text-center text-gray-500 mt-4">
           Select a variable to solve for to begin
         </p>
       )}
 
       {/* Solution steps (if available) */}
       {result?.success && result.steps && (
-        <SolutionSteps steps={result.steps} className="mt-3 mx-auto" style={{ maxWidth: '600px' }} />
+        <SolutionSteps steps={result.steps} className="mt-4 max-w-xl mx-auto" />
       )}
     </div>
   );

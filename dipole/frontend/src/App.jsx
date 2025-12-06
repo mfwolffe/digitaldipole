@@ -15,7 +15,8 @@ import Electrochemistry from "./pages/calculators/electrochemistry";
 
 import NavOffCanvas from "./components/Nav";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+// Note: react-bootstrap removed - now using Tailwind CSS + Headless UI
+// Keeping bootstrap.min-dipole.css temporarily for custom styles that may still be in use
 import './styles/bootstrap.min-dipole.css';
 import './App.css'
 

@@ -4,17 +4,20 @@
  * Input field for a calculator variable with label and unit display.
  */
 import React from 'react';
-import { Form, InputGroup } from 'react-bootstrap';
+import { Input, InputGroup, InputAddon, Label, FormGroup } from '../../components/ui';
 
 export function VariableInput({ variable, value, onChange, disabled = false }) {
   return (
-    <Form.Group className="mb-2">
-      <Form.Label
+    <FormGroup className="mb-3">
+      <Label
+        htmlFor={`var-${variable.id}`}
         className="mb-1"
-        dangerouslySetInnerHTML={{ __html: `${variable.htmlSymbol} - ${variable.name}` }}
-      />
-      <InputGroup size="sm">
-        <Form.Control
+      >
+        <span dangerouslySetInnerHTML={{ __html: `${variable.htmlSymbol} - ${variable.name}` }} />
+      </Label>
+      <InputGroup>
+        <Input
+          id={`var-${variable.id}`}
           type="number"
           step="any"
           value={value}
@@ -22,15 +25,16 @@ export function VariableInput({ variable, value, onChange, disabled = false }) {
           placeholder={`Enter ${variable.name.toLowerCase()}`}
           disabled={disabled}
           aria-label={variable.name}
+          className="rounded-r-none"
         />
-        <InputGroup.Text>{variable.unit}</InputGroup.Text>
+        <InputAddon position="end">{variable.unit}</InputAddon>
       </InputGroup>
       {variable.description && (
-        <Form.Text className="text-muted" style={{ fontSize: '0.75rem' }}>
+        <p className="mt-1 text-xs text-gray-500">
           {variable.description}
-        </Form.Text>
+        </p>
       )}
-    </Form.Group>
+    </FormGroup>
   );
 }
 

@@ -1,1 +1,1 @@
-import Card from "react-bootstrap/Card";
+import { Card } from "./ui";
