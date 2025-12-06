@@ -29,6 +29,7 @@ export function EquationEditor({
   onModeChange,
   solution,
   onSolutionChange,
+  onStartPractice,
 }) {
   const [textInput, setTextInput] = useState('');
   const [hasEdited, setHasEdited] = useState(false);
@@ -226,6 +227,16 @@ export function EquationEditor({
         >
           Clear
         </Button>
+
+        {equation && onStartPractice && (
+          <Button
+            variant="outline-secondary"
+            onClick={onStartPractice}
+            className="ml-auto"
+          >
+            Practice Mode
+          </Button>
+        )}
       </div>
 
       {/* Keyboard shortcut hint */}

@@ -27,3 +27,9 @@ export {
   MatrixStepViewer,
   MatrixOverview,
 } from './MatrixVisualization.jsx';
+export {
+  PracticeMode,
+  PracticeEquation,
+  ElementBalanceIndicator,
+  HintPanel,
+} from './PracticeMode.jsx';

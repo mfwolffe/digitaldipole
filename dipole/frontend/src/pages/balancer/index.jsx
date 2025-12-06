@@ -13,6 +13,7 @@ import { EquationEditor } from '../../balancer/components/EquationEditor.jsx';
 import { BalanceResult } from '../../balancer/components/BalanceResult.jsx';
 import { ElementPalette } from '../../balancer/components/ElementPalette.jsx';
 import { CompoundBuilder } from '../../balancer/components/CompoundBuilder.jsx';
+import { PracticeMode } from '../../balancer/components/PracticeMode.jsx';
 import { useEquationBalancer } from '../../balancer/hooks/useEquationBalancer.js';
 
 import '../../App.css';
@@ -41,6 +42,11 @@ export function BalancerPage() {
     reorderCompound,
     moveCompound,
     removeCompound,
+    practiceMode,
+    practiceCoefficients,
+    startPractice,
+    exitPractice,
+    setPracticeCoefficient,
   } = useEquationBalancer();
 
   // Visual builder state
@@ -159,6 +165,7 @@ export function BalancerPage() {
                   onModeChange={setMode}
                   solution={solution}
                   onSolutionChange={setSolution}
+                  onStartPractice={startPractice}
                 />
               </div>
             </Card>
@@ -245,15 +252,34 @@ export function BalancerPage() {
           </TabPanel>
         </Tabs>
 
-        {/* Balance result (shared between modes) */}
-        <BalanceResult
-          equation={equation}
-          coefficients={coefficients}
-          balanceResult={balanceResult}
-          elementInventory={elementInventory}
-          validation={validation}
-          error={error}
-        />
+        {/* Practice Mode */}
+        {practiceMode && equation && (
+          <Card className="bg-slate-800/50 border-slate-700 mb-6">
+            <div className="p-6">
+              <PracticeMode
+                equation={equation}
+                solutionCoeffs={coefficients}
+                onComplete={(result) => {
+                  console.log('Practice complete:', result);
+                  exitPractice();
+                }}
+                onExit={exitPractice}
+              />
+            </div>
+          </Card>
+        )}
+
+        {/* Balance result (shared between modes) - hide in practice mode */}
+        {!practiceMode && (
+          <BalanceResult
+            equation={equation}
+            coefficients={coefficients}
+            balanceResult={balanceResult}
+            elementInventory={elementInventory}
+            validation={validation}
+            error={error}
+          />
+        )}
 
         {/* Examples section */}
         <ExamplesSection onSelectExample={parseText} />

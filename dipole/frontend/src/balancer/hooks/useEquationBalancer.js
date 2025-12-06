@@ -29,6 +29,8 @@ export function useEquationBalancer() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [parseError, setParseError] = useState(null);
+  const [practiceMode, setPracticeMode] = useState(false);
+  const [practiceCoefficients, setPracticeCoefficients] = useState({});
 
   /**
    * Parse text input into equation structure
@@ -134,6 +136,39 @@ export function useEquationBalancer() {
     setBalanceResult(null);
     setError(null);
     setParseError(null);
+    setPracticeMode(false);
+    setPracticeCoefficients({});
+  }, []);
+
+  /**
+   * Start practice mode
+   */
+  const startPractice = useCallback(() => {
+    if (!equation) return;
+
+    // Initialize practice coefficients to 1
+    const initial = {};
+    for (const c of [...equation.reactants, ...equation.products]) {
+      initial[c.id] = 1;
+    }
+    setPracticeCoefficients(initial);
+    setPracticeMode(true);
+    setBalanceResult(null); // Hide solution
+  }, [equation]);
+
+  /**
+   * Exit practice mode
+   */
+  const exitPractice = useCallback(() => {
+    setPracticeMode(false);
+    setPracticeCoefficients({});
+  }, []);
+
+  /**
+   * Update practice coefficient
+   */
+  const setPracticeCoefficient = useCallback((compoundId, value) => {
+    setPracticeCoefficients(prev => ({ ...prev, [compoundId]: value }));
   }, []);
 
   /**
@@ -268,6 +303,8 @@ export function useEquationBalancer() {
     isLoading,
     error,
     parseError,
+    practiceMode,
+    practiceCoefficients,
 
     // Computed
     equationString,
@@ -287,6 +324,9 @@ export function useEquationBalancer() {
     reorderCompound,
     moveCompound,
     removeCompound,
+    startPractice,
+    exitPractice,
+    setPracticeCoefficient,
   };
 }
 
