@@ -5,7 +5,7 @@
  */
 import { useState, useCallback, useMemo } from 'react';
 import { getCalculator } from '../registry';
-import { solve, solveSymbolic, solveLogarithmic } from '../engine/nerdamer-solver';
+import { solve, solveSymbolic, solveSymbolicLogarithmic, solveLogarithmic } from '../engine/nerdamer-solver';
 
 /**
  * Hook for managing a single calculator's state
@@ -49,7 +49,20 @@ export function useCalculator(calculatorId) {
     setError(null);
 
     if (variableId && calculator) {
-      const preview = solveSymbolic(calculator.equation, variableId);
+      let preview;
+
+      // Use logarithmic symbolic solver for equations with ln(ratio)
+      if (calculator.logarithmic) {
+        preview = solveSymbolicLogarithmic(
+          calculator.equation,
+          variableId,
+          calculator.logarithmic,
+          symbolMap
+        );
+      } else {
+        preview = solveSymbolic(calculator.equation, variableId);
+      }
+
       if (preview.success) {
         setSymbolicPreview(preview.latex);
         setSymbolicRaw(preview.raw);
@@ -62,7 +75,7 @@ export function useCalculator(calculatorId) {
       setSymbolicPreview(null);
       setSymbolicRaw(null);
     }
-  }, [calculator]);
+  }, [calculator, symbolMap]);
 
   // Update a single input value
   const setVariable = useCallback((variableId, value) => {

@@ -191,6 +191,80 @@ export function integrate(expression, variable) {
 }
 
 /**
+ * Get symbolic solution for logarithmic equations with proper LaTeX rendering
+ *
+ * For logarithmic equations, we need custom LaTeX that shows the actual
+ * logarithm instead of the 'lnRatio' intermediate variable.
+ *
+ * @param {string} equation - Equation with lnRatio intermediate variable
+ * @param {string} unknown - Variable to solve for
+ * @param {Object} logConfig - Logarithmic configuration
+ * @param {string} logConfig.numerator - Variable in numerator of log
+ * @param {string} logConfig.denominator - Variable in denominator of log
+ * @param {Object<string, string>} [symbolMap] - Map of variable IDs to LaTeX symbols
+ * @returns {{success: boolean, latex?: string, raw?: string, error?: string}}
+ */
+export function solveSymbolicLogarithmic(equation, unknown, logConfig, symbolMap = {}) {
+  const { numerator, denominator } = logConfig;
+  const getSymbol = (id) => symbolMap[id] || id;
+
+  try {
+    // Case 1: Solving for the numerator (e.g., k2 in ln(k2/k1))
+    if (unknown === numerator) {
+      // First solve for lnRatio symbolically
+      const lnRatioSolution = nerdamer.solve(equation, 'lnRatio');
+      const lnRatioLatex = lnRatioSolution.toTeX().replace(/^\[|\]$/g, '');
+
+      // The solution is: numerator = denominator * e^(lnRatio expression)
+      const latex = `${getSymbol(denominator)} \\cdot e^{${lnRatioLatex}}`;
+
+      return {
+        success: true,
+        latex,
+        raw: `${denominator}*exp(${lnRatioSolution.text().replace(/^\[|\]$/g, '')})`
+      };
+    }
+
+    // Case 2: Solving for the denominator (e.g., k1 in ln(k2/k1))
+    if (unknown === denominator) {
+      // First solve for lnRatio symbolically
+      const lnRatioSolution = nerdamer.solve(equation, 'lnRatio');
+      const lnRatioLatex = lnRatioSolution.toTeX().replace(/^\[|\]$/g, '');
+
+      // The solution is: denominator = numerator / e^(lnRatio expression)
+      const latex = `\\frac{${getSymbol(numerator)}}{e^{${lnRatioLatex}}}`;
+
+      return {
+        success: true,
+        latex,
+        raw: `${numerator}/exp(${lnRatioSolution.text().replace(/^\[|\]$/g, '')})`
+      };
+    }
+
+    // Case 3: Solving for other variables - replace lnRatio with proper log notation in LaTeX
+    const solutions = nerdamer.solve(equation, unknown);
+    let latex = solutions.toTeX().replace(/^\[|\]$/g, '');
+    const raw = solutions.text().replace(/^\[|\]$/g, '');
+
+    // Replace 'lnRatio' with proper LaTeX notation: \ln\left(\frac{num}{denom}\right)
+    const logLatex = `\\ln\\left(\\frac{${getSymbol(numerator)}}{${getSymbol(denominator)}}\\right)`;
+    latex = latex.replace(/\\mathrm\{lnRatio\}/g, logLatex);
+    latex = latex.replace(/lnRatio/g, logLatex);
+
+    return {
+      success: true,
+      latex,
+      raw
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
+
+/**
  * Solve logarithmic equations using substitution strategy
  *
  * For equations like ln(P2/P1) = expression, Nerdamer struggles to solve
@@ -405,4 +479,4 @@ function generateStepsForLog(equation, unknown, knownValues, symbolMap) {
   return steps;
 }
 
-export default { solve, solveSymbolic, solveLogarithmic, derivative, integrate };
+export default { solve, solveSymbolic, solveSymbolicLogarithmic, solveLogarithmic, derivative, integrate };
