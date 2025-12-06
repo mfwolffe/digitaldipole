@@ -79,6 +79,26 @@ const NavOffCanvas = () => {
                     <OffCDropRef onNavigate={handleClose} />
                     <OffCDropCalc onNavigate={handleClose} />
 
+                    {/* Equation Balancer */}
+                    <div className="flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <FontAwesomeIcon
+                            icon="fa-duotone fa-scale-balanced"
+                            size="xl"
+                            style={{
+                                "--fa-primary-color": "#14b8a6",
+                                "--fa-secondary-color": "#5eead4",
+                            }}
+                            className="w-6"
+                        />
+                        <Link
+                            to="/balancer"
+                            onClick={handleClose}
+                            className="text-gray-900 font-medium hover:text-primary-600"
+                        >
+                            Equation Balancer
+                        </Link>
+                    </div>
+
                     {/* AI Meme Generator */}
                     <div className="flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-gray-100 transition-colors">
                         <FontAwesomeIcon
