@@ -50,62 +50,58 @@ def get_current_user(request):
 # Favorites API Endpoints
 # ============================================
 
+# Category code to URL path mapping
+CATEGORY_PATHS = {
+    'GSLW': '/calculators/gas-laws',
+    'THRM': '/calculators/thermo',
+    'KNTC': '/calculators/kinetics',
+    'SOLN': '/calculators/solutions',
+    'ELEC': '/calculators/electrochemistry',
+    'MISC': '/calculators',
+}
+
+
 @api.get("/favorites/")
 def get_favorites(request):
     """Get all favorite equations for the current user."""
     if not request.user.is_authenticated:
         return {"authenticated": False, "favorites": []}
 
-    favorites = FavoriteEquation.objects.filter(user=request.user).select_related(
-        'equation'
-    )
+    favorites = FavoriteEquation.objects.select_related('calculator').filter(user=request.user)
 
     favorite_list = []
     for fav in favorites:
-        # Try to get the calculator category for this equation
-        try:
-            calc = Calculator.objects.get(equation=fav.equation)
-            category = calc.get_calc_category_display()
-            calc_category = calc.calc_category
-        except Calculator.DoesNotExist:
-            category = "Uncategorized"
-            calc_category = "MISC"
-
-        # Build the path to the calculator
-        category_paths = {
-            "GSLW": "/calculators/gas-laws",
-            "THRM": "/calculators/thermo",
-            "SOLN": "/calculators/solutions",
-            "ELCT": "/calculators/electrochemistry",
-            "MISC": "/calculators/gas-laws",
-        }
-        base_path = category_paths.get(calc_category, "/calculators/gas-laws")
+        calc = fav.calculator
+        base_path = CATEGORY_PATHS.get(calc.calc_category, '/calculators')
+        category_display = calc.get_calc_category_display()
 
         favorite_list.append({
             "id": fav.id,
-            "equation_id": fav.equation.id,
-            "name": fav.equation.name,
-            "equation": fav.equation.LaTeX_repr,
-            "category": category,
-            "path": f"{base_path}/{fav.equation.name}",
+            "equation_id": calc.registry_id,
+            "name": calc.name,
+            "category": category_display,
+            "path": f"{base_path}/{calc.registry_id}",
             "created_at": fav.created_at.isoformat(),
         })
 
     return {"authenticated": True, "favorites": favorite_list}
 
 
-@api.post("/favorites/{equation_name}")
-def toggle_favorite(request, equation_name: str):
-    """Toggle favorite status for an equation. Returns new status."""
+@api.post("/favorites/{registry_id}")
+def toggle_favorite(request, registry_id: str):
+    """Toggle favorite status for a calculator. Returns new status."""
     if not request.user.is_authenticated:
         return {"success": False, "error": "Authentication required"}
 
-    equation = get_object_or_404(Equation, name=equation_name)
+    # Look up the calculator by registry_id
+    calculator = Calculator.objects.filter(registry_id=registry_id).first()
+    if not calculator:
+        return {"success": False, "error": f"Calculator '{registry_id}' not found"}
 
     # Check if already favorited
     existing = FavoriteEquation.objects.filter(
         user=request.user,
-        equation=equation,
+        calculator=calculator,
     ).first()
 
     if existing:
@@ -114,28 +110,27 @@ def toggle_favorite(request, equation_name: str):
         return {
             "success": True,
             "is_favorite": False,
-            "message": f"Removed '{equation_name}' from favorites",
+            "message": f"Removed '{calculator.name}' from favorites",
         }
     else:
         # Add to favorites
-        FavoriteEquation.objects.create(user=request.user, equation=equation)
+        FavoriteEquation.objects.create(user=request.user, calculator=calculator)
         return {
             "success": True,
             "is_favorite": True,
-            "message": f"Added '{equation_name}' to favorites",
+            "message": f"Added '{calculator.name}' to favorites",
         }
 
 
-@api.get("/favorites/check/{equation_name}")
-def check_favorite(request, equation_name: str):
-    """Check if an equation is favorited by the current user."""
+@api.get("/favorites/check/{registry_id}")
+def check_favorite(request, registry_id: str):
+    """Check if a calculator is favorited by the current user."""
     if not request.user.is_authenticated:
         return {"authenticated": False, "is_favorite": False}
 
-    equation = get_object_or_404(Equation, name=equation_name)
     is_favorite = FavoriteEquation.objects.filter(
         user=request.user,
-        equation=equation,
+        calculator__registry_id=registry_id,
     ).exists()
 
     return {"authenticated": True, "is_favorite": is_favorite}
