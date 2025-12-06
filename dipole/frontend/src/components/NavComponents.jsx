@@ -497,22 +497,16 @@ export function UserDrop() {
       </DropdownTrigger>
       <DropdownMenu align="end">
         <DropdownHeader>
-          <div className="flex items-center gap-2">
-            <img src={userIcon} width="24" alt="" />
-            <strong>{username || 'User'}</strong>
-          </div>
+          <strong>{username || 'User'}</strong>
         </DropdownHeader>
         <DropdownItem className="hvr-underline-from-left" onClick={() => navigate('/account')}>
-          <img src={userGear} width="24" alt="" />
           Account
         </DropdownItem>
         <DropdownItem className="hvr-underline-from-left" onClick={() => navigate('/favorites')}>
-          <FontAwesomeIcon icon="fa-duotone fa-heart" className="w-6 text-red-500" />
           Favorites
         </DropdownItem>
         <DropdownDivider />
         <DropdownItem className="hvr-underline-from-left" onClick={logout}>
-          <img src={userLock} width="24" alt="" />
           Sign Out
         </DropdownItem>
       </DropdownMenu>
