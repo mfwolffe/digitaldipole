@@ -79,6 +79,26 @@ const NavOffCanvas = () => {
                     <OffCDropRef onNavigate={handleClose} />
                     <OffCDropCalc onNavigate={handleClose} />
 
+                    {/* Unit Converter */}
+                    <div className="flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <FontAwesomeIcon
+                            icon="fa-duotone fa-scale-balanced"
+                            size="xl"
+                            style={{
+                                "--fa-primary-color": "#10b981",
+                                "--fa-secondary-color": "#34d399",
+                            }}
+                            className="w-6"
+                        />
+                        <Link
+                            to="/converter"
+                            onClick={handleClose}
+                            className="text-gray-900 font-medium hover:text-primary-600"
+                        >
+                            Unit Converter
+                        </Link>
+                    </div>
+
                     {/* AI Meme Generator */}
                     <div className="flex items-center gap-3 py-3 px-2 rounded-lg hover:bg-gray-100 transition-colors">
                         <FontAwesomeIcon

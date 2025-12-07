@@ -30,6 +30,8 @@ export const thermodynamicsCalculators = [
         symbol: 'q',
         htmlSymbol: 'q',
         unit: 'J',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Heat transferred'
       },
       {
@@ -38,6 +40,8 @@ export const thermodynamicsCalculators = [
         symbol: 'm',
         htmlSymbol: 'm',
         unit: 'g',
+        dimension: 'mass',
+        defaultUnit: 'g',
         description: 'Mass of the substance'
       },
       {
@@ -46,6 +50,8 @@ export const thermodynamicsCalculators = [
         symbol: 'C_{sp}',
         htmlSymbol: 'C<sub>sp</sub>',
         unit: 'J/(g·°C)',
+        dimension: 'heat_capacity',
+        defaultUnit: 'J_per_g_C',
         description: 'Specific heat capacity of the substance'
       },
       {
@@ -54,7 +60,7 @@ export const thermodynamicsCalculators = [
         symbol: '\\Delta T',
         htmlSymbol: 'ΔT',
         unit: '°C',
-        description: 'Change in temperature'
+        description: 'Change in temperature (use same scale for both)'
       }
     ],
     InfoComponent: StateHeat
@@ -74,6 +80,8 @@ export const thermodynamicsCalculators = [
         symbol: '\\Delta G',
         htmlSymbol: 'ΔG',
         unit: 'kJ/mol',
+        dimension: 'energy',
+        defaultUnit: 'kJ',
         description: 'Change in Gibbs free energy'
       },
       {
@@ -82,6 +90,8 @@ export const thermodynamicsCalculators = [
         symbol: '\\Delta H',
         htmlSymbol: 'ΔH',
         unit: 'kJ/mol',
+        dimension: 'energy',
+        defaultUnit: 'kJ',
         description: 'Change in enthalpy'
       },
       {
@@ -90,6 +100,8 @@ export const thermodynamicsCalculators = [
         symbol: 'T',
         htmlSymbol: 'T',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature (Kelvin)'
       },
       {
@@ -98,6 +110,8 @@ export const thermodynamicsCalculators = [
         symbol: '\\Delta S',
         htmlSymbol: 'ΔS',
         unit: 'kJ/(mol·K)',
+        dimension: 'molar_entropy',
+        defaultUnit: 'kJ_per_mol_K_entropy',
         description: 'Change in entropy'
       }
     ],
@@ -118,6 +132,8 @@ export const thermodynamicsCalculators = [
         symbol: 'H',
         htmlSymbol: 'H',
         unit: 'J',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Enthalpy of the system'
       },
       {
@@ -126,6 +142,8 @@ export const thermodynamicsCalculators = [
         symbol: 'U',
         htmlSymbol: 'U',
         unit: 'J',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Internal energy of the system'
       },
       {
@@ -134,6 +152,8 @@ export const thermodynamicsCalculators = [
         symbol: 'P',
         htmlSymbol: 'P',
         unit: 'Pa',
+        dimension: 'pressure',
+        defaultUnit: 'Pa',
         description: 'Pressure of the system'
       },
       {
@@ -142,6 +162,8 @@ export const thermodynamicsCalculators = [
         symbol: 'V',
         htmlSymbol: 'V',
         unit: 'm³',
+        dimension: 'volume',
+        defaultUnit: 'm³',
         description: 'Volume of the system'
       }
     ],
@@ -162,6 +184,8 @@ export const thermodynamicsCalculators = [
         symbol: '\\Delta S',
         htmlSymbol: 'ΔS',
         unit: 'J/K',
+        dimension: 'entropy',
+        defaultUnit: 'J_per_K',
         description: 'Change in entropy'
       },
       {
@@ -170,6 +194,8 @@ export const thermodynamicsCalculators = [
         symbol: 'q_{rev}',
         htmlSymbol: 'q<sub>rev</sub>',
         unit: 'J',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Heat transferred reversibly'
       },
       {
@@ -178,6 +204,8 @@ export const thermodynamicsCalculators = [
         symbol: 'T',
         htmlSymbol: 'T',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature (Kelvin)'
       }
     ],
@@ -198,6 +226,8 @@ export const thermodynamicsCalculators = [
         symbol: 'w',
         htmlSymbol: 'w',
         unit: 'J',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Work done by/on the system'
       },
       {
@@ -206,6 +236,8 @@ export const thermodynamicsCalculators = [
         symbol: 'P',
         htmlSymbol: 'P',
         unit: 'Pa',
+        dimension: 'pressure',
+        defaultUnit: 'Pa',
         description: 'Pressure of the system'
       },
       {
@@ -214,6 +246,8 @@ export const thermodynamicsCalculators = [
         symbol: '\\Delta V',
         htmlSymbol: 'ΔV',
         unit: 'm³',
+        dimension: 'volume',
+        defaultUnit: 'm³',
         description: 'Change in volume'
       }
     ],
@@ -234,6 +268,8 @@ export const thermodynamicsCalculators = [
         symbol: '\\Delta U',
         htmlSymbol: 'ΔU',
         unit: 'J',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Change in internal energy'
       },
       {
@@ -242,6 +278,8 @@ export const thermodynamicsCalculators = [
         symbol: 'q',
         htmlSymbol: 'q',
         unit: 'J',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Heat transferred to the system'
       },
       {
@@ -250,6 +288,8 @@ export const thermodynamicsCalculators = [
         symbol: 'w',
         htmlSymbol: 'w',
         unit: 'J',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Work done on the system'
       }
     ],
@@ -270,6 +310,8 @@ export const thermodynamicsCalculators = [
         symbol: 'q',
         htmlSymbol: 'q',
         unit: 'J',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Heat transferred'
       },
       {
@@ -278,6 +320,8 @@ export const thermodynamicsCalculators = [
         symbol: 'n',
         htmlSymbol: 'n',
         unit: 'mol',
+        dimension: 'amount',
+        defaultUnit: 'mol',
         description: 'Amount of substance in moles'
       },
       {
@@ -286,6 +330,8 @@ export const thermodynamicsCalculators = [
         symbol: 'C_p',
         htmlSymbol: 'C<sub>p</sub>',
         unit: 'J/(mol·K)',
+        dimension: 'molar_heat_capacity',
+        defaultUnit: 'J_per_mol_K',
         description: 'Molar heat capacity at constant pressure'
       },
       {
@@ -294,6 +340,8 @@ export const thermodynamicsCalculators = [
         symbol: '\\Delta T',
         htmlSymbol: 'ΔT',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Change in temperature'
       }
     ],
@@ -319,6 +367,8 @@ export const thermodynamicsCalculators = [
         symbol: 'P_2',
         htmlSymbol: 'P<sub>2</sub>',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Vapor pressure at temperature T₂'
       },
       {
@@ -327,6 +377,8 @@ export const thermodynamicsCalculators = [
         symbol: 'P_1',
         htmlSymbol: 'P<sub>1</sub>',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Vapor pressure at temperature T₁'
       },
       {
@@ -335,6 +387,8 @@ export const thermodynamicsCalculators = [
         symbol: '\\Delta H_{vap}',
         htmlSymbol: 'ΔH<sub>vap</sub>',
         unit: 'J/mol',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Enthalpy of vaporization'
       },
       {
@@ -353,6 +407,8 @@ export const thermodynamicsCalculators = [
         symbol: 'T_1',
         htmlSymbol: 'T<sub>1</sub>',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Initial temperature (Kelvin)'
       },
       {
@@ -361,6 +417,8 @@ export const thermodynamicsCalculators = [
         symbol: 'T_2',
         htmlSymbol: 'T<sub>2</sub>',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Final temperature (Kelvin)'
       }
     ],
@@ -386,6 +444,8 @@ export const thermodynamicsCalculators = [
         symbol: 'w',
         htmlSymbol: 'w',
         unit: 'J',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Work done (negative for expansion)'
       },
       {
@@ -394,6 +454,8 @@ export const thermodynamicsCalculators = [
         symbol: 'n',
         htmlSymbol: 'n',
         unit: 'mol',
+        dimension: 'amount',
+        defaultUnit: 'mol',
         description: 'Amount of gas in moles'
       },
       {
@@ -412,6 +474,8 @@ export const thermodynamicsCalculators = [
         symbol: 'T',
         htmlSymbol: 'T',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature (Kelvin)'
       },
       {
@@ -420,6 +484,8 @@ export const thermodynamicsCalculators = [
         symbol: 'V_2',
         htmlSymbol: 'V<sub>2</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Final volume'
       },
       {
@@ -428,6 +494,8 @@ export const thermodynamicsCalculators = [
         symbol: 'V_1',
         htmlSymbol: 'V<sub>1</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Initial volume'
       }
     ],

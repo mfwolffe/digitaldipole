@@ -30,7 +30,11 @@ export function EquationRenderer({
   inputValues,
   onVariableChange,
   logConfig = null,
-  className = ''
+  className = '',
+  // Unit selection props
+  selectedUnits = {},
+  onUnitChange = null,
+  getCompatibleUnitsFor = null,
 }) {
   // Parse and simplify the expression
   const ast = useMemo(() => {
@@ -67,9 +71,13 @@ export function EquationRenderer({
       knownVarIds,
       inputValues: inputValues || {},
       onVariableChange: onVariableChange || (() => {}),
-      logConfig
+      logConfig,
+      // Unit selection context
+      selectedUnits,
+      onUnitChange,
+      getCompatibleUnitsFor,
     };
-  }, [unknownVariable, knownVariables, inputValues, onVariableChange, logConfig]);
+  }, [unknownVariable, knownVariables, inputValues, onVariableChange, logConfig, selectedUnits, onUnitChange, getCompatibleUnitsFor]);
 
   // Error state
   if (!ast) {

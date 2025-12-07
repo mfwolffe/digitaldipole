@@ -7,7 +7,7 @@ from ninja import NinjaAPI, Schema
 from sympy import *
 
 from dipole.calculators.models import Calculator, Equation, FavoriteEquation
-from dipole.users import models
+from dipole.users.models import User, UnitPreferences
 
 import environ
 import nltk
@@ -134,6 +134,140 @@ def check_favorite(request, registry_id: str):
     ).exists()
 
     return {"authenticated": True, "is_favorite": is_favorite}
+
+
+# ============================================
+# Unit Preferences API Endpoints
+# ============================================
+
+# Default unit preferences per dimension for each system
+SI_DEFAULTS = {
+    "pressure": "Pa",
+    "volume": "m3",
+    "temperature": "K",
+    "mass": "kg",
+    "amount": "mol",
+    "energy": "J",
+    "concentration": "mol_per_L",
+    "time": "s",
+    "length": "m",
+}
+
+IMPERIAL_DEFAULTS = {
+    "pressure": "psi",
+    "volume": "gal",
+    "temperature": "degF",
+    "mass": "lb",
+    "amount": "mol",
+    "energy": "cal",
+    "concentration": "M",
+    "time": "s",
+    "length": "ft",
+}
+
+# Common chemistry defaults (what most students use)
+CHEMISTRY_DEFAULTS = {
+    "pressure": "atm",
+    "volume": "L",
+    "temperature": "K",
+    "mass": "g",
+    "amount": "mol",
+    "energy": "kJ",
+    "concentration": "M",
+    "time": "s",
+    "length": "cm",
+}
+
+
+class UnitPreferencesSchema(Schema):
+    system: str = "SI"
+    preferred_units: dict = {}
+
+
+@api.get("/user/unit-preferences")
+def get_unit_preferences(request):
+    """Get the current user's unit preferences."""
+    if not request.user.is_authenticated:
+        # Return chemistry defaults for anonymous users
+        return {
+            "authenticated": False,
+            "system": "SI",
+            "preferred_units": CHEMISTRY_DEFAULTS,
+        }
+
+    # Get or create preferences for this user
+    prefs, created = UnitPreferences.objects.get_or_create(
+        user=request.user,
+        defaults={"system": "SI", "preferred_units": CHEMISTRY_DEFAULTS}
+    )
+
+    return {
+        "authenticated": True,
+        "system": prefs.system,
+        "preferred_units": prefs.preferred_units,
+    }
+
+
+@api.post("/user/unit-preferences")
+def save_unit_preferences(request, payload: UnitPreferencesSchema):
+    """Save the user's unit preferences."""
+    if not request.user.is_authenticated:
+        return {"success": False, "error": "Authentication required"}
+
+    # Get or create preferences
+    prefs, created = UnitPreferences.objects.get_or_create(
+        user=request.user,
+        defaults={"system": "SI", "preferred_units": {}}
+    )
+
+    # Update system preset
+    if payload.system in ["SI", "imperial", "custom"]:
+        prefs.system = payload.system
+
+        # Apply preset defaults if not custom
+        if payload.system == "SI":
+            prefs.preferred_units = {**SI_DEFAULTS, **payload.preferred_units}
+        elif payload.system == "imperial":
+            prefs.preferred_units = {**IMPERIAL_DEFAULTS, **payload.preferred_units}
+        else:
+            # Custom - use provided preferences
+            prefs.preferred_units = payload.preferred_units
+    else:
+        prefs.preferred_units = payload.preferred_units
+
+    prefs.save()
+
+    return {
+        "success": True,
+        "system": prefs.system,
+        "preferred_units": prefs.preferred_units,
+    }
+
+
+@api.post("/user/unit-preferences/{dimension}/{unit_id}")
+def set_unit_preference(request, dimension: str, unit_id: str):
+    """Set a single unit preference for a dimension."""
+    if not request.user.is_authenticated:
+        return {"success": False, "error": "Authentication required"}
+
+    # Get or create preferences
+    prefs, created = UnitPreferences.objects.get_or_create(
+        user=request.user,
+        defaults={"system": "custom", "preferred_units": CHEMISTRY_DEFAULTS}
+    )
+
+    # Update the single preference
+    prefs.preferred_units[dimension] = unit_id
+    prefs.system = "custom"  # Auto-switch to custom when manually setting
+    prefs.save()
+
+    return {
+        "success": True,
+        "dimension": dimension,
+        "unit_id": unit_id,
+        "system": prefs.system,
+    }
+
 
 class VariableSchema(Schema):
     val:  str
