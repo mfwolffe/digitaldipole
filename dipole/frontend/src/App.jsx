@@ -5,6 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { UnitPreferencesProvider } from "./contexts/UnitPreferencesContext";
 
 // Lazy load pages for code splitting
 const Home = lazy(() => import('./pages'));
@@ -18,6 +19,7 @@ const Electrochemistry = lazy(() => import("./pages/calculators/electrochemistry
 const Balancer = lazy(() => import("./pages/balancer"));
 const Account = lazy(() => import("./pages/account"));
 const Favorites = lazy(() => import("./pages/favorites"));
+const Converter = lazy(() => import("./pages/converter"));
 
 import NavOffCanvas from "./components/Nav";
 
@@ -37,10 +39,11 @@ import './App.css'
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <NavOffCanvas />
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
+      <UnitPreferencesProvider>
+        <Router>
+          <NavOffCanvas />
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
               <Route exact path="/" element={<Home />} />
               <Route path="/tabulated" element={<Tabulated />} />
               <Route path="/calculators/gas-laws/:tab?" element={<CalcCard />} />
@@ -52,9 +55,11 @@ function App() {
               <Route path="/memegenerator" element={<MemeGen />} />
               <Route path="/account" element={<Account />} />
               <Route path="/favorites" element={<Favorites />} />
-          </Routes>
-        </Suspense>
-      </Router>
+              <Route path="/converter" element={<Converter />} />
+            </Routes>
+          </Suspense>
+        </Router>
+      </UnitPreferencesProvider>
     </AuthProvider>
   );
 }

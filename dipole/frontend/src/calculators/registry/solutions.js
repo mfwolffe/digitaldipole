@@ -25,6 +25,8 @@ export const solutionsCalculators = [
         symbol: 'M',
         htmlSymbol: 'M',
         unit: 'mol/L',
+        dimension: 'concentration',
+        defaultUnit: 'M',
         description: 'Concentration in moles per liter'
       },
       {
@@ -33,6 +35,8 @@ export const solutionsCalculators = [
         symbol: 'n',
         htmlSymbol: 'n',
         unit: 'mol',
+        dimension: 'amount',
+        defaultUnit: 'mol',
         description: 'Amount of solute in moles'
       },
       {
@@ -41,6 +45,8 @@ export const solutionsCalculators = [
         symbol: 'V',
         htmlSymbol: 'V',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Total volume of solution'
       }
     ],
@@ -61,6 +67,8 @@ export const solutionsCalculators = [
         symbol: 'M_1',
         htmlSymbol: 'M<sub>1</sub>',
         unit: 'mol/L',
+        dimension: 'concentration',
+        defaultUnit: 'M',
         description: 'Concentration of stock solution'
       },
       {
@@ -69,6 +77,8 @@ export const solutionsCalculators = [
         symbol: 'V_1',
         htmlSymbol: 'V<sub>1</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Volume of stock solution used'
       },
       {
@@ -77,6 +87,8 @@ export const solutionsCalculators = [
         symbol: 'M_2',
         htmlSymbol: 'M<sub>2</sub>',
         unit: 'mol/L',
+        dimension: 'concentration',
+        defaultUnit: 'M',
         description: 'Concentration of diluted solution'
       },
       {
@@ -85,6 +97,8 @@ export const solutionsCalculators = [
         symbol: 'V_2',
         htmlSymbol: 'V<sub>2</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Total volume after dilution'
       }
     ],
@@ -105,6 +119,8 @@ export const solutionsCalculators = [
         symbol: '\\Pi',
         htmlSymbol: 'Π',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Osmotic pressure'
       },
       {
@@ -113,6 +129,8 @@ export const solutionsCalculators = [
         symbol: 'M',
         htmlSymbol: 'M',
         unit: 'mol/L',
+        dimension: 'concentration',
+        defaultUnit: 'M',
         description: 'Molar concentration of solute'
       },
       {
@@ -131,6 +149,8 @@ export const solutionsCalculators = [
         symbol: 'T',
         htmlSymbol: 'T',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature (Kelvin)'
       }
     ],
@@ -151,6 +171,8 @@ export const solutionsCalculators = [
         symbol: 'P',
         htmlSymbol: 'P',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Vapor pressure of solution'
       },
       {
@@ -167,6 +189,8 @@ export const solutionsCalculators = [
         symbol: 'P^\\circ',
         htmlSymbol: 'P°',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Vapor pressure of pure solvent'
       }
     ],
@@ -203,6 +227,8 @@ export const solutionsCalculators = [
         symbol: 'm',
         htmlSymbol: 'm',
         unit: 'mol/kg',
+        dimension: 'molality',
+        defaultUnit: 'mol_per_kg',
         description: 'Molality of solution'
       },
       {
@@ -247,6 +273,8 @@ export const solutionsCalculators = [
         symbol: 'm',
         htmlSymbol: 'm',
         unit: 'mol/kg',
+        dimension: 'molality',
+        defaultUnit: 'mol_per_kg',
         description: 'Molality of solution'
       },
       {

@@ -31,6 +31,8 @@ export const gasLawCalculators = [
         symbol: 'V_1',
         htmlSymbol: 'V<sub>1</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Volume at initial state'
       },
       {
@@ -39,6 +41,8 @@ export const gasLawCalculators = [
         symbol: 'n_1',
         htmlSymbol: 'n<sub>1</sub>',
         unit: 'mol',
+        dimension: 'amount',
+        defaultUnit: 'mol',
         description: 'Amount of gas at initial state'
       },
       {
@@ -47,6 +51,8 @@ export const gasLawCalculators = [
         symbol: 'V_2',
         htmlSymbol: 'V<sub>2</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Volume at final state'
       },
       {
@@ -55,6 +61,8 @@ export const gasLawCalculators = [
         symbol: 'n_2',
         htmlSymbol: 'n<sub>2</sub>',
         unit: 'mol',
+        dimension: 'amount',
+        defaultUnit: 'mol',
         description: 'Amount of gas at final state'
       }
     ],
@@ -75,6 +83,8 @@ export const gasLawCalculators = [
         symbol: 'P_1',
         htmlSymbol: 'P<sub>1</sub>',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Pressure at initial state'
       },
       {
@@ -83,6 +93,8 @@ export const gasLawCalculators = [
         symbol: 'T_1',
         htmlSymbol: 'T<sub>1</sub>',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature at initial state (Kelvin)'
       },
       {
@@ -91,6 +103,8 @@ export const gasLawCalculators = [
         symbol: 'P_2',
         htmlSymbol: 'P<sub>2</sub>',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Pressure at final state'
       },
       {
@@ -99,6 +113,8 @@ export const gasLawCalculators = [
         symbol: 'T_2',
         htmlSymbol: 'T<sub>2</sub>',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature at final state (Kelvin)'
       }
     ],
@@ -119,6 +135,8 @@ export const gasLawCalculators = [
         symbol: 'P_1',
         htmlSymbol: 'P<sub>1</sub>',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Pressure at initial state'
       },
       {
@@ -127,6 +145,8 @@ export const gasLawCalculators = [
         symbol: 'V_1',
         htmlSymbol: 'V<sub>1</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Volume at initial state'
       },
       {
@@ -135,6 +155,8 @@ export const gasLawCalculators = [
         symbol: 'P_2',
         htmlSymbol: 'P<sub>2</sub>',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Pressure at final state'
       },
       {
@@ -143,6 +165,8 @@ export const gasLawCalculators = [
         symbol: 'V_2',
         htmlSymbol: 'V<sub>2</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Volume at final state'
       }
     ],
@@ -163,6 +187,8 @@ export const gasLawCalculators = [
         symbol: 'V_1',
         htmlSymbol: 'V<sub>1</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Volume at initial state'
       },
       {
@@ -171,6 +197,8 @@ export const gasLawCalculators = [
         symbol: 'T_1',
         htmlSymbol: 'T<sub>1</sub>',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature at initial state (Kelvin)'
       },
       {
@@ -179,6 +207,8 @@ export const gasLawCalculators = [
         symbol: 'V_2',
         htmlSymbol: 'V<sub>2</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Volume at final state'
       },
       {
@@ -187,6 +217,8 @@ export const gasLawCalculators = [
         symbol: 'T_2',
         htmlSymbol: 'T<sub>2</sub>',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature at final state (Kelvin)'
       }
     ],
@@ -207,6 +239,8 @@ export const gasLawCalculators = [
         symbol: 'P_1',
         htmlSymbol: 'P<sub>1</sub>',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Pressure at initial state'
       },
       {
@@ -215,6 +249,8 @@ export const gasLawCalculators = [
         symbol: 'V_1',
         htmlSymbol: 'V<sub>1</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Volume at initial state'
       },
       {
@@ -223,6 +259,8 @@ export const gasLawCalculators = [
         symbol: 'T_1',
         htmlSymbol: 'T<sub>1</sub>',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature at initial state (Kelvin)'
       },
       {
@@ -231,6 +269,8 @@ export const gasLawCalculators = [
         symbol: 'P_2',
         htmlSymbol: 'P<sub>2</sub>',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Pressure at final state'
       },
       {
@@ -239,6 +279,8 @@ export const gasLawCalculators = [
         symbol: 'V_2',
         htmlSymbol: 'V<sub>2</sub>',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Volume at final state'
       },
       {
@@ -247,6 +289,8 @@ export const gasLawCalculators = [
         symbol: 'T_2',
         htmlSymbol: 'T<sub>2</sub>',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature at final state (Kelvin)'
       }
     ],
@@ -267,6 +311,8 @@ export const gasLawCalculators = [
         symbol: 'P',
         htmlSymbol: 'P',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Pressure of the gas'
       },
       {
@@ -275,6 +321,8 @@ export const gasLawCalculators = [
         symbol: 'V',
         htmlSymbol: 'V',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Volume of the gas'
       },
       {
@@ -283,6 +331,8 @@ export const gasLawCalculators = [
         symbol: 'n',
         htmlSymbol: 'n',
         unit: 'mol',
+        dimension: 'amount',
+        defaultUnit: 'mol',
         description: 'Amount of gas in moles'
       },
       {
@@ -293,7 +343,8 @@ export const gasLawCalculators = [
         unit: 'L·atm/(mol·K)',
         defaultValue: 0.0821,
         isConstant: true,
-        description: 'Ideal gas constant (0.0821 L·atm/(mol·K))'
+        constantId: 'R',
+        description: 'Ideal gas constant'
       },
       {
         id: 'T',
@@ -301,6 +352,8 @@ export const gasLawCalculators = [
         symbol: 'T',
         htmlSymbol: 'T',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature (Kelvin)'
       }
     ],
@@ -321,6 +374,8 @@ export const gasLawCalculators = [
         symbol: 'd',
         htmlSymbol: 'd',
         unit: 'g/L',
+        dimension: 'density',
+        defaultUnit: 'g_per_L',
         description: 'Density of the gas'
       },
       {
@@ -329,6 +384,8 @@ export const gasLawCalculators = [
         symbol: 'P',
         htmlSymbol: 'P',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Pressure of the gas'
       },
       {
@@ -337,6 +394,8 @@ export const gasLawCalculators = [
         symbol: 'M',
         htmlSymbol: 'M',
         unit: 'g/mol',
+        dimension: 'molar_mass',
+        defaultUnit: 'g_per_mol',
         description: 'Molar mass of the gas'
       },
       {
@@ -355,6 +414,8 @@ export const gasLawCalculators = [
         symbol: 'T',
         htmlSymbol: 'T',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature (Kelvin)'
       }
     ],
@@ -376,6 +437,8 @@ export const gasLawCalculators = [
         symbol: 'r_1',
         htmlSymbol: 'r<sub>1</sub>',
         unit: 'mol/s',
+        dimension: 'amount',
+        defaultUnit: 'mol',
         description: 'Effusion rate of gas 1'
       },
       {
@@ -384,6 +447,8 @@ export const gasLawCalculators = [
         symbol: 'r_2',
         htmlSymbol: 'r<sub>2</sub>',
         unit: 'mol/s',
+        dimension: 'amount',
+        defaultUnit: 'mol',
         description: 'Effusion rate of gas 2'
       },
       {
@@ -392,6 +457,8 @@ export const gasLawCalculators = [
         symbol: 'M_1',
         htmlSymbol: 'M<sub>1</sub>',
         unit: 'g/mol',
+        dimension: 'molar_mass',
+        defaultUnit: 'g_per_mol',
         description: 'Molar mass of gas 1'
       },
       {
@@ -400,6 +467,8 @@ export const gasLawCalculators = [
         symbol: 'M_2',
         htmlSymbol: 'M<sub>2</sub>',
         unit: 'g/mol',
+        dimension: 'molar_mass',
+        defaultUnit: 'g_per_mol',
         description: 'Molar mass of gas 2'
       }
     ],
@@ -420,6 +489,8 @@ export const gasLawCalculators = [
         symbol: 'P_{total}',
         htmlSymbol: 'P<sub>total</sub>',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Total pressure of the gas mixture'
       },
       {
@@ -428,6 +499,8 @@ export const gasLawCalculators = [
         symbol: 'P_1',
         htmlSymbol: 'P<sub>1</sub>',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Partial pressure of gas 1'
       },
       {
@@ -436,6 +509,8 @@ export const gasLawCalculators = [
         symbol: 'P_2',
         htmlSymbol: 'P<sub>2</sub>',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Partial pressure of gas 2'
       }
     ],
@@ -458,6 +533,8 @@ export const gasLawCalculators = [
         symbol: 'P',
         htmlSymbol: 'P',
         unit: 'atm',
+        dimension: 'pressure',
+        defaultUnit: 'atm',
         description: 'Pressure of the gas'
       },
       {
@@ -466,6 +543,8 @@ export const gasLawCalculators = [
         symbol: 'V',
         htmlSymbol: 'V',
         unit: 'L',
+        dimension: 'volume',
+        defaultUnit: 'L',
         description: 'Volume of the gas'
       },
       {
@@ -474,6 +553,8 @@ export const gasLawCalculators = [
         symbol: 'n',
         htmlSymbol: 'n',
         unit: 'mol',
+        dimension: 'amount',
+        defaultUnit: 'mol',
         description: 'Amount of gas in moles'
       },
       {
@@ -492,6 +573,8 @@ export const gasLawCalculators = [
         symbol: 'T',
         htmlSymbol: 'T',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature (Kelvin)'
       },
       {

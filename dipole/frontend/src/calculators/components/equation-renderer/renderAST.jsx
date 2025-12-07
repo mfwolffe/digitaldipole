@@ -24,12 +24,18 @@ import { VariableSymbol } from './components/VariableSymbol.jsx';
  * @param {Object} context.inputValues - Current input values { varId: value }
  * @param {Function} context.onVariableChange - Callback for input changes (varId, value)
  * @param {Object} context.logConfig - Optional { numerator, denominator } for log replacement
+ * @param {Object} context.selectedUnits - Optional selected units { varId: unitId }
+ * @param {Function} context.onUnitChange - Optional callback for unit changes (varId, unitId)
+ * @param {Function} context.getCompatibleUnitsFor - Optional function to get compatible units for a variable
  * @param {number} key - React key for this node
  */
 export function renderNode(node, context, key = 0) {
   if (!node) return null;
 
-  const { variableMap, knownVarIds, inputValues, onVariableChange, logConfig } = context;
+  const {
+    variableMap, knownVarIds, inputValues, onVariableChange, logConfig,
+    selectedUnits, onUnitChange, getCompatibleUnitsFor
+  } = context;
 
   switch (node.type) {
     case 'number':
@@ -37,6 +43,16 @@ export function renderNode(node, context, key = 0) {
 
     case 'variable': {
       const varName = node.name;
+
+      // Helper to get unit props for a variable
+      const getUnitProps = (varId) => {
+        if (!onUnitChange || !getCompatibleUnitsFor) return {};
+        return {
+          selectedUnit: selectedUnits?.[varId],
+          compatibleUnits: getCompatibleUnitsFor(varId) || [],
+          onUnitChange,
+        };
+      };
 
       // Special case: lnRatio gets replaced with ln(num/denom) display
       if (varName === 'lnRatio' && logConfig) {
@@ -51,6 +67,7 @@ export function renderNode(node, context, key = 0) {
               value={inputValues[logConfig.numerator]}
               onChange={onVariableChange}
               size="small"
+              {...getUnitProps(logConfig.numerator)}
             />
           : <VariableSymbol key={`${key}-num`} variable={numVar} />;
 
@@ -61,6 +78,7 @@ export function renderNode(node, context, key = 0) {
               value={inputValues[logConfig.denominator]}
               onChange={onVariableChange}
               size="small"
+              {...getUnitProps(logConfig.denominator)}
             />
           : <VariableSymbol key={`${key}-denom`} variable={denomVar} />;
 
@@ -84,6 +102,7 @@ export function renderNode(node, context, key = 0) {
             variable={variable || { id: varName, name: varName, unit: '' }}
             value={inputValues[varName]}
             onChange={onVariableChange}
+            {...getUnitProps(varName)}
           />
         );
       }

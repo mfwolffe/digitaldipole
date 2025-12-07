@@ -28,6 +28,8 @@ export const kineticsCalculators = [
         symbol: 'k_2',
         htmlSymbol: 'k<sub>2</sub>',
         unit: 's⁻¹',
+        dimension: 'rate_constant_first',
+        defaultUnit: 's_inv',
         description: 'Rate constant at temperature T₂'
       },
       {
@@ -36,6 +38,8 @@ export const kineticsCalculators = [
         symbol: 'k_1',
         htmlSymbol: 'k<sub>1</sub>',
         unit: 's⁻¹',
+        dimension: 'rate_constant_first',
+        defaultUnit: 's_inv',
         description: 'Rate constant at temperature T₁'
       },
       {
@@ -44,6 +48,8 @@ export const kineticsCalculators = [
         symbol: 'E_a',
         htmlSymbol: 'E<sub>a</sub>',
         unit: 'J/mol',
+        dimension: 'energy',
+        defaultUnit: 'J',
         description: 'Activation energy'
       },
       {
@@ -62,6 +68,8 @@ export const kineticsCalculators = [
         symbol: 'T_1',
         htmlSymbol: 'T<sub>1</sub>',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Initial temperature (Kelvin)'
       },
       {
@@ -70,6 +78,8 @@ export const kineticsCalculators = [
         symbol: 'T_2',
         htmlSymbol: 'T<sub>2</sub>',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Final temperature (Kelvin)'
       }
     ],
@@ -90,6 +100,8 @@ export const kineticsCalculators = [
         symbol: 't_{1/2}',
         htmlSymbol: 't<sub>½</sub>',
         unit: 's',
+        dimension: 'time',
+        defaultUnit: 's',
         description: 'Half-life of the reaction'
       },
       {
@@ -98,6 +110,8 @@ export const kineticsCalculators = [
         symbol: 'k',
         htmlSymbol: 'k',
         unit: 's⁻¹',
+        dimension: 'rate_constant_first',
+        defaultUnit: 's_inv',
         description: 'First-order rate constant'
       }
     ],
@@ -119,6 +133,8 @@ export const kineticsCalculators = [
         symbol: '[A]',
         htmlSymbol: '[A]',
         unit: 'M',
+        dimension: 'concentration',
+        defaultUnit: 'M',
         description: 'Concentration at time t'
       },
       {
@@ -127,6 +143,8 @@ export const kineticsCalculators = [
         symbol: '[A]_0',
         htmlSymbol: '[A]<sub>0</sub>',
         unit: 'M',
+        dimension: 'concentration',
+        defaultUnit: 'M',
         description: 'Initial concentration'
       },
       {
@@ -135,6 +153,8 @@ export const kineticsCalculators = [
         symbol: 'k',
         htmlSymbol: 'k',
         unit: 'M⁻¹s⁻¹',
+        dimension: 'rate_constant_second',
+        defaultUnit: 'M_inv_s_inv',
         description: 'Second-order rate constant'
       },
       {
@@ -143,6 +163,8 @@ export const kineticsCalculators = [
         symbol: 't',
         htmlSymbol: 't',
         unit: 's',
+        dimension: 'time',
+        defaultUnit: 's',
         description: 'Elapsed time'
       }
     ],
@@ -168,6 +190,8 @@ export const kineticsCalculators = [
         symbol: '[A]',
         htmlSymbol: '[A]',
         unit: 'M',
+        dimension: 'concentration',
+        defaultUnit: 'M',
         description: 'Concentration at time t'
       },
       {
@@ -176,6 +200,8 @@ export const kineticsCalculators = [
         symbol: '[A]_0',
         htmlSymbol: '[A]<sub>0</sub>',
         unit: 'M',
+        dimension: 'concentration',
+        defaultUnit: 'M',
         description: 'Initial concentration'
       },
       {
@@ -184,6 +210,8 @@ export const kineticsCalculators = [
         symbol: 'k',
         htmlSymbol: 'k',
         unit: 's⁻¹',
+        dimension: 'rate_constant_first',
+        defaultUnit: 's_inv',
         description: 'First-order rate constant'
       },
       {
@@ -192,6 +220,8 @@ export const kineticsCalculators = [
         symbol: 't',
         htmlSymbol: 't',
         unit: 's',
+        dimension: 'time',
+        defaultUnit: 's',
         description: 'Elapsed time'
       }
     ],

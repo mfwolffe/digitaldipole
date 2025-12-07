@@ -21,6 +21,8 @@ export const electrochemistryCalculators = [
         symbol: 'm',
         htmlSymbol: 'm',
         unit: 'g',
+        dimension: 'mass',
+        defaultUnit: 'g',
         description: 'Mass of substance deposited or dissolved'
       },
       {
@@ -29,6 +31,8 @@ export const electrochemistryCalculators = [
         symbol: 'M',
         htmlSymbol: 'M',
         unit: 'g/mol',
+        dimension: 'molar_mass',
+        defaultUnit: 'g_per_mol',
         description: 'Molar mass of the substance'
       },
       {
@@ -45,6 +49,8 @@ export const electrochemistryCalculators = [
         symbol: 't',
         htmlSymbol: 't',
         unit: 's',
+        dimension: 'time',
+        defaultUnit: 's',
         description: 'Time in seconds'
       },
       {
@@ -115,6 +121,8 @@ export const electrochemistryCalculators = [
         symbol: 'T',
         htmlSymbol: 'T',
         unit: 'K',
+        dimension: 'temperature',
+        defaultUnit: 'K',
         description: 'Temperature (Kelvin)'
       },
       {

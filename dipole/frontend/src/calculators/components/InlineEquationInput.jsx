@@ -3,6 +3,7 @@
  *
  * Renders an equation with inline input fields embedded where variables should be entered.
  * Uses the new AST-based EquationRenderer for all equations.
+ * Supports unit selection through clickable unit labels.
  */
 import React from 'react';
 import { EquationRenderer } from './equation-renderer';
@@ -15,7 +16,11 @@ export function InlineEquationInput({
   knownVariables,
   inputValues,
   onVariableChange,
-  logConfig = null
+  logConfig = null,
+  // Unit selection props
+  selectedUnits = {},
+  onUnitChange = null,
+  getCompatibleUnitsFor = null,
 }) {
   if (!symbolicRaw || !unknownVariable) {
     return null;
@@ -29,6 +34,10 @@ export function InlineEquationInput({
       inputValues={inputValues}
       onVariableChange={onVariableChange}
       logConfig={logConfig}
+      // Unit selection props
+      selectedUnits={selectedUnits}
+      onUnitChange={onUnitChange}
+      getCompatibleUnitsFor={getCompatibleUnitsFor}
     />
   );
 }

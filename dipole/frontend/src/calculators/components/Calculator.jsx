@@ -3,16 +3,22 @@
  *
  * Reusable calculator UI that works with any calculator definition.
  * Features inline equation inputs where variables appear within the rendered equation.
+ * Supports unit selection and automatic reconciliation for unit-aware calculators.
  */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Select, Alert, Spinner } from '../../components/ui';
 import { useCalculator } from '../hooks/useCalculator';
 import { EquationDisplay } from './EquationDisplay';
 import { SolutionSteps } from './SolutionSteps';
 import { InlineEquationInput } from './InlineEquationInput';
 import { FavoriteButton } from '../../components/FavoriteButton';
+import { UnitConverterDrawer } from '../../components/UnitConverterDrawer';
+import { useUnitPreferences } from '../../contexts/UnitPreferencesContext';
 
 export function Calculator({ calculatorId }) {
+  // Get user's unit preferences from context
+  const { preferredUnits } = useUnitPreferences();
+
   const {
     calculator,
     unknownVariable,
@@ -26,10 +32,23 @@ export function Calculator({ calculatorId }) {
     setUnknownVariable,
     setVariable,
     solve,
-    reset
-  } = useCalculator(calculatorId);
+    reset,
+    // Unit-related state and actions
+    selectedUnits,
+    reconciliationSteps,
+    setUnitForVariable,
+    getCompatibleUnitsFor,
+  } = useCalculator(calculatorId, { userPreferences: preferredUnits });
 
   const containerRef = useRef(null);
+  const [converterOpen, setConverterOpen] = useState(false);
+
+  // Determine which dimension to show in converter based on calculator
+  const getRelevantDimension = () => {
+    // Find the first variable with a dimension
+    const dimVar = calculator?.variables.find(v => v.dimension);
+    return dimVar?.dimension || 'pressure';
+  };
 
   // Re-render MathJax when state changes
   useEffect(() => {
@@ -57,13 +76,31 @@ export function Calculator({ calculatorId }) {
 
   return (
     <div className="calculator-container" ref={containerRef}>
-      {/* Original equation display with favorite button in header */}
+      {/* Original equation display with favorite button and converter in header */}
       <div className="text-center mb-4 relative">
-        <div className="absolute top-0 right-0 z-10">
+        <div className="absolute top-0 right-0 z-10 flex items-center gap-2">
+          {/* Unit converter button */}
+          <button
+            onClick={() => setConverterOpen(true)}
+            className="p-2 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-colors"
+            title="Open unit converter"
+            aria-label="Open unit converter"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+          </button>
           <FavoriteButton equationName={calculatorId} size="xl" />
         </div>
         <EquationDisplay latex={calculator.latexEquation} />
       </div>
+
+      {/* Unit Converter Drawer */}
+      <UnitConverterDrawer
+        isOpen={converterOpen}
+        onClose={() => setConverterOpen(false)}
+        initialDimension={getRelevantDimension()}
+      />
 
       {/* Unknown variable selector */}
       <div className="flex justify-center mb-4">
@@ -111,6 +148,10 @@ export function Calculator({ calculatorId }) {
             inputValues={inputValues}
             onVariableChange={setVariable}
             logConfig={calculator.logarithmic}
+            // Unit selection props
+            selectedUnits={selectedUnits}
+            onUnitChange={setUnitForVariable}
+            getCompatibleUnitsFor={getCompatibleUnitsFor}
           />
 
           {/* Error display */}
@@ -152,9 +193,21 @@ export function Calculator({ calculatorId }) {
                 <div className="mt-1 text-lg">
                   <span dangerouslySetInnerHTML={{ __html: unknownVar?.htmlSymbol || unknownVariable }} />
                   {' = '}
-                  <strong>{result.numericValue.toPrecision(6)}</strong>
-                  {unknownVar?.unit && ` ${unknownVar.unit}`}
+                  <strong>{(result.value ?? result.numericValue).toPrecision(6)}</strong>
+                  {/* Use result.unit if available (from unit system), else fall back to variable.unit */}
+                  {(result.unit || unknownVar?.unit) && ` ${result.unit || unknownVar.unit}`}
                 </div>
+                {/* Show reconciliation steps if any conversions happened */}
+                {reconciliationSteps && reconciliationSteps.length > 0 && (
+                  <div className="mt-2 pt-2 border-t border-green-200 text-sm text-green-800">
+                    <span className="font-medium">Unit conversions applied:</span>
+                    <ul className="list-disc list-inside mt-1">
+                      {reconciliationSteps.map((step, i) => (
+                        <li key={i}>{step}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </Alert>
             </div>
           )}
