@@ -14,6 +14,7 @@ import { InlineEquationInput } from './InlineEquationInput';
 import { FavoriteButton } from '../../components/FavoriteButton';
 import { UnitConverterDrawer } from '../../components/UnitConverterDrawer';
 import { useUnitPreferences } from '../../contexts/UnitPreferencesContext';
+import { typesetMath } from '../../utils/mathjax-loader';
 
 export function Calculator({ calculatorId }) {
   // Get user's unit preferences from context
@@ -50,11 +51,10 @@ export function Calculator({ calculatorId }) {
     return dimVar?.dimension || 'pressure';
   };
 
-  // Re-render MathJax when state changes
+  // Re-render MathJax when state changes (lazy-loaded)
   useEffect(() => {
-    if (containerRef.current && window.MathJax) {
-      window.MathJax.typesetClear([containerRef.current]);
-      window.MathJax.typeset([containerRef.current]);
+    if (containerRef.current) {
+      typesetMath([containerRef.current]);
     }
   }, [result, symbolicPreview, unknownVariable]);
 
@@ -102,8 +102,8 @@ export function Calculator({ calculatorId }) {
         initialDimension={getRelevantDimension()}
       />
 
-      {/* Unknown variable selector */}
-      <div className="flex justify-center mb-4">
+      {/* Unknown variable selector with output unit */}
+      <div className="flex justify-center items-center gap-2 mb-4 flex-wrap">
         <Select
           value={unknownVariable || ''}
           onChange={(e) => setUnknownVariable(e.target.value)}
@@ -120,6 +120,25 @@ export function Calculator({ calculatorId }) {
             ))
           }
         </Select>
+
+        {/* Output unit dropdown - show when unknown is selected and has a dimension */}
+        {unknownVariable && unknownVar?.dimension && (
+          <>
+            <span className="text-gray-500 text-sm">in</span>
+            <Select
+              value={selectedUnits[unknownVariable] || ''}
+              onChange={(e) => setUnitForVariable(unknownVariable, e.target.value)}
+              className="w-24"
+              aria-label="Select output unit"
+            >
+              {getCompatibleUnitsFor(unknownVariable).map(unit => (
+                <option key={unit.id} value={unit.id}>
+                  {unit.symbol}
+                </option>
+              ))}
+            </Select>
+          </>
+        )}
       </div>
 
       {/* Show the inline equation form when an unknown is selected */}

@@ -1,11 +1,15 @@
 /**
  * Centralized FontAwesome icon initialization
  *
- * The FontAwesome kit (@awesome.me/kit-*) doesn't support individual icon imports,
- * so we import the entire icon set here once. This is loaded in main.jsx.
+ * The FontAwesome kit (@awesome.me/kit-*) doesn't fully support tree-shaking
+ * because some icons used in the app (scale-balanced, ruler-triangle, face-thinking)
+ * aren't exported individually from the kit's modules.
  *
- * Note: To reduce bundle size further, consider migrating to the official
- * @fortawesome/free-solid-svg-icons package which supports tree-shaking.
+ * TODO: To enable tree-shaking, either:
+ * 1. Add these icons to the kit via FontAwesome's kit configuration, or
+ * 2. Replace with icons that are available in the kit's exports
+ *
+ * For now, we import all icons which works but adds ~500KB to the bundle.
  */
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { all } from '@awesome.me/kit-a655910996/icons';

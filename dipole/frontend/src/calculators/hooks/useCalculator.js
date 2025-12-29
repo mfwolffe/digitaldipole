@@ -3,10 +3,11 @@
  *
  * React hook for managing calculator state and solving equations.
  * Includes unit management with automatic reconciliation.
+ *
+ * Nerdamer is lazy-loaded to reduce initial bundle size (~327KB savings).
  */
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { getCalculator } from '../registry';
-import { solve, solveSymbolic, solveSymbolicLogarithmic, solveLogarithmic } from '../engine/nerdamer-solver';
 import {
   reconcileUnits,
   applyReconciliation,
@@ -16,6 +17,15 @@ import {
   getUnitsForDimension,
   getCompatibleUnits,
 } from '../../units/index.js';
+
+// Lazy-loaded solver module (cached after first import)
+let solverModule = null;
+const getSolver = async () => {
+  if (!solverModule) {
+    solverModule = await import('../engine/nerdamer-solver');
+  }
+  return solverModule;
+};
 
 /**
  * Hook for managing a single calculator's state
@@ -80,34 +90,43 @@ export function useCalculator(calculatorId, options = {}) {
     );
   }, [calculator, unknownVariable]);
 
-  // Update symbolic preview when unknown changes
-  const updateUnknown = useCallback((variableId) => {
+  // Update symbolic preview when unknown changes (async for lazy-loaded solver)
+  const updateUnknown = useCallback(async (variableId) => {
     setUnknownVariable(variableId);
     setResult(null);
     setError(null);
 
     if (variableId && calculator) {
-      let preview;
+      try {
+        // Lazy load the solver module
+        const { solveSymbolic, solveSymbolicLogarithmic } = await getSolver();
 
-      // Use logarithmic symbolic solver for equations with ln(ratio)
-      if (calculator.logarithmic) {
-        preview = solveSymbolicLogarithmic(
-          calculator.equation,
-          variableId,
-          calculator.logarithmic,
-          symbolMap
-        );
-      } else {
-        preview = solveSymbolic(calculator.equation, variableId);
-      }
+        let preview;
 
-      if (preview.success) {
-        setSymbolicPreview(preview.latex);
-        setSymbolicRaw(preview.raw);
-      } else {
+        // Use logarithmic symbolic solver for equations with ln(ratio)
+        if (calculator.logarithmic) {
+          preview = solveSymbolicLogarithmic(
+            calculator.equation,
+            variableId,
+            calculator.logarithmic,
+            symbolMap
+          );
+        } else {
+          preview = solveSymbolic(calculator.equation, variableId);
+        }
+
+        if (preview.success) {
+          setSymbolicPreview(preview.latex);
+          setSymbolicRaw(preview.raw);
+        } else {
+          setSymbolicPreview(null);
+          setSymbolicRaw(null);
+          setError(preview.error);
+        }
+      } catch (err) {
+        setError('Failed to load equation solver');
         setSymbolicPreview(null);
         setSymbolicRaw(null);
-        setError(preview.error);
       }
     } else {
       setSymbolicPreview(null);
@@ -157,8 +176,8 @@ export function useCalculator(calculatorId, options = {}) {
     return [];
   }, [calculator, selectedUnits]);
 
-  // Solve the equation
-  const doSolve = useCallback(() => {
+  // Solve the equation (async for lazy-loaded solver)
+  const doSolve = useCallback(async () => {
     if (!calculator || !unknownVariable) {
       setError('Please select an unknown variable');
       return;
@@ -224,6 +243,9 @@ export function useCalculator(calculatorId, options = {}) {
             values[v.id] = v.defaultValue;
           });
       }
+
+      // Lazy load the solver module
+      const { solve, solveLogarithmic } = await getSolver();
 
       // Solve using appropriate solver
       let solveResult;

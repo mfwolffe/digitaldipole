@@ -15,6 +15,7 @@ import {
 
 import { Calculator } from "../../calculators";
 import { gasLawsInfo } from "../../calculators/registry";
+import { typesetMath } from '../../utils/mathjax-loader';
 
 import {
   AvoInfo,
@@ -184,12 +185,9 @@ const GasLawsPage = () => {
     }
   };
 
-  // Re-render MathJax when tab changes
+  // Re-render MathJax when tab changes (lazy-loaded)
   useEffect(() => {
-    if (window.MathJax) {
-      window.MathJax.typesetClear();
-      window.MathJax.typeset();
-    }
+    typesetMath();
   }, [activeTab]);
 
   return (

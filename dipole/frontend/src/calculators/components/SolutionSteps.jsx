@@ -5,14 +5,14 @@
  */
 import React, { useEffect, useRef } from 'react';
 import { Card, CardHeader, CardBody } from '../../components/ui';
+import { typesetMath } from '../../utils/mathjax-loader';
 
 export function SolutionSteps({ steps, className = '' }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    if (containerRef.current && window.MathJax) {
-      window.MathJax.typesetClear([containerRef.current]);
-      window.MathJax.typeset([containerRef.current]);
+    if (containerRef.current) {
+      typesetMath([containerRef.current]);
     }
   }, [steps]);
 

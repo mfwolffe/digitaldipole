@@ -22,6 +22,7 @@ import {
 import { Calculator } from "../../calculators";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { typesetMath } from '../../utils/mathjax-loader';
 
 import "../../App.css";
 import "../../styles/refs.css";
@@ -142,12 +143,9 @@ export function CalculatorPage({
     }
   };
 
-  // Re-render MathJax when tab changes
+  // Re-render MathJax when tab changes (lazy-loaded)
   useEffect(() => {
-    if (window.MathJax) {
-      window.MathJax.typesetClear();
-      window.MathJax.typeset();
-    }
+    typesetMath();
   }, [activeTab]);
 
   return (

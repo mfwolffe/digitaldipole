@@ -16,6 +16,7 @@ import {
 
 import { Calculator } from "../../calculators";
 import { CalculatorAccordion, InfoIcon } from "./CalculatorPage";
+import { typesetMath } from '../../utils/mathjax-loader';
 
 import {
   ArrheniusInfo,
@@ -107,11 +108,9 @@ const KineticsPage = () => {
     }
   };
 
+  // Re-render MathJax when tab changes (lazy-loaded)
   useEffect(() => {
-    if (window.MathJax) {
-      window.MathJax.typesetClear();
-      window.MathJax.typeset();
-    }
+    typesetMath();
   }, [activeTab]);
 
   return (

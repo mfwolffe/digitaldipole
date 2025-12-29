@@ -13,7 +13,7 @@
       var isAuthenticated = {{ is_authenticated|yesno:"true,false" }};
       var userId = {{ user_id|default:"null" }};
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- MathJax is lazy-loaded by components that need it (see src/utils/mathjax-loader.js) -->
   </head>
   <body>
     <div id="root"></div>

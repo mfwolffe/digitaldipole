@@ -15,13 +15,13 @@ const Home = () => {
                     <h3 className="anim text-lg text-gray-400 mt-6" id="scaffold-prompt">Powered by:</h3>
                     <div className="flex justify-center items-center gap-4 mt-4">
                         <a href="https://pubchem.ncbi.nlm.nih.gov/compound/54670067" target="_blank" className="anim">
-                            <img src={AscorbicAcid} className="logo w-24 h-24 object-contain hover:scale-110 transition-transform" alt="Ascorbic acid (vitamin C) ball and stick model" />
+                            <img src={AscorbicAcid} loading="lazy" className="logo w-24 h-24 object-contain hover:scale-110 transition-transform" alt="Ascorbic acid (vitamin C) ball and stick model" />
                         </a>
                         <a href="https://pubchem.ncbi.nlm.nih.gov/compound/2244" target="_blank" className="anim">
-                            <img src={AcetylSalicylicAcid} className="logo middle w-28 h-28 object-contain hover:scale-110 transition-transform" alt="acetyl salicylic acid (aspirin) ball and stick model" />
+                            <img src={AcetylSalicylicAcid} loading="lazy" className="logo middle w-28 h-28 object-contain hover:scale-110 transition-transform" alt="acetyl salicylic acid (aspirin) ball and stick model" />
                         </a>
                         <a href="https://pubchem.ncbi.nlm.nih.gov/compound/10215" target="_blank" className="anim">
-                            <img src={Indigo} className="logo w-24 h-24 object-contain hover:scale-110 transition-transform" alt="indigo ball and stick model" />
+                            <img src={Indigo} loading="lazy" className="logo w-24 h-24 object-contain hover:scale-110 transition-transform" alt="indigo ball and stick model" />
                         </a>
                     </div>
                 </div>
