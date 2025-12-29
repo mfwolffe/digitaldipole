@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "workspace_path": "/home/espadon/src/dipole",
+  "last_opened": "20251206",
+  "tabs": [
+    {
+      "filename": "nginx.conf", 
+      "is_orphan": false, 
+      "modified": true, 
+      "panes": [
+        {
+          "x_start": 0.0000,
+          "y_start": 0.0000,
+          "x_end": 1.0000,
+          "y_end": 1.0000,
+          "filename": "nginx.conf",
+          "cursor_line": 1,
+          "cursor_column": 6,
+          "viewport_line": 1,
+          "viewport_column": 1
+        }
+      ],
+      "active_pane": 1
+}
+  ],
+  "active_tab": 1,
+  "fuss_mode": {
+    "active": false,
+    "width": 30
+  }
+}

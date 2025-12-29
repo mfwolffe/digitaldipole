@@ -26,3 +26,4 @@ export { Modal, ModalHeader, ModalBody, ModalFooter } from './Modal';
 // Data Display
 export { Table, StyledTable } from './Table';
 export { Carousel, CarouselItem } from './Carousel';
+export { ElementTable, GROUP_COLORS, getContrastColor, getGradientColor } from './ElementTable';

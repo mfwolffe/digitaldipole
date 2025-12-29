@@ -1,0 +1,12 @@
+{
+  "backups": [
+    {
+      "original_file": "nginx.conf",
+      "backup_file": "/home/espadon/src/dipole/.fac/backups/nginx.conf.1766133585",
+      "timestamp": "1766133585"
+    }
+    {
+      "original_file": "nginx.conf",
+      "backup_file": "/home/espadon/src/dipole/.fac/backups/nginx.conf.1766133593",
+      "timestamp": "1766133593"
+    }
